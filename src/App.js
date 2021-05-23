@@ -29,7 +29,7 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
-import HirerHeader from './components/headers/HirerHeader'
+import HeaderContainer from './components/headers/HeaderContainer'
 
 // Route component based on user role
 import AdminRoute from './components/routes/AdminRoute';
@@ -43,7 +43,7 @@ import PublicRoute from './components/routes/PublicRoute';
 function App() {
   return (
     <Router>
-      <HirerHeader />
+      <HeaderContainer />
       <div className="App">
         <Switch>
           {/* Routes pre-authentication */}
