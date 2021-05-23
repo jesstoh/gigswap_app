@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 
-const initialState = {isAuthenticated:false, isHirer: false, isAdmin:false}
+const initialState = {isAuthenticated:true, isHirer: false, isAdmin:true}
 
 const authenticationSlice = createSlice({
     name:'authentication',
