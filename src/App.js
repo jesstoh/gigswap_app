@@ -29,6 +29,7 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
+import HeaderContainer from './components/headers/HeaderContainer'
 
 // Route component based on user role
 import AdminRoute from './components/routes/AdminRoute';
@@ -37,9 +38,12 @@ import TalentRoute from './components/routes/TalentRoute';
 import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
+
+
 function App() {
   return (
     <Router>
+      <HeaderContainer />
       <div className="App">
         <Switch>
           {/* Routes pre-authentication */}
