@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Gigswap",
+  "name": "Gigswap - Gigs network for freelancers & hirers",
   "icons": [
     {
       "src": "favicon.ico",
