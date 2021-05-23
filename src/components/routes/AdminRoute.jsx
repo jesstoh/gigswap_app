@@ -1,12 +1,17 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Redirect To other pages if user is not admin or not authenticated
 function AdminRoute({ component: Component, ...rest }) {
-  //To configure later by checking store state
-  // If user is not admin, redirect to other paths
-  return (
+  const { isAdmin } = useSelector(
+    (state) => state.authentication
+  );
+
+  return isAdmin ? (
     <Route {...rest} render={(props) => <Component {...props} {...rest} />} />
+  ) : (
+    <Redirect to="/" />
   );
 }
 
