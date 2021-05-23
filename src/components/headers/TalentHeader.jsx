@@ -23,7 +23,7 @@ function TalentHeader() {
             <NavDropdown.Item href="/talent/mygigs">My Gigs</NavDropdown.Item>
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+            <NavDropdown.Item>Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>

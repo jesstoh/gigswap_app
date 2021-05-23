@@ -23,7 +23,7 @@ function HirerHeader() {
             <NavDropdown.Item href="/gigs/create">Create Gig</NavDropdown.Item>
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+            <NavDropdown.Item>Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
