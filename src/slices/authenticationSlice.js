@@ -6,7 +6,7 @@ const initialState = {
   isHirer: false,
   isAdmin: false,
   user: null,
-  status:'idle'
+  status: 'idle',
 };
 
 export const checkAuth = createAsyncThunk(
@@ -26,17 +26,19 @@ const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
   reducers: {
-    
+    setFailedStatus(state, action) {
+      state.status = 'failed';
+    },
   },
 
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       console.log(action.payload);
-      return {...action.payload, status:'success'}
+      return { ...action.payload, status: 'success' };
     });
   },
 });
 
 export default authenticationSlice.reducer;
 
-export const { checkAuthentication } = authenticationSlice.actions;
+export const { setFailedStatus } = authenticationSlice.actions;

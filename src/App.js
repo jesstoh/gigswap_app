@@ -39,7 +39,7 @@ import TalentRoute from './components/routes/TalentRoute';
 import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
-import {checkAuth} from './slices/authenticationSlice';
+import {checkAuth, setFailedStatus} from './slices/authenticationSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function App() {
       dispatch(checkAuth());
       console.log('ok');
     } else {
-      ///
+      dispatch(setFailedStatus())
     }
   }, []);
 
