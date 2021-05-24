@@ -5,25 +5,30 @@ import { useSelector } from 'react-redux';
 // Redirect To other pages if user is not admin or not authenticated
 function HirerRoute({ component: Component, ...rest }) {
   //Get state of current user role from store
-  const { isAuthenticated, isHirer, isAdmin } = useSelector(
+  const { isAuthenticated, isHirer, isAdmin, status } = useSelector(
     (state) => state.authentication
   );
-  let content;
 
-  
-  if (isHirer) {
-    content = (
-      <Route {...rest} render={(props) => <Component {...props} {...rest} />} />
-    );
-    // Redirect to other pages if not hirer
-  } else if (!isAuthenticated) {
-    content = <Redirect to="/" />;
-  } else if (isAdmin) {
-    content = <Redirect to="/admin/dashboard" />;
-  } else {
-    content = <Redirect to="/gigs" />;
+  //Change to spinner
+  let content = null;
+
+  if (status !== 'idle') {
+    if (isHirer) {
+      content = (
+        <Route
+          {...rest}
+          render={(props) => <Component {...props} {...rest} />}
+        />
+      );
+      // Redirect to other pages if not hirer
+    } else if (!isAuthenticated) {
+      content = <Redirect to="/" />;
+    } else if (isAdmin) {
+      content = <Redirect to="/admin/dashboard" />;
+    } else {
+      content = <Redirect to="/gigs" />;
+    }
   }
-
 
   return <React.Fragment>{content}</React.Fragment>;
 }
