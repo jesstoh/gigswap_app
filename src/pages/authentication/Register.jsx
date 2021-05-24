@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 
 function Register() {
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const schema = yup.object().shape({
     username: yup.string().required(),
     email: yup.string().required(),
@@ -18,13 +20,12 @@ function Register() {
       password: '',
       confirmPassword: '',
       isSubmitted: false,
-      error: null,
     },
     validationSchema: schema,
     onSubmit: (values) => {
       if (values.password !== values.confirmPassword) {
-        values.error = "Password doesn't match";
-        console.log(values)
+        setErrorMessage("Password doesn't match");
+        console.log(values);
       } else {
         console.log('ok');
       }
@@ -38,9 +39,19 @@ function Register() {
           md={{ span: 6, offset: 3 }}
           className="py-4 px-4 shadow-sm p-3 mb-5 bg-white rounded-lg border"
         >
+          {errorMessage && (
+            <Alert
+              variant="danger"
+              dismissible
+              onClose={() => setErrorMessage(null)}
+            >
+              {errorMessage}
+            </Alert>
+          )}
           <h3 className="text-center">Sign Up</h3>
           <Form
             onSubmit={(e) => {
+              console.log('submit');
               e.preventDefault();
               formik.handleSubmit(e);
             }}
@@ -48,17 +59,19 @@ function Register() {
             <Form.Group>
               <Form.Label>Username</Form.Label>
               <Form.Control
+                required
                 type="text"
                 id="username"
                 name="username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
               />
-              {formik.errors.username && formik.errors.username}
+              <span className='text-danger'>{formik.errors.username && formik.errors.username}</span>
             </Form.Group>
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control
+                required
                 type="email"
                 id="email"
                 name="email"
