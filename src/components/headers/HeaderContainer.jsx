@@ -6,25 +6,24 @@ import PublicHeader from './PublicHeader';
 import { useSelector } from 'react-redux';
 
 function HeaderContainer() {
-    const {isAuthenticated, isHirer, isAdmin} = useSelector(state => state.authentication)
-    let content;
+  const { isAuthenticated, isHirer, isAdmin, status } = useSelector(
+    (state) => state.authentication
+  );
+  let content = null;
 
+  if (status !== 'idle') {
     if (!isAuthenticated) {
-        content = <PublicHeader />
+      content = <PublicHeader />;
     } else if (isAdmin) {
-        content = <AdminHeader />
+      content = <AdminHeader />;
     } else if (isHirer) {
-        content = <HirerHeader />
-
+      content = <HirerHeader />;
     } else {
-        content = <TalentHeader />
+      content = <TalentHeader />;
     }
+  }
 
-    return (
-        <div>
-            {content}
-        </div>
-    )
+  return <div>{content}</div>;
 }
 
 export default HeaderContainer;

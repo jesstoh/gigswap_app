@@ -54,7 +54,7 @@ function AdminHeader() {
             className="mr-4 text-white"
             onClick={() => handleLogout(dispatch)}
           >
-            <FaUser size={23} /> Logout
+            <FaUser size={23} className='mr-2'/> Logout
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
