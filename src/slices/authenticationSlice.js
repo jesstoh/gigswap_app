@@ -17,8 +17,6 @@ export const checkAuth = createAsyncThunk(
       `${process.env.REACT_APP_API_URL}/api/auth/`,
       { headers: { authorization: `Bearer ${accessToken}` } }
     );
-
-
     return response.data;
   }
 );

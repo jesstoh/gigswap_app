@@ -1,11 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { FaUser, FaBell, FaComment } from 'react-icons/fa';
 import { handleLogout } from '../../utilz/authenticationUtilz';
 
 function HirerHeader() {
   const dispatch = useDispatch();
+  const username = useSelector(state => state.authentication.user.username)
 
   return (
     <Navbar
@@ -33,7 +34,7 @@ function HirerHeader() {
             alignRight
             title={
               <span className="text-white">
-                <FaUser size={23} /> User{' '}
+                <FaUser size={23} /> {username}
               </span>
             }
             id="collasible-nav-dropdown"
