@@ -1,8 +1,13 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import { FaUser, FaBell, FaComment } from "react-icons/fa"
+import { handleLogout } from '../../utilz/authenticationUtilz';
+
 
 function TalentHeader() {
+  const dispatch = useDispatch();
+  
   return (
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark" className='px-4'>
  
@@ -23,7 +28,7 @@ function TalentHeader() {
             <NavDropdown.Item href="/talent/mygigs">My Gigs</NavDropdown.Item>
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item>Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => handleLogout(dispatch)}>Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
