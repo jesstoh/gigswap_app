@@ -5,7 +5,7 @@ const initialState = {
   isAuthenticated: false,
   isHirer: false,
   isAdmin: false,
-  user: null,
+  user: { username: '' },
   status: 'idle',
 };
 
@@ -17,18 +17,19 @@ export const checkAuth = createAsyncThunk(
       `${process.env.REACT_APP_API_URL}/api/auth/`,
       { headers: { authorization: `Bearer ${accessToken}` } }
     );
-    // console.log(response.data);
+
+
     return response.data;
   }
 );
 
 export const login = createAsyncThunk('authentication/login', async (data) => {
-  const accessToken = localStorage.getItem('access');
   const response = await axios.post(
     `${process.env.REACT_APP_API_URL}/api/login/`,
-    data,
-    { headers: { authorization: `Bearer ${accessToken}` } }
+    data
   );
+  localStorage.setItem('access', response.data.access);
+  localStorage.setItem('refresh', response.data.refresh);
   return response.data;
 });
 
