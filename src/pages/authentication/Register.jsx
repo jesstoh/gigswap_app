@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { register } from '../../slices/authenticationSlice';
 
 function Register() {
   const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
+
+  async function handleRegister(data) {
+    try {
+      const response = await dispatch(register(data));
+      unwrapResult(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const schema = yup.object().shape({
     username: yup.string().required(),
@@ -25,9 +38,9 @@ function Register() {
     onSubmit: (values) => {
       if (values.password !== values.confirmPassword) {
         setErrorMessage("Password doesn't match");
-        console.log(values);
+        // console.log(values);
       } else {
-        console.log('ok');
+        handleRegister(values);
       }
     },
   });
@@ -66,7 +79,9 @@ function Register() {
                 value={formik.values.username}
                 onChange={formik.handleChange}
               />
-              <span className='text-danger'>{formik.errors.username && formik.errors.username}</span>
+              <span className="text-danger">
+                {formik.errors.username && formik.errors.username}
+              </span>
             </Form.Group>
             <Form.Group>
               <Form.Label>Email</Form.Label>

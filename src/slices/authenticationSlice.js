@@ -9,6 +9,7 @@ const initialState = {
   status: 'idle',
 };
 
+// Thunk to check authentication upon component mount based on access token in local storage
 export const checkAuth = createAsyncThunk(
   'authentication/checkAuth',
   async () => {
@@ -21,6 +22,7 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
+// Thunk to post login to api
 export const login = createAsyncThunk('authentication/login', async (data) => {
   const response = await axios.post(
     `${process.env.REACT_APP_API_URL}/api/login/`,
@@ -30,6 +32,20 @@ export const login = createAsyncThunk('authentication/login', async (data) => {
   localStorage.setItem('refresh', response.data.refresh);
   return response.data;
 });
+
+// Thunk to register user by sending data to api
+export const register = createAsyncThunk(
+  'authentication/register',
+  async (data) => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/register/`,
+      data
+    );
+    localStorage.setItem('access', response.data.access);
+    localStorage.setItem('refresh', response.data.refresh);
+    return response.data;
+  }
+);
 
 const authenticationSlice = createSlice({
   name: 'authentication',
@@ -54,7 +70,15 @@ const authenticationSlice = createSlice({
       state.isHirer = user.is_hirer;
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
-      state.status = 'fulfilled';
+      state.status = 'success';
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      const { user } = action.payload;
+      state.isAuthenticated = true;
+      state.isHirer = user.is_hirer;
+      state.isAdmin = user.is_staff;
+      state.user.username = user.username;
+      state.status = 'success';
     });
   },
 });
