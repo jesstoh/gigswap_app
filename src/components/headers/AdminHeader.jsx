@@ -2,16 +2,17 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';
-import { logout } from '../../slices/authenticationSlice';
+// import { logout } from '../../slices/authenticationSlice';
+import { handleLogout } from '../../utilz/authenticationUtilz';
 
 function AdminHeader() {
   const dispatch = useDispatch();
 
-  function handleLogout() {
-    dispatch(logout());
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-  }
+  //   function handleLogout() {
+  //     dispatch(logout());
+  //     localStorage.removeItem('access');
+  //     localStorage.removeItem('refresh');
+  //   }
 
   return (
     <Navbar
@@ -49,7 +50,10 @@ function AdminHeader() {
               Gigs
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link className="mr-4 text-white" onClick={handleLogout}>
+          <Nav.Link
+            className="mr-4 text-white"
+            onClick={() => handleLogout(dispatch)}
+          >
             <FaUser size={23} /> Logout
           </Nav.Link>
         </Nav>
