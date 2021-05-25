@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
@@ -10,15 +10,18 @@ function Login() {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState(null)
 
+  useEffect(() => {
+    console.log(errorMessage)
+  }, [errorMessage])
 
   //Function to dispatch and set error message 
   async function handleLogin(data) {
-    // try{
+    try{
       const response = await dispatch(login(data))
       unwrapResult(response)
-    // } catch(err) {
-    //   console.log(err)
-    // }
+    } catch(err) {
+      setErrorMessage(err.data.details)
+    }
   }
 
   const schema = yup.object().shape({
