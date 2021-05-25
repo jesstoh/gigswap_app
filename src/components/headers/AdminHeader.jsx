@@ -15,7 +15,7 @@ function AdminHeader() {
   //   }
 
   return (
-    <Navbar
+    <Navbar fixed='top'
       collapseOnSelect
       expand="lg"
       bg="primary"

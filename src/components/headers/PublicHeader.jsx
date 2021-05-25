@@ -3,7 +3,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 
 function AdminHeader() {
   return (
-    <Navbar
+    <Navbar fixed='top'
       collapseOnSelect
       expand="lg"
       bg="primary"

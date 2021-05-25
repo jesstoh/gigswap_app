@@ -10,7 +10,7 @@ function TalentHeader() {
   const username = useSelector(state => state.authentication.user.username)
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark" className='px-4'>
+    <Navbar fixed='top' collapseOnSelect expand="lg" bg="primary" variant="dark" className='px-4'>
  
       <Navbar.Brand href="/gigs">Gigswap</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
