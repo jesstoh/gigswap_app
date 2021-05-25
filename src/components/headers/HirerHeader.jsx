@@ -9,7 +9,7 @@ function HirerHeader() {
   const username = useSelector(state => state.authentication.user.username)
 
   return (
-    <Navbar
+    <Navbar fixed='top'
       collapseOnSelect
       expand="lg"
       bg="primary"

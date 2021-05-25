@@ -60,10 +60,12 @@ export const register = createAsyncThunk(
       localStorage.setItem('refresh', response.data.refresh);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response.data)
+        const { data, status} = err.response
+      return rejectWithValue({data, status})
     }
   }
 );
+
 
 const authenticationSlice = createSlice({
   name: 'authentication',
@@ -98,7 +100,11 @@ const authenticationSlice = createSlice({
       state.user.username = user.username;
       state.status = 'success';
     });
-    builder.addCase(register.rejected, (state, action) => {});
+    builder.addCase(register.rejected, (state, action) => {
+      //Only take first error data
+      state.error = Object.values(action.payload.data)[0][0]
+      // console.log(state.error)
+    });
   },
 });
 
