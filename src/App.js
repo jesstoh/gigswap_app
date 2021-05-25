@@ -51,7 +51,7 @@ function App() {
     } else {
       dispatch(setFailedStatus())
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

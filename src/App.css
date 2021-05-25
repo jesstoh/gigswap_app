@@ -41,3 +41,7 @@
 * {
   /* border: 2px solid red; */
 }
+
+.carousel-caption {
+  top:40% !important
+}
