@@ -83,6 +83,7 @@ function Register() {
                 name="username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
+                minLength={6}
               />
               <span className="text-danger">
                 {/* {formik.errors.username && formik.errors.username} */}
@@ -109,6 +110,7 @@ function Register() {
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                minLength={6}
               />
               {/* {formik.errors.password && formik.errors.password} */}
             </Form.Group>
