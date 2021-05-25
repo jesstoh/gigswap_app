@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
@@ -24,6 +24,7 @@ function Register() {
     email: yup.string().required(),
     password: yup.string().required(),
     confirmPassword: yup.string().required(),
+    is_hirer: yup.bool()
   });
 
   const formik = useFormik({
@@ -32,6 +33,7 @@ function Register() {
       email: '',
       password: '',
       confirmPassword: '',
+      is_hirer: false,
       isSubmitted: false,
     },
     validationSchema: schema,
@@ -40,6 +42,7 @@ function Register() {
         setErrorMessage("Password doesn't match");
         // console.log(values);
       } else {
+        console.log(values);
         handleRegister(values);
       }
     },
@@ -80,7 +83,7 @@ function Register() {
                 onChange={formik.handleChange}
               />
               <span className="text-danger">
-                {formik.errors.username && formik.errors.username}
+                {/* {formik.errors.username && formik.errors.username} */}
               </span>
             </Form.Group>
             <Form.Group>
@@ -93,7 +96,7 @@ function Register() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
-              {formik.errors.email && formik.errors.email}
+              {/* {formik.errors.email && formik.errors.email} */}
             </Form.Group>
             <Form.Group>
               <Form.Label>Password</Form.Label>
@@ -105,7 +108,7 @@ function Register() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
               />
-              {formik.errors.password && formik.errors.password}
+              {/* {formik.errors.password && formik.errors.password} */}
             </Form.Group>
             <Form.Group>
               <Form.Label>Retype Password</Form.Label>
@@ -117,7 +120,10 @@ function Register() {
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
               />
-              {formik.errors.confirmPassword && formik.errors.confirmPassword}
+              {/* {formik.errors.confirmPassword && formik.errors.confirmPassword} */}
+            </Form.Group>
+            <Form.Group>
+              <Form.Check type="checkbox" name="is_hirer" onChange={formik.handleChange} label="Hirer" />
             </Form.Group>
             <Form.Text className="text-muted">
               Already have an account? <a href="/login">Login here</a>

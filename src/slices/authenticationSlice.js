@@ -7,6 +7,7 @@ const initialState = {
   isAdmin: false,
   user: { username: '' },
   status: 'idle',
+  error: null,
 };
 
 // Thunk to check authentication upon component mount based on access token in local storage
@@ -34,16 +35,33 @@ export const login = createAsyncThunk('authentication/login', async (data) => {
 });
 
 // Thunk to register user by sending data to api
+// export const register = createAsyncThunk(
+//   'authentication/register',
+//   async (data) => {
+//     const response = await axios.post(
+//       `${process.env.REACT_APP_API_URL}/api/register/`,
+//       data
+//     );
+//     localStorage.setItem('access', response.data.access);
+//     localStorage.setItem('refresh', response.data.refresh);
+//     return response.data;
+//   }
+// );
+
 export const register = createAsyncThunk(
   'authentication/register',
-  async (data) => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/register/`,
-      data
-    );
-    localStorage.setItem('access', response.data.access);
-    localStorage.setItem('refresh', response.data.refresh);
-    return response.data;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/register/`,
+        data
+      );
+      localStorage.setItem('access', response.data.access);
+      localStorage.setItem('refresh', response.data.refresh);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data)
+    }
   }
 );
 
@@ -80,6 +98,7 @@ const authenticationSlice = createSlice({
       state.user.username = user.username;
       state.status = 'success';
     });
+    builder.addCase(register.rejected, (state, action) => {});
   },
 });
 
