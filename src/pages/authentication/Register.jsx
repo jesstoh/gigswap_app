@@ -52,10 +52,10 @@ function Register() {
 
   return (
     <Container>
-      <Row className="mt-5">
+      <Row className="mt-5 px-3">
         <Col
           md={{ span: 6, offset: 3 }}
-          className="py-4 px-4 shadow-sm p-3 mb-5 bg-white rounded-lg border"
+          className="py-4 px-4 mt-3 shadow-sm p-3 mb-3 bg-white rounded-lg border"
         >
           {errorMessage && (
             <Alert
