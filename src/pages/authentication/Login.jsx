@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import {useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { login } from '../../slices/authenticationSlice';
 
 function Login() {
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(() => {
-    console.log(errorMessage)
-  }, [errorMessage])
-
-  //Function to dispatch and set error message 
+  //Function to dispatch and set error message
   async function handleLogin(data) {
-    try{
-      const response = await dispatch(login(data))
-      unwrapResult(response)
-    } catch(err) {
-      setErrorMessage(err.data.details)
+    try {
+      const response = await dispatch(login(data));
+      unwrapResult(response);
+    } catch (err) {
+      setErrorMessage(err.data.details);
     }
   }
 
@@ -37,31 +33,9 @@ function Login() {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-
-      handleLogin(values)
-    }
-  })
-
-  // const [formValue, setFormValue] = useState({
-  //   username: '',
-  //   password: '',
-  // });
-  // // const [error, setError] = useState({})
-
-  // function handleChange(e) {
-  //   setFormValue({ ...formValue, [e.target.id]: e.target.value });
-  // }
-
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   try {
-  //     const result = await dispatch(login(formValue));
-  //     unwrapResult(result);
-  //   } catch (err) {
-  //     setFormValue({ username: '', password: '' });
-  //     console.log(err);
-  //   }
-  // }
+      handleLogin(values);
+    },
+  });
 
   return (
     <Container>
@@ -70,11 +44,22 @@ function Login() {
           md={{ span: 6, offset: 3 }}
           className="py-4 px-4 shadow-sm p-3 mb-5 bg-white rounded-lg border"
         >
+          {errorMessage && (
+            <Alert
+              variant="danger"
+              dismissible
+              onClose={() => setErrorMessage(null)}
+            >
+              {errorMessage}
+            </Alert>
+          )}
           <h3 className="text-center">Login</h3>
-          <Form onSubmit={(e) => {
-                e.preventDefault();
-                formik.handleSubmit();
-              }}>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              formik.handleSubmit();
+            }}
+          >
             <Form.Group>
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -102,7 +87,7 @@ function Login() {
               Not a member yet? <a href="/register">Sign Up now</a>
             </Form.Text>
             <div className="text-center mt-3">
-              <Button variant="primary" type="submit" >
+              <Button variant="primary" type="submit">
                 Submit
               </Button>
             </div>
