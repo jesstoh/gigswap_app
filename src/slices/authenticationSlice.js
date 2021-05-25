@@ -24,30 +24,23 @@ export const checkAuth = createAsyncThunk(
 );
 
 // Thunk to post login to api
-export const login = createAsyncThunk('authentication/login', async (data) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_API_URL}/api/login/`,
-    data
-  );
-  localStorage.setItem('access', response.data.access);
-  localStorage.setItem('refresh', response.data.refresh);
-  return response.data;
+export const login = createAsyncThunk('authentication/login', async (data, {rejectWithValue}) => {
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/login/`,
+      data
+    );
+    localStorage.setItem('access', response.data.access);
+    localStorage.setItem('refresh', response.data.refresh);
+    return response.data;
+  } catch (err) {
+    const {data, status} = err.response
+    // console.log({data, status})
+    return rejectWithValue({data, status})
+  }
 });
 
-// Thunk to register user by sending data to api
-// export const register = createAsyncThunk(
-//   'authentication/register',
-//   async (data) => {
-//     const response = await axios.post(
-//       `${process.env.REACT_APP_API_URL}/api/register/`,
-//       data
-//     );
-//     localStorage.setItem('access', response.data.access);
-//     localStorage.setItem('refresh', response.data.refresh);
-//     return response.data;
-//   }
-// );
-
+// Thunk Send data to api for registering of user
 export const register = createAsyncThunk(
   'authentication/register',
   async (data, { rejectWithValue }) => {
@@ -60,12 +53,11 @@ export const register = createAsyncThunk(
       localStorage.setItem('refresh', response.data.refresh);
       return response.data;
     } catch (err) {
-        const { data, status} = err.response
-      return rejectWithValue({data, status})
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
     }
   }
 );
-
 
 const authenticationSlice = createSlice({
   name: 'authentication',
@@ -102,7 +94,7 @@ const authenticationSlice = createSlice({
     });
     builder.addCase(register.rejected, (state, action) => {
       //Only take first error data
-      state.error = Object.values(action.payload.data)[0][0]
+      state.error = Object.values(action.payload.data)[0][0];
       // console.log(state.error)
     });
   },

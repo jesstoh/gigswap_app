@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -8,6 +8,18 @@ import { login } from '../../slices/authenticationSlice';
 
 function Login() {
   const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState(null)
+
+
+  //Function to dispatch and set error message 
+  async function handleLogin(data) {
+    // try{
+      const response = await dispatch(login(data))
+      unwrapResult(response)
+    // } catch(err) {
+    //   console.log(err)
+    // }
+  }
 
   const schema = yup.object().shape({
     username: yup.string().required(),
@@ -22,7 +34,8 @@ function Login() {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(login(values));
+
+      handleLogin(values)
     }
   })
 
