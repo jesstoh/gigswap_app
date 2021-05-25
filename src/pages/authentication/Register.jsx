@@ -15,7 +15,9 @@ function Register() {
       const response = await dispatch(register(data));
       unwrapResult(response);
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      setErrorMessage(Object.values(err.data)[0][0])
+      console.log(errorMessage)
     }
   }
 
