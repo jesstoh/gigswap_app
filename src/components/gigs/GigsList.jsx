@@ -6,7 +6,9 @@ import { Container } from 'react-bootstrap';
 function GigsList() {
   const gigs = useSelector((state) => state.gigs.gigs);
 
-  return (
+  return !gigs.length ? (
+    <span>No relevant gig listing</span>
+  ) : (
     <Container>
       {gigs.map((gig) => (
         <GigExcerpt key={gig.id} gig={gig} />

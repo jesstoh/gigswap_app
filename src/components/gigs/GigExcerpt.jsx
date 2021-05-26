@@ -10,7 +10,7 @@ function GigExcerpt({ gig }) {
         <Card.Body>
           <Card.Title>{gig.title}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            by {gig.poster.username}
+            by {gig.company}
           </Card.Subtitle>
           <div>
             {gig.subcategories.map((subcat, index) => {
@@ -24,7 +24,8 @@ function GigExcerpt({ gig }) {
 
           <Card.Text>{gig.description}</Card.Text>
           <TimeAgo timestamp={gig.created_at} text='Posted '/><br/>
-          <span className='text-muted'><i>Expired on {format(parseISO(gig.expired_at),'d MMM yyyy' )} </i></span>
+          <span className='text-muted'><i>Expired on {format(parseISO(gig.expired_at),'d MMM yyyy' )} </i></span><span className='text-muted float-right'>{0 || gig.applicants.length} applied </span>
+        
         </Card.Body>
       </a>
     </Card>
