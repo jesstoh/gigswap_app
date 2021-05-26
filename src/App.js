@@ -31,6 +31,7 @@ import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
 import HeaderContainer from './components/headers/HeaderContainer';
+import Footer from './components/others/Footer';
 
 // Route component based on user role
 import AdminRoute from './components/routes/AdminRoute';
@@ -39,7 +40,7 @@ import TalentRoute from './components/routes/TalentRoute';
 import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
-import {checkAuth, setFailedStatus} from './slices/authenticationSlice';
+import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ function App() {
       dispatch(checkAuth());
       console.log('ok');
     } else {
-      dispatch(setFailedStatus())
+      dispatch(setFailedStatus());
     }
   }, [dispatch]);
 
@@ -128,6 +129,7 @@ function App() {
           />
         </Switch>
       </div>
+      <Footer />
     </Router>
   );
 }
