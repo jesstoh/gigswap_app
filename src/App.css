@@ -58,3 +58,13 @@ footer {
   background-color: rgb(235, 227, 227);
   font-size: smaller;
 }
+
+.gig-card a {
+  text-decoration-style: none;
+  color: black
+}
+
+.gig-card a:hover{
+  text-decoration: none;
+  color: inherit;
+}
