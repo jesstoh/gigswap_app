@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Axios from '../utilz/Axios';
 
 const initialState = {
   isAuthenticated: false,
@@ -11,34 +12,47 @@ const initialState = {
 };
 
 // Thunk to check authentication upon component mount based on access token in local storage
+// export const checkAuth = createAsyncThunk(
+//   'authentication/checkAuth',
+//   async () => {
+//     const accessToken = localStorage.getItem('access');
+//     const response = await axios.get(
+//       `${process.env.REACT_APP_API_URL}/api/auth/`,
+//       { headers: { Authorization: `Bearer ${accessToken}` } }
+//     );
+//     return response.data;
+//   }
+// );
+
 export const checkAuth = createAsyncThunk(
   'authentication/checkAuth',
   async () => {
-    const accessToken = localStorage.getItem('access');
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/auth/`,
-      { headers: { authorization: `Bearer ${accessToken}` } }
+    const response = await Axios.get(
+      `${process.env.REACT_APP_API_URL}/api/auth/`
     );
     return response.data;
   }
 );
 
 // Thunk to post login to api
-export const login = createAsyncThunk('authentication/login', async (data, {rejectWithValue}) => {
-  try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/login/`,
-      data
-    );
-    localStorage.setItem('access', response.data.access);
-    localStorage.setItem('refresh', response.data.refresh);
-    return response.data;
-  } catch (err) {
-    const {data, status} = err.response
-    // console.log({data, status})
-    return rejectWithValue({data, status})
+export const login = createAsyncThunk(
+  'authentication/login',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/login/`,
+        data
+      );
+      localStorage.setItem('access', response.data.access);
+      localStorage.setItem('refresh', response.data.refresh);
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      // console.log({data, status})
+      return rejectWithValue({ data, status });
+    }
   }
-});
+);
 
 // Thunk Send data to api for registering of user
 export const register = createAsyncThunk(
