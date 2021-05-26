@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseISO, format } from 'date-fns';
 import { Card, Badge } from 'react-bootstrap';
 import TimeAgo from '../others/TimeAgo';
 
@@ -23,7 +24,7 @@ function GigExcerpt({ gig }) {
 
           <Card.Text>{gig.description}</Card.Text>
           <TimeAgo timestamp={gig.created_at} text='Posted '/><br/>
-          <span>Expired on {gig.expired_at} </span>
+          <span className='text-muted'><i>Expired on {format(parseISO(gig.expired_at),'d MMM yyyy' )} </i></span>
         </Card.Body>
       </a>
     </Card>
