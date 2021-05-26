@@ -8,7 +8,8 @@ const initialState = {
 };
 
 export const fetchGigs = createAsyncThunk('gigs/fetchGigs', async () => {
-  const gigs = await Axios.get(`${process.env.REACT_APP_API_URL}/api/gigs/`);
+  const response = await Axios.get(`${process.env.REACT_APP_API_URL}/api/gigs/`);
+  return response.data
 });
 
 const gigsSlice = createSlice({
@@ -18,6 +19,7 @@ const gigsSlice = createSlice({
   extraReducers: (builder) => {
     // Update gigs state when fetchGigs success
     builder.addCase(fetchGigs.fulfilled, (state, action) => {
+    //   console.log(action.payload);
       state.gigs = action.payload;
       state.status = 'succeeded';
     });
