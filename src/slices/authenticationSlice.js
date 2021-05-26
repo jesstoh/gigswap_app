@@ -82,7 +82,10 @@ const authenticationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       console.log(action.payload);
-      return { ...action.payload, status: 'success' };
+      return { ...action.payload, status: 'success', error: null };
+    });
+    builder.addCase(checkAuth.rejected, (state, action) => {
+      state.status = 'failed'
     });
     builder.addCase(login.fulfilled, (state, action) => {
       const { user } = action.payload;
