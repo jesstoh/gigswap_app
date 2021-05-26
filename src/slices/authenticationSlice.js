@@ -12,18 +12,6 @@ const initialState = {
 };
 
 // Thunk to check authentication upon component mount based on access token in local storage
-// export const checkAuth = createAsyncThunk(
-//   'authentication/checkAuth',
-//   async () => {
-//     const accessToken = localStorage.getItem('access');
-//     const response = await axios.get(
-//       `${process.env.REACT_APP_API_URL}/api/auth/`,
-//       { headers: { Authorization: `Bearer ${accessToken}` } }
-//     );
-//     return response.data;
-//   }
-// );
-
 export const checkAuth = createAsyncThunk(
   'authentication/checkAuth',
   async () => {
@@ -39,7 +27,7 @@ export const login = createAsyncThunk(
   'authentication/login',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
+      const response = await Axios.post(
         `${process.env.REACT_APP_API_URL}/api/login/`,
         data
       );
