@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Badge } from 'react-bootstrap';
+import TimeAgo from '../others/TimeAgo';
 
 function GigExcerpt({ gig }) {
   return (
@@ -21,7 +22,7 @@ function GigExcerpt({ gig }) {
           </div>
 
           <Card.Text>{gig.description}</Card.Text>
-          <span>Posted on {gig.created_at}</span>
+          <TimeAgo timestamp={gig.created_at} text='Posted '/><br/>
           <span>Expired on {gig.expired_at} </span>
         </Card.Body>
       </a>
