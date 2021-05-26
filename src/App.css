@@ -42,12 +42,16 @@
   /* border: 2px solid red; */
 }
 
+.App {
+  padding: 55px 0;
+}
+
 .carousel-caption {
   top:40% !important
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   width: 100%;
   bottom: 0;
   left:0;
