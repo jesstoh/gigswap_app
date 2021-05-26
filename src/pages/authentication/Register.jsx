@@ -15,9 +15,9 @@ function Register() {
       const response = await dispatch(register(data));
       unwrapResult(response);
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       setErrorMessage(Object.values(err.data)[0][0])
-      console.log(errorMessage)
+      // console.log(errorMessage)
     }
   }
 
@@ -44,7 +44,7 @@ function Register() {
         setErrorMessage("Password doesn't match");
         // console.log(values);
       } else {
-        console.log(values);
+        // console.log(values);
         handleRegister(values);
       }
     },
@@ -69,7 +69,7 @@ function Register() {
           <h3 className="text-center">Sign Up</h3>
           <Form
             onSubmit={(e) => {
-              console.log('submit');
+              // console.log('submit');
               e.preventDefault();
               formik.handleSubmit(e);
             }}

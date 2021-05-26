@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import Axios from '../utilz/Axios';
 
 const initialState = {
@@ -47,7 +46,7 @@ export const register = createAsyncThunk(
   'authentication/register',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
+      const response = await Axios.post(
         `${process.env.REACT_APP_API_URL}/api/register/`,
         data
       );
