@@ -6,6 +6,7 @@ const initialState = {
   profile: null,
   status: 'idle',
   error: null,
+  edit: false
 };
 
 export const fetchProfile = createAsyncThunk(
