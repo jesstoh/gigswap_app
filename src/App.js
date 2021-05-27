@@ -30,6 +30,7 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
+import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx'
 import HeaderContainer from './components/headers/HeaderContainer';
 import Footer from './components/others/Footer';
 
@@ -112,6 +113,7 @@ function App() {
 
           {/* Routes for log in hirer or talent */}
           <SharedRoute exact path="/profile" component={ProfilePage} />
+          <SharedRoute exact path="/profile/create" component={CreateProfilePage} />
           <SharedRoute exact path="/gigs/:id" component={GigDetails} />
           <SharedRoute exact path="/talents/:id" component={TalentDetails} />
           <SharedRoute exact path="/hirers/:id" component={HirerDetail} />
