@@ -5,7 +5,8 @@ const initialState = {
   isAuthenticated: false,
   isHirer: false,
   isAdmin: false,
-  user: { username: '' },
+  isProfileComplete: false,
+  user: { username: '', id: '' },
   status: 'idle',
   error: null,
 };
@@ -78,7 +79,7 @@ const authenticationSlice = createSlice({
       return { ...action.payload, status: 'success', error: null };
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
-      state.status = 'failed'
+      state.status = 'failed';
     });
     builder.addCase(login.fulfilled, (state, action) => {
       const { user } = action.payload;
@@ -86,6 +87,8 @@ const authenticationSlice = createSlice({
       state.isHirer = user.is_hirer;
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
+      state.user.isProfileComplete = user.is_profile_complete;
+      state.user.id = user.id;
       state.status = 'success';
     });
     builder.addCase(register.fulfilled, (state, action) => {
@@ -94,6 +97,7 @@ const authenticationSlice = createSlice({
       state.isHirer = user.is_hirer;
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
+      state.user.id = user.id;
       state.status = 'success';
     });
     builder.addCase(register.rejected, (state, action) => {
