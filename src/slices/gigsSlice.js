@@ -5,7 +5,7 @@ const initialState = {
   gigs: [],
   status: 'idle',
   error: null,
-  activeGig: { content: null, status: 'idle', error: null, edit: false },
+  activeGig: { gig: null, status: 'idle', error: null, edit: false },
 };
 
 export const fetchGigs = createAsyncThunk('gigs/fetchGigs', async () => {
