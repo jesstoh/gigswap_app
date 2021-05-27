@@ -7,6 +7,7 @@ function TalentProfileDetails() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
   const isEdit = useSelector((state) => state.profile.edit);
+  //Get state if user has completed profile
 
   return (
     <Container className="mt-5">
@@ -89,7 +90,9 @@ function TalentProfileDetails() {
         </Row>
       </div>
       <div className="text-center">
-        <Button onClick={() => dispatch(toggleProfileEdit())} className='px-4'>Edit</Button>
+        <Button onClick={() => dispatch(toggleProfileEdit())} className="px-4">
+          Edit
+        </Button>
       </div>
     </Container>
   );

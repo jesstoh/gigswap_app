@@ -11,9 +11,6 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const { status, error, edit } = useSelector((state) => state.profile);
   const isHirer = useSelector((state) => state.authentication.isHirer);
-  const isProfileComplete = useSelector(
-    (state) => state.authentication.isProfileComplete
-  );
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -42,16 +39,22 @@ function ProfilePage() {
       }
     }
   } else if (status === 'failed') {
-    //Show error if fetch failed
-    content = <span>{error}</span>;
+    if (error === 'Profile not found') {
+      // if no profile found, render button to create profile
+      content = (
+        <div className="text-center mt-5">
+          <Button variant='light' className='px-5'>
+            Complete Your Profile Now
+          </Button>
+        </div>
+      );
+    } else {
+      //Show error if fetch failed
+      content = <span>{error}</span>;
+    }
   }
 
-  return (
-    <section>
-      {content}
-      
-    </section>
-  );
+  return <section>{content}</section>;
 }
 
 export default ProfilePage;
