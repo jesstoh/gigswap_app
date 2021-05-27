@@ -56,7 +56,7 @@ const gigsSlice = createSlice({
         state.activeGig.status = 'loading'
     });
     builder.addCase(fetchSingleGig.fulfilled, (state,action) => {
-        state.activeGig.content = action.payload
+        state.activeGig.gig = action.payload
         state.activeGig.status = 'succeeded'
     })
     builder.addCase(fetchSingleGig.rejected, (state, action) => {
