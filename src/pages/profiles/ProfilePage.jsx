@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { fetchProfile } from '../../slices/profileSlice.js';
-import ProfileDetails from '../../components/profiles/ProfileDetails'
+import TalentProfileDetails from '../../components/profiles/TalentProfileDetails'
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function ProfilePage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <ProfileDetails />
+    content = <TalentProfileDetails />
   } else if (status === 'failed') {
     //Show error if fetch failed
     content = <span>{error}</span>;

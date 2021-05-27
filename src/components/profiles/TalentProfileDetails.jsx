@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
 
-function ProfileDetails() {
+function TalentProfileDetails() {
   const profile = useSelector((state) => state.profile.profile);
   return (
     <Container>
@@ -88,4 +88,4 @@ function ProfileDetails() {
   );
 }
 
-export default ProfileDetails;
+export default TalentProfileDetails;
