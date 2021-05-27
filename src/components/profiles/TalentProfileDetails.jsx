@@ -5,8 +5,8 @@ import { Container, Row, Col, Badge } from 'react-bootstrap';
 function TalentProfileDetails() {
   const profile = useSelector((state) => state.profile.profile);
   return (
-    <Container>
-      <Row>
+    <Container className='mt-5'>
+      <Row className='mb-4'>
         <Col xs="4">
           <img src={profile.image} className="img-fluid img-thumbnail " />
         </Col>
