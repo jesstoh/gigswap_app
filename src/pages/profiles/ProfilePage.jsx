@@ -43,9 +43,8 @@ function ProfilePage() {
       // if no profile found, render button to create profile
       content = (
         <div className="text-center mt-5">
-          <Button variant='light' className='px-5'>
-            Complete Your Profile Now
-          </Button>
+          <a className='btn btn-light px-4' href='/profile/create'>Complete Your Profile Now</a>
+
         </div>
       );
     } else {
