@@ -1,12 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import { toggleProfileEdit } from '../../slices/profileSlice';
 
 function TalentProfileDetails() {
+  const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
+  const isEdit = useSelector((state) => state.profile.edit);
+
   return (
-    <Container className='mt-5'>
-      <Row className='mb-4'>
+    <Container className="mt-5">
+      <Row className="mb-4">
         <Col xs="4">
           <img src={profile.image} className="img-fluid img-thumbnail " />
         </Col>
@@ -50,7 +54,7 @@ function TalentProfileDetails() {
           </Col>
         </Row>
       </div>
-      <div className='preference mb-4'>
+      <div className="preference mb-4">
         <h6>Preference</h6>
         <Row>
           <Col sm="4">Remote Only: </Col>
@@ -65,7 +69,7 @@ function TalentProfileDetails() {
           <Col>$ {profile.min_pay} /hour</Col>
         </Row>
       </div>
-      <div className='other-particular'>
+      <div className="other-particular">
         <h6>Other</h6>
         <Row>
           <Col sm="4">Address: </Col>
@@ -83,6 +87,9 @@ function TalentProfileDetails() {
           <Col sm="4">Contact No.: </Col>
           <Col>{profile.contact}</Col>
         </Row>
+      </div>
+      <div className="text-center">
+        <Button onClick={() => dispatch(toggleProfileEdit())} className='px-4'>Edit</Button>
       </div>
     </Container>
   );

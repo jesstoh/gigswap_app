@@ -49,7 +49,7 @@ function ProfilePage() {
   return (
     <section>
       {content}
-      <Button onClick={() => dispatch(toggleProfileEdit())}>Edit</Button>
+      
     </section>
   );
 }
