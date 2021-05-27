@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import SingleGig from '../../components/gigs/SingleGig';
+import { fetchSingleGig } from '../../slices/gigsSlice';
 
-function GigDetails() {
+function GigDetails({ match }) {
+  const dispatch = useDispatch()
+  const { gigId } = match.params;
+
+  useEffect(() => {
+    dispatch(fetchSingleGig(gigId))
+    
+  }, []);
+
+
   return (
-    <div>
-      <h1>Gig Show</h1>
-    </div>
+    <React.Fragment>
+
+      <SingleGig />
+    </React.Fragment>
   );
 }
 

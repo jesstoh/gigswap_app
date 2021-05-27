@@ -5,12 +5,31 @@ const initialState = {
   gigs: [],
   status: 'idle',
   error: null,
+  activeGig: { content: null, status: 'idle', error: null, edit: false },
 };
 
 export const fetchGigs = createAsyncThunk('gigs/fetchGigs', async () => {
-  const response = await Axios.get(`${process.env.REACT_APP_API_URL}/api/gigs/`);
-  return response.data
+  const response = await Axios.get(
+    `${process.env.REACT_APP_API_URL}/api/gigs/`
+  );
+  return response.data;
 });
+
+export const fetchSingleGig = createAsyncThunk(
+  'gigs/fetchSingleGig',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      console.log(err.response)
+      return rejectWithValue({ data, status });
+    }
+  }
+);
 
 const gigsSlice = createSlice({
   name: 'gigs',
@@ -19,7 +38,7 @@ const gigsSlice = createSlice({
   extraReducers: (builder) => {
     // Update gigs state when fetchGigs success
     builder.addCase(fetchGigs.fulfilled, (state, action) => {
-    //   console.log(action.payload);
+      //   console.log(action.payload);
       state.gigs = action.payload;
       state.status = 'succeeded';
     });
@@ -33,6 +52,17 @@ const gigsSlice = createSlice({
       // Change it to other content later
       state.error = action.error.message;
     });
+    builder.addCase(fetchSingleGig.pending, (state, action) => {
+        state.activeGig.status = 'loading'
+    });
+    builder.addCase(fetchSingleGig.fulfilled, (state,action) => {
+        state.activeGig.content = action.payload
+        state.activeGig.status = 'succeeded'
+    })
+    builder.addCase(fetchSingleGig.rejected, (state, action) => {
+        state.activeGig.error = action.payload.data.detail
+        state.activeGig.status = 'failed'
+    })
   },
 });
 
