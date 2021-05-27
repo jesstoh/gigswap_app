@@ -10,7 +10,7 @@ function GigExcerpt({ gig }) {
         <Card.Body>
           <Card.Title>{gig.title}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            by {gig.company}
+            by {gig.poster_profile.company}
           </Card.Subtitle>
           <div>
             {gig.subcategories.map((subcat, index) => {
