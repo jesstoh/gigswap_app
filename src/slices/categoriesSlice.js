@@ -21,6 +21,21 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const fetchSubcats = createAsyncThunk(
+  'categories/fetchSubcats',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/categories/sub/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
@@ -36,6 +51,17 @@ const categoriesSlice = createSlice({
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.cats.status = 'failed';
       state.cats.error = action.payload.data.detail;
+    });
+    builder.addCase(fetchSubcats.fulfilled, (state, action) => {
+      state.subcats.content = action.payload;
+      state.subcats.status = 'succeeded';
+    });
+    builder.addCase(fetchSubcats.pending, (state, action) => {
+      state.subcats.status = 'pending';
+    });
+    builder.addCase(fetchSubcats.rejected, (state, action) => {
+      state.subcats.status = 'failed';
+      state.subcats.error = action.payload.data.detail;
     });
   },
 });
