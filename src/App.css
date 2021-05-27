@@ -68,3 +68,7 @@ footer {
   text-decoration: none;
   color: inherit;
 }
+
+.card-sm-text {
+  font-size: smaller;
+}
