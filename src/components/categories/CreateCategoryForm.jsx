@@ -19,7 +19,7 @@ function CreateCategoryForm() {
 
   return (
     <Container>
-      <h3 className="text-center">Add New Category</h3>
+      {/* <h4 className="text-center">Add New Category</h4> */}
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -39,7 +39,7 @@ function CreateCategoryForm() {
 
         <div className="text-center mt-3">
           <Button variant="primary" type="submit">
-            Submit
+            Add
           </Button>
         </div>
       </Form>
