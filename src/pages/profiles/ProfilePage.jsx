@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import { fetchProfile } from '../../slices/profileSlice.js';
+import { Spinner, Button } from 'react-bootstrap';
+import { fetchProfile, toggleProfileEdit } from '../../slices/profileSlice.js';
 import TalentProfileDetails from '../../components/profiles/TalentProfileDetails';
 import HirerProfileDetails from '../../components/profiles/HirerProfileDetails';
+import EditTalentProfileForm from '../../components/profiles/EditTalentProfileForm';
+import EditHirerProfileForm from '../../components/profiles/EditHirerProfileForm';
 
 function ProfilePage() {
   const dispatch = useDispatch();
-
-  const status = useSelector((state) => state.profile.status);
-  const error = useSelector((state) => state.profile.error);
+  const { status, error, edit } = useSelector((state) => state.profile);
   const isHirer = useSelector((state) => state.authentication.isHirer);
   const isProfileComplete = useSelector(
     (state) => state.authentication.isProfileComplete
@@ -28,17 +28,30 @@ function ProfilePage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    if (isHirer) {
-      content = <HirerProfileDetails />;
+    if (edit) {
+      if (isHirer) {
+        content = <EditHirerProfileForm />;
+      } else {
+        content = <EditTalentProfileForm />;
+      }
     } else {
-      content = <TalentProfileDetails />;
+      if (isHirer) {
+        content = <HirerProfileDetails />;
+      } else {
+        content = <TalentProfileDetails />;
+      }
     }
   } else if (status === 'failed') {
     //Show error if fetch failed
     content = <span>{error}</span>;
   }
 
-  return <section>{content}</section>;
+  return (
+    <section>
+      {content}
+      <Button onClick={() => dispatch(toggleProfileEdit())}>Edit</Button>
+    </section>
+  );
 }
 
 export default ProfilePage;
