@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Badge } from 'react-bootstrap';
+import TalentGigButtons from './TalentGigButtons'
 
 function SingleGig() {
   const { gig } = useSelector((state) => state.gigs.activeGig);
@@ -75,6 +76,9 @@ function SingleGig() {
           <h4>Gig Description</h4>
           <p>{gig.description}</p>
         </Col>
+      </Row>
+      <Row className='button-container'>
+          <TalentGigButtons/>
       </Row>
     </Container>
   );
