@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Spinner, Container } from 'react-bootstrap';
+import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import NotificationExcerpt from '../../components/notifications/NotificationExcerpt';
 
 function NotificationsPage() {
@@ -20,13 +20,22 @@ function NotificationsPage() {
     content = (
       <div>
         {notifications.map((notification) => (
-          <NotificationExcerpt key={notification.id} notification={notification} />
+          <NotificationExcerpt
+            key={notification.id}
+            notification={notification}
+          />
         ))}
       </div>
     );
   }
 
-  return <Container>{content}</Container>;
+  return (
+    <Container className="mt-5 p-2">
+      <Row>
+        <Col md={{span: 8, offset:2}} className='border px-0'>{content}</Col>
+      </Row>
+    </Container>
+  );
 }
 
 export default NotificationsPage;

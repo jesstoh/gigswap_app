@@ -81,3 +81,11 @@ footer {
 .small-date {
   font-size: x-small;
 }
+
+/* .notification-card {
+  border-top: 0.5px solid rgba(151, 172, 172, 0.8);
+} */
+
+.unread-notification {
+  background-color: rgba(226, 240, 254, 0.4);
+}

@@ -4,7 +4,7 @@ import TimeAgo from '../others/TimeAgo'
 
 function NotificationExcerpt({ notification }) {
   return (
-    <div className="border p-2 notification-card">
+    <div className={`border-top p-2 notification-card ${notification.is_read?'':'unread-notification'}`}>
       <a href={notification.link}>
         <div>
           <h6>{notification.title}</h6><div className='float-right small-date'><TimeAgo timestamp={notification.created_at}/></div>
