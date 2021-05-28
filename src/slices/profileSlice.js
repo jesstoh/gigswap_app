@@ -7,14 +7,34 @@ const initialState = {
   status: 'idle',
   error: null,
   edit: false,
+  editStatus: 'idle',
+  editError: null
 };
 
+// Fetching profile of talent
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
   async (_, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
         `${process.env.REACT_APP_API_URL}/api/profile/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+// Create profile
+export const createProfile = createAsyncThunk(
+  'profile/createProfile',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/profile/`,
+        data
       );
       return response.data;
     } catch (err) {
@@ -45,6 +65,17 @@ const profileSlice = createSlice({
       state.status = 'failed';
       state.error = action.payload.data.detail;
     });
+    builder.addCase(createProfile.fulfilled, (state, action) => {
+      state.profile = action.payload
+      state.editStatus = 'succeeded'
+    });
+    builder.addCase(createProfile.rejected, (state, action) => {
+      state.editStatus = 'failed'
+      state.editError = action.payload.data.detail
+    })
+    builder.addCase(createProfile.pending, (state, action) => {
+      state.editStatus = 'loading'
+    })
   },
 });
 
