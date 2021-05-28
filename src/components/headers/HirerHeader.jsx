@@ -1,15 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import { FaUser, FaBell, FaComment } from 'react-icons/fa';
 import { handleLogout } from '../../utilz/authenticationUtilz';
 
 function HirerHeader() {
   const dispatch = useDispatch();
-  const username = useSelector(state => state.authentication.user.username)
+  const username = useSelector((state) => state.authentication.user.username);
+  const unreadNotification = useSelector((state) => state.notifications.unread);
 
   return (
-    <Navbar fixed='top'
+    <Navbar
+      fixed="top"
       collapseOnSelect
       expand="lg"
       bg="primary"
@@ -25,10 +27,18 @@ function HirerHeader() {
         </Nav>
         <Nav>
           <Nav.Link href="/notifications" className="mr-2 text-white">
-            <FaBell size={20} />
+            <FaBell size={23} />
+
+            <Badge
+              variant="warning"
+              pill
+              className="align-top notification-badge"
+            >
+              {unreadNotification}
+            </Badge>
           </Nav.Link>
           <Nav.Link href="#chat" className="mr-4 text-white">
-            <FaComment size={20} />
+            <FaComment size={23} />
           </Nav.Link>
           <NavDropdown
             alignRight

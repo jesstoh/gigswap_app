@@ -72,3 +72,8 @@ footer {
 .card-sm-text {
   font-size: smaller;
 }
+
+.notification-badge {
+  position: relative;
+  right: 10px;
+}
