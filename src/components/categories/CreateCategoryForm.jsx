@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { addCategory } from '../../slices/categoriesSlice.js';
+import {capitalizeWord} from '../../utilz/format'
 
 function CreateCategoryForm() {
   const dispatch = useDispatch();
@@ -12,14 +13,12 @@ function CreateCategoryForm() {
   const [name, setName] = useState('');
   const [edit, setEdit] = useState(false);
 
-  //   const schema = yup.object().shape({
-  //     name: yup.string().required(),
-  //   });
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const formatName = name[0].toUpperCase() + name.slice(1).toLowerCase();
+    const formatName = capitalizeWord(name)
     const data = { name: formatName };
+    console.log(data)
     try {
       const result = await dispatch(addCategory(data));
       unwrapResult(result);
@@ -32,21 +31,6 @@ function CreateCategoryForm() {
     }
 
   }
-
-  //   const formik = useFormik({
-  //     initialValues: {
-  //       name: '',
-  //       isSubmitted: true,
-  //     },
-  //     validationSchema: schema,
-  //     onSubmit: (values) => {
-  //       console.log(values);
-  //       handleSubmit({ name: values.name });
-  //       values.name = '';
-  //       values.isSubmitted = true;
-  //       console.log(values);
-  //     },
-  //   });
 
   let content;
 
