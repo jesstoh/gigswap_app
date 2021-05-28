@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Col } from 'react-bootstrap';
+import {useHistory} from "react-router-dom"
+import { createProfile } from '../../slices/profileSlice.js';
 
 function CreateTalentProfileForm() {
   const dispatch = useDispatch();
@@ -9,7 +11,7 @@ function CreateTalentProfileForm() {
   const subcategories = useSelector(
     (state) => state.categories.subcats.content
   );
-
+  const status = useSelector((state) => state.profile.editStatus);
   const [errorMessage, setErrorMessage] = useState(null);
   const [formValue, setFormValue] = useState({
     bio: '',
@@ -26,8 +28,18 @@ function CreateTalentProfileForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const data = {...formValue};
+    if (!data.postal_code) {
+      delete data.postal_code
+    }
+    try {
+      const result = await dispatch(createProfile(data));
+      unwrapResult(result);
+    } catch (err) {
+      console.log(err);
+      setErrorMessage(err.data.detail);
+    }
     // console.log(formValue);
-
   }
 
   function handleChange(e) {
