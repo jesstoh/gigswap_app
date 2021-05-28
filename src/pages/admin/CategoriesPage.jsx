@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import CreateCategoryForm from '../../components/categories/CreateCategoryForm';
 
-function CategoriesList() {
+function CategoriesPage() {
   return (
     <Container className='mt-4'>
       <Row>
@@ -19,4 +19,4 @@ function CategoriesList() {
   );
 }
 
-export default CategoriesList;
+export default CategoriesPage;
