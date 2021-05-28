@@ -1,18 +1,19 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import CreateCategoryForm from '../../components/categories/CreateCategoryForm';
-import CategoriesList from '../../components/categories/CategoriesList'
+import CreateSubcategoryForm from '../../components/categories/CreateSubcategoryForm';
+import CategoriesList from '../../components/categories/CategoriesList';
 
 function CategoriesPage() {
   return (
-    <Container className='mt-4'>
+    <Container className="mt-4">
       <Row>
-        <Col md="5">
+        <Col md="5" className='mx-3'>
           <CreateCategoryForm />
-          <CategoriesList/>
+          <CategoriesList />
         </Col>
-        <Col>
-          <div>Create Subcategry</div>
+        <Col className='mx-3'>
+          <CreateSubcategoryForm />
           <div>Subcategry List</div>
         </Col>
       </Row>
