@@ -4,6 +4,7 @@ import gigsReducer from '../slices/gigsSlice';
 import profileReducer from '../slices/profileSlice';
 import categoriesReducer from '../slices/categoriesSlice';
 import notificationsReducer from '../slices/notificationsSlice';
+import favouritesReducer from '../slices/favouritesSlicer';
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     profile: profileReducer,
     categories: categoriesReducer,
     notifications: notificationsReducer,
+    favourites: favouritesReducer,
   },
 });
