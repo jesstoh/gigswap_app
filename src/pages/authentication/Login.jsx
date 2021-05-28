@@ -68,7 +68,7 @@ function Login() {
                 name="username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
-                minLength={6}
+                minLength={5}
               />
             </Form.Group>
             <Form.Group>
