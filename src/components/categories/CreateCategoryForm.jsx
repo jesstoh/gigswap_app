@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { addCategory } from '../../slices/categoriesSlice.js';
-import {capitalizeWord} from '../../utilz/format'
+import { capitalizeWord } from '../../utilz/format';
 
 function CreateCategoryForm() {
   const dispatch = useDispatch();
@@ -13,23 +13,27 @@ function CreateCategoryForm() {
   const [name, setName] = useState('');
   const [edit, setEdit] = useState(false);
 
-
   async function handleSubmit(e) {
     e.preventDefault();
-    const formatName = capitalizeWord(name)
+    const formatName = capitalizeWord(name);
     const data = { name: formatName };
-    console.log(data)
+    console.log(data);
     try {
       const result = await dispatch(addCategory(data));
       unwrapResult(result);
     } catch (err) {
       console.log(err);
       setErrorMessage(Object.values(err.data)[0][0]);
-    } finally{
-        setName('')
-        setEdit(false)
+    } finally {
+      setName('');
+      setEdit(false);
     }
+  }
 
+  function handleCancel(e){
+      e.preventDefault()
+      setEdit(false)
+      setName('')
   }
 
   let content;
@@ -60,7 +64,8 @@ function CreateCategoryForm() {
         </Form.Group>
 
         <div className="text-center mt-3">
-          <Button variant="primary" type="submit">
+          <Button variant="outline-primary" className='mr-2' onClick={handleCancel}>Cancel</Button>
+          <Button variant="primary" className='px-4' type="submit">
             Add
           </Button>
         </div>
