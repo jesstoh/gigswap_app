@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import { capitalizeWord } from '../../utilz/format';
 import { addSubcategory } from '../../slices/categoriesSlice.js';
 
@@ -33,44 +33,65 @@ function CreateSubcategoryForm() {
     } finally {
       setFormValue({ name: '', category: '' })
     }
-    console.log(formValue);
+    // console.log(formValue);
   }
 
+  let content;
+
+  // Conditional rendering form based on state of edit
+  if (!edit) {
+    content = (
+      <Button
+        onClick={() => {
+          setEdit(true);
+          setErrorMessage(null);
+        }}
+      >
+        Add category
+      </Button>
+    );
+    } else {
+        content = <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Subcategory Name</Form.Label>
+          <Form.Control
+            type="text"
+            required
+            name="name"
+            value={formValue.name}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            as="select"
+            name="category"
+            value={formValue.category}
+            required
+            onChange={handleChange}
+          >
+            <option value="">Please select a category</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+        <div className="text-center mt-3">
+          <Button variant="primary" className="px-4" type="submit">
+            Add
+          </Button>
+        </div>
+      </Form>
+    }
+
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Subcategory Name</Form.Label>
-        <Form.Control
-          type="text"
-          required
-          name="name"
-          value={formValue.name}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="category"
-          value={formValue.category}
-          required
-          onChange={handleChange}
-        >
-          <option value="">Please select a category</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
-      <div className="text-center mt-3">
-        <Button variant="primary" className="px-4" type="submit">
-          Add
-        </Button>
-      </div>
-    </Form>
+    <Container>
+        {content}
+    </Container>
   );
 }
 
