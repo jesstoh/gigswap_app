@@ -37,6 +37,22 @@ export const addCategory = createAsyncThunk(
   }
 );
 
+export const addSubcategory = createAsyncThunk(
+  'categories/addSubcategory',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/categories/sub/create/`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 export const fetchSubcats = createAsyncThunk(
   'categories/fetchSubcats',
   async (_, { rejectWithValue }) => {
@@ -80,8 +96,11 @@ const categoriesSlice = createSlice({
       state.subcats.error = action.payload.data.detail;
     });
     builder.addCase(addCategory.fulfilled, (state, action) => {
-        state.subcats.content.push(action.payload);
-      });
+      state.cats.content.push(action.payload);
+    });
+    builder.addCase(addSubcategory.fulfilled, (state, action) => {
+      state.subcats.content.push(action.payload);
+    });
   },
 });
 
