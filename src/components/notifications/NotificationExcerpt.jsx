@@ -4,7 +4,7 @@ import Axios from '../../utilz/Axios';
 import TimeAgo from '../others/TimeAgo';
 import { fetchNotifications } from '../../slices/notificationsSlice';
 
-function NotificationExcerpt({ notification }) {
+let NotificationExcerpt = ({ notification }) => {
   const dispatch = useDispatch();
   // Function to call backend api to mark notification as read
   async function readNotification() {
@@ -50,5 +50,8 @@ function NotificationExcerpt({ notification }) {
     // </Card>
   );
 }
+
+// Only re-rendering if props changes
+// NotificationExcerpt = React.memo(NotificationExcerpt)
 
 export default NotificationExcerpt;

@@ -15,7 +15,7 @@ function NotificationsPage() {
     try {
       const response = await Axios.put(
         `${process.env.REACT_APP_API_URL}/api/notifications/read/`,
-        { all: true }
+        { "all": true }
       );
       dispatch(fetchNotifications());
     } catch (err) {
@@ -46,7 +46,7 @@ function NotificationsPage() {
 
   return (
     <Container className="mt-5 p-2">
-      <Row> <Button onClick={readAllNotifications} variant='light' className='px-3'>Read All</Button></Row>
+      <Row className='mb-3'> <Button onClick={readAllNotifications} variant='light' className='px-3'>Read All</Button></Row>
       <Row>
         <Col
           md={{ span: 8, offset: 2 }}

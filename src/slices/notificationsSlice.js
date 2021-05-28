@@ -23,6 +23,24 @@ export const fetchNotifications = createAsyncThunk(
   }
 );
 
+// const readNotification = createAsyncThunk(
+//   'notifications/readNotification',
+//   async (data, { rejectWithValue }) => {
+//     try {
+//       // Pass in id of notification to be read
+//       const response = await Axios.put(
+//         `${process.env.REACT_APP_API_URL}/api/notifications/read/`,
+//         data
+//       );
+//       // if read successfully
+//       return { message: response.data.message, read_ids: data.notification_id };
+//     } catch (error) {
+//       const { data, status } = error.response;
+//       return rejectWithValue({ data, status });
+//     }
+//   }
+// );
+
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -40,6 +58,14 @@ const notificationsSlice = createSlice({
       state.status = 'failed';
       state.error = action.payload.data;
     });
+    // builder.addCase(readNotification.fulfilled, (state, action) => {
+    //   const { read_ids } = action.payload;
+    //   state.notifications.forEach((notification) => {
+    //     if (read_ids.includes(notification.id)) {
+    //       notification.is_read = true;
+    //     }
+    //   });
+    // });
   },
 });
 
