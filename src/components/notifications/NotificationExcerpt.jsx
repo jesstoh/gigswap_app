@@ -36,7 +36,7 @@ let NotificationExcerpt = ({ notification }) => {
           <h6 className='d-inline-block'>{notification.title}</h6>
           
           <span className='float-right text-muted'><FaEllipsisV /></span><br/>
-          <span className="text-muted" style={{ 'font-size': 'smaller' }}>
+          <span className="text-muted" style={{ 'fontSize': 'smaller' }}>
             {notification.message}
           </span>
           <div className="float-right small-date">
