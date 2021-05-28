@@ -20,7 +20,7 @@ function CreateProfilePage() {
     content = <CreateTalentProfileForm />;
   }
 
-  return <Container className='mt-4'>{content}</Container>;
+  return <Container className="mt-4">{content}</Container>;
 }
 
 export default CreateProfilePage;

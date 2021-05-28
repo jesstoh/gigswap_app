@@ -71,6 +71,9 @@ const authenticationSlice = createSlice({
     logout(state, action) {
       return { ...initialState, status: 'failed' };
     },
+    setProfileComplete(state, action) {
+      state.isProfileComplete = true;
+    },
   },
 
   extraReducers: (builder) => {
@@ -110,4 +113,4 @@ const authenticationSlice = createSlice({
 
 export default authenticationSlice.reducer;
 
-export const { setFailedStatus, logout } = authenticationSlice.actions;
+export const { setFailedStatus, logout, setProfileComplete } = authenticationSlice.actions;
