@@ -42,7 +42,7 @@ import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
 import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
-import {fetchCategories} from './slices/categoriesSlice'
+import {fetchCategories, fetchSubcats} from './slices/categoriesSlice'
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +61,7 @@ function App() {
   // Fetch categories details if user is login
   if (status ==='succeeded' && isAuthenticated) {
     dispatch(fetchCategories())
+    dispatch(fetchSubcats())
   }
 
   return (
