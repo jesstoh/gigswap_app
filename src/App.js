@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import CategoriesList from './pages/admin/CategoriesList';
+import CategoriesPage from './pages/admin/CategoriesPage';
 import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
 import AdminUserList from './pages/admin/AdminUserList';
@@ -42,9 +42,11 @@ import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
 import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
+import {fetchCategories} from './slices/categoriesSlice'
 
 function App() {
   const dispatch = useDispatch();
+  const {isAuthenticated, status }= useSelector(state => state.authentication)
 
   useEffect(() => {
     if (localStorage.access) {
@@ -53,7 +55,13 @@ function App() {
     } else {
       dispatch(setFailedStatus());
     }
+
   }, [dispatch]);
+
+  // Fetch categories details if user is login
+  if (status ==='succeeded' && isAuthenticated) {
+    dispatch(fetchCategories())
+  }
 
   return (
     <Router>
@@ -74,7 +82,7 @@ function App() {
           <AdminRoute
             exact
             path="/admin/categories"
-            component={CategoriesList}
+            component={CategoriesPage}
           />
           <AdminRoute
             exact
