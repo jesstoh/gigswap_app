@@ -1,16 +1,27 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Col } from 'react-bootstrap';
+import TimeAgo from '../others/TimeAgo'
 
 function NotificationExcerpt({ notification }) {
   return (
-    <Card>
+    <div className="border p-2 notification-card">
       <a href={notification.link}>
-        <Card.Body>
-          <Card.Title>{notification.title}</Card.Title>
-          <Card.Text>{notification.message}</Card.Text>
-        </Card.Body>
+        <div>
+          <h6>{notification.title}</h6><div className='float-right small-date'><TimeAgo timestamp={notification.created_at}/></div>
+          <span className="text-muted" style={{ 'font-size': 'smaller' }}>
+            {notification.message}
+          </span>
+        </div>
       </a>
-    </Card>
+    </div>
+    // <Card>
+    //   <a >
+    //     <Card.Body>
+    //       <Card.Title>{notification.title}</Card.Title>
+    //       <Card.Text>{notification.message}</Card.Text>
+    //     </Card.Body>
+    //   </a>
+    // </Card>
   );
 }
 

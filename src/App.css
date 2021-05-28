@@ -59,12 +59,12 @@ footer {
   font-size: smaller;
 }
 
-.gig-card a {
+.gig-card a, .notification-card a {
   text-decoration-style: none;
   color: black
 }
 
-.gig-card a:hover{
+.gig-card a:hover, .notification-card a:hover{
   text-decoration: none;
   color: inherit;
 }
@@ -76,4 +76,8 @@ footer {
 .notification-badge {
   position: relative;
   right: 10px;
+}
+
+.small-date {
+  font-size: x-small;
 }
