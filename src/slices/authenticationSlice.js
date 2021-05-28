@@ -76,7 +76,7 @@ const authenticationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       console.log(action.payload);
-      return { ...action.payload, status: 'success', error: null };
+      return { ...action.payload, status: 'succeeded', error: null };
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
       state.status = 'failed';
@@ -89,7 +89,7 @@ const authenticationSlice = createSlice({
       state.user.username = user.username;
       state.user.isProfileComplete = user.is_profile_complete;
       state.user.id = user.id;
-      state.status = 'success';
+      state.status = 'succeeded';
     });
     builder.addCase(register.fulfilled, (state, action) => {
       const { user } = action.payload;
@@ -98,7 +98,7 @@ const authenticationSlice = createSlice({
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
       state.user.id = user.id;
-      state.status = 'success';
+      state.status = 'succeeded';
     });
     builder.addCase(register.rejected, (state, action) => {
       //Only take first error data
