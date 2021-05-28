@@ -23,7 +23,6 @@ export const fetchNotifications = createAsyncThunk(
   }
 );
 
-
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -31,7 +30,7 @@ const notificationsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchNotifications.fulfilled, (state, action) => {
       state.notifications = action.payload;
-      state.unread = action.payload.filter(notice => !notice.is_read).length
+      state.unread = action.payload.filter((notice) => !notice.is_read).length;
       state.status = 'succeeded';
     });
     builder.addCase(fetchNotifications.pending, (state, action) => {

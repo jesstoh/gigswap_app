@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Card, Col } from 'react-bootstrap';
 import Axios from '../../utilz/Axios';
 import TimeAgo from '../others/TimeAgo';
 import { fetchNotifications } from '../../slices/notificationsSlice';
