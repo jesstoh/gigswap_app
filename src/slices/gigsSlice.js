@@ -70,10 +70,29 @@ export const addGig = createAsyncThunk(
   }
 );
 
+export const editGig = createAsyncThunk(
+  'gigs/editGig',
+  async ({data, id}, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${id}/`, data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleGigEdit(state,action) {
+      state.activeGig.edit = !state.activeGig.edit
+    }
+  },
   extraReducers: (builder) => {
     // Update gigs state when fetchGigs success
     builder.addCase(fetchGigs.fulfilled, (state, action) => {
@@ -129,7 +148,21 @@ const gigsSlice = createSlice({
       state.error = Object.values(action.payload.data)[0][0];
       state.errorCode = action.payload.status;
     });
+    builder.addCase(editGig.fulfilled, (state, action) => {
+      state.activeGig.gig = action.payload;
+      state.activeGig.status = 'succeeded';
+      state.activeGig.edit = false
+    });
+    builder.addCase(editGig.pending, (state, action) => {
+      state.activeGig.status = 'loading';
+    });
+    builder.addCase(editGig.rejected, (state, action) => {
+      state.activeGig.status = 'failed';
+      state.activeGig.error = Object.values(action.payload.data)[0][0];
+    });
   },
 });
 
 export default gigsSlice.reducer;
+
+export const {toggleGigEdit} = gigsSlice.actions;
