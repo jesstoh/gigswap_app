@@ -44,6 +44,23 @@ export const createProfile = createAsyncThunk(
   }
 );
 
+// Edit profile
+export const editProfile = createAsyncThunk(
+  'profile/editProfile',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/profile/`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 // Create slice for keeping profile of login in talent & hirer
 const profileSlice = createSlice({
   name: 'profile',
@@ -74,6 +91,18 @@ const profileSlice = createSlice({
       state.editError = action.payload.data.detail
     })
     builder.addCase(createProfile.pending, (state, action) => {
+      state.editStatus = 'loading'
+    })
+    builder.addCase(editProfile.fulfilled, (state, action) => {
+      state.profile = action.payload
+      state.edit = false
+      state.editStatus = 'succeeded'
+    });
+    builder.addCase(editProfile.rejected, (state, action) => {
+      state.editStatus = 'failed'
+      state.editError = action.payload.data.detail
+    })
+    builder.addCase(editProfile.pending, (state, action) => {
       state.editStatus = 'loading'
     })
   },
