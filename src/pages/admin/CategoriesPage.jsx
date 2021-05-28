@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import CreateCategoryForm from '../../components/categories/CreateCategoryForm';
 import CreateSubcategoryForm from '../../components/categories/CreateSubcategoryForm';
 import CategoriesList from '../../components/categories/CategoriesList';
+import SubcategoriesList from '../../components/categories/SubcategoriesList';
 
 function CategoriesPage() {
   return (
@@ -14,7 +15,7 @@ function CategoriesPage() {
         </Col>
         <Col className='mx-3'>
           <CreateSubcategoryForm />
-          <div>Subcategry List</div>
+          <SubcategoriesList />
         </Col>
       </Row>
     </Container>
