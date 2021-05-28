@@ -30,7 +30,7 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
-import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx'
+import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx';
 import HeaderContainer from './components/headers/HeaderContainer';
 import Footer from './components/others/Footer';
 
@@ -42,11 +42,14 @@ import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
 import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
-import {fetchCategories, fetchSubcats} from './slices/categoriesSlice'
+import { fetchCategories, fetchSubcats } from './slices/categoriesSlice';
+import { fetchNotifications } from './slices/notificationsSlice';
 
 function App() {
   const dispatch = useDispatch();
-  const {isAuthenticated, status }= useSelector(state => state.authentication)
+  const { isAuthenticated, status, isAdmin } = useSelector(
+    (state) => state.authentication
+  );
 
   useEffect(() => {
     if (localStorage.access) {
@@ -55,13 +58,17 @@ function App() {
     } else {
       dispatch(setFailedStatus());
     }
-
   }, [dispatch]);
 
   // Fetch categories details if user is login
-  if (status ==='succeeded' && isAuthenticated) {
-    dispatch(fetchCategories())
-    dispatch(fetchSubcats())
+  if (status === 'succeeded' && isAuthenticated) {
+    dispatch(fetchCategories());
+    dispatch(fetchSubcats());
+
+    // Only fetch notifications if current user is not admin
+    if (!isAdmin) {
+      dispatch(fetchNotifications());
+    }
   }
 
   return (
@@ -122,7 +129,11 @@ function App() {
 
           {/* Routes for log in hirer or talent */}
           <SharedRoute exact path="/profile" component={ProfilePage} />
-          <SharedRoute exact path="/profile/create" component={CreateProfilePage} />
+          <SharedRoute
+            exact
+            path="/profile/create"
+            component={CreateProfilePage}
+          />
           <SharedRoute exact path="/gigs/:id" component={GigDetails} />
           <SharedRoute exact path="/talents/:id" component={TalentDetails} />
           <SharedRoute exact path="/hirers/:id" component={HirerDetail} />
