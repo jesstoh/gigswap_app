@@ -55,6 +55,21 @@ export const fetchSingleGig = createAsyncThunk(
   }
 );
 
+export const addGig = createAsyncThunk(
+  'gigs/addGig',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/gigs/`, data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
@@ -100,6 +115,18 @@ const gigsSlice = createSlice({
       state.status = 'failed';
       // Change it to other content later
       state.error = action.payload.data.detail;
+      state.errorCode = action.payload.status;
+    });
+    builder.addCase(addGig.fulfilled, (state, action) => {
+      state.activeGig.gig = action.payload;
+      state.status = 'succeeded';
+    });
+    builder.addCase(addGig.pending, (state, action) => {
+      state.status = 'loading';
+    });
+    builder.addCase(addGig.rejected, (state, action) => {
+      state.status = 'failed';
+      state.error = Object.values(action.payload.data)[0][0];
       state.errorCode = action.payload.status;
     });
   },
