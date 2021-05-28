@@ -19,18 +19,23 @@ export const fetchGigs = createAsyncThunk(
       return response.data;
     } catch (err) {
       const { data, status } = err.response;
-      return rejectWithValue({data, status})
+      return rejectWithValue({ data, status });
     }
   }
 );
 
 export const fetchRecommendedGigs = createAsyncThunk(
   'gigs/fetchRecommendedGigs',
-  async () => {
-    const response = await Axios.get(
-      `${process.env.REACT_APP_API_URL}/api/gigs/recommended/`
-    );
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/gigs/recommended/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
   }
 );
 
@@ -94,8 +99,8 @@ const gigsSlice = createSlice({
     builder.addCase(fetchRecommendedGigs.rejected, (state, action) => {
       state.status = 'failed';
       // Change it to other content later
-      state.error = action.payload.data.detail
-      state.errorCode = action.payload.status
+      state.error = action.payload.data.detail;
+      state.errorCode = action.payload.status;
     });
   },
 });

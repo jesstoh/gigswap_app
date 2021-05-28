@@ -129,6 +129,7 @@ function App() {
 
           {/* Routes for log in hirer or talent */}
           <SharedRoute exact path="/profile" component={ProfilePage} />
+          <SharedRoute exact path="/profile/create" component={CreateProfilePage} />
           <SharedRoute exact path="/gigs/:gigId" component={GigDetails} />
           <SharedRoute exact path="/talents/:id" component={TalentDetails} />
           <SharedRoute exact path="/hirers/:id" component={HirerDetail} />
