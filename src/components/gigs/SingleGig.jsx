@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import TalentGigButtons from './TalentGigButtons'
+import {toggleGigEdit} from '../../slices/gigsSlice'
 
 function SingleGig() {
+  const dispatch = useDispatch()
   const { gig } = useSelector((state) => state.gigs.activeGig);
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
@@ -80,6 +82,7 @@ function SingleGig() {
       <Row className='button-container'>
           <TalentGigButtons/>
       </Row>
+      <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button>
     </Container>
   );
 }

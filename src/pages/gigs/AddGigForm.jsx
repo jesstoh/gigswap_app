@@ -259,7 +259,7 @@ function AddGigForm() {
 
         <div className="text-center mt-3">
           <Button variant="primary" className="px-4" type="submit">
-            Save
+            Submit
           </Button>
         </div>
       </Form>

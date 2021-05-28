@@ -10,7 +10,7 @@ function GigDetails({ match }) {
   const { gig, status, error, edit } = useSelector(
     (state) => state.gigs.activeGig
   );
-  const {user} = useSelector(state => state.authentication.user)
+  const {user} = useSelector(state => state.authentication)
 
   const { gigId } = match.params;
 
@@ -30,7 +30,7 @@ function GigDetails({ match }) {
   } else if (status === 'succeeded') {
 
     // Only gig owner can view gig edit form
-    if (edit && user.id === gig.poster.id) {
+    if (edit && user.id === gig.poster) {
       content = <EditGigForm />;
     } else {
       content = <SingleGig />;
