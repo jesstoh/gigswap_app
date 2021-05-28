@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
+import { addCategory } from '../../slices/categoriesSlice.js';
 
 function CreateCategoryForm() {
+  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const schema = yup.object().shape({
     name: yup.string().required(),
   });
+
+  async function handleSubmit(data) {
+    try {
+      const result = await dispatch(addCategory(data));
+      unwrapResult(result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -14,7 +29,13 @@ function CreateCategoryForm() {
       isSubmitted: false,
     },
     validationSchema: schema,
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      console.log(values);
+      handleSubmit({ name: values.name });
+      values.name = ''
+      values.isSubmitted = true;
+      console.log(values);
+    },
   });
 
   return (

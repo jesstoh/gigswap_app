@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import Axios from '../utilz/Axios';
 
 const initialState = {
-  cats: { content: null, status: 'idle', error: null },
-  subcats: { content: null, status: 'idle', error: null },
+  cats: { content: [], status: 'idle', error: null },
+  subcats: { content: [], status: 'idle', error: null },
 };
 
 export const fetchCategories = createAsyncThunk(
