@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { addCategory } from '../../slices/categoriesSlice.js';
 
 function CreateCategoryForm() {
@@ -20,6 +20,7 @@ function CreateCategoryForm() {
       unwrapResult(result);
     } catch (err) {
       console.log(err);
+      setErrorMessage(Object.values(err.data)[0][0]);
     }
   }
 
@@ -32,7 +33,7 @@ function CreateCategoryForm() {
     onSubmit: (values) => {
       console.log(values);
       handleSubmit({ name: values.name });
-      values.name = ''
+      values.name = '';
       values.isSubmitted = true;
       console.log(values);
     },
@@ -40,7 +41,16 @@ function CreateCategoryForm() {
 
   return (
     <Container>
-      {/* <h4 className="text-center">Add New Category</h4> */}
+      {errorMessage && (
+        <Alert
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMessage(null)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
+
       <Form
         onSubmit={(e) => {
           e.preventDefault();
