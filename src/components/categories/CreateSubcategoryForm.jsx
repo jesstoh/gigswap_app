@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { capitalizeWord } from '../../utilz/format';
 import { addSubcategory } from '../../slices/categoriesSlice.js';
 
@@ -23,7 +23,7 @@ function CreateSubcategoryForm() {
     e.preventDefault();
     const formatName = capitalizeWord(formValue.name);
     const data = { name: formatName, category: formValue.category };
-    console.log(data)
+    console.log(data);
     try {
       const result = await dispatch(addSubcategory(data));
       unwrapResult(result);
@@ -31,7 +31,7 @@ function CreateSubcategoryForm() {
       console.log(err);
       setErrorMessage(err.data.detail);
     } finally {
-      setFormValue({ name: '', category: '' })
+      setFormValue({ name: '', category: '' });
     }
     // console.log(formValue);
   }
@@ -50,8 +50,9 @@ function CreateSubcategoryForm() {
         Add category
       </Button>
     );
-    } else {
-        content = <Form onSubmit={handleSubmit}>
+  } else {
+    content = (
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Subcategory Name</Form.Label>
           <Form.Control
@@ -85,12 +86,21 @@ function CreateSubcategoryForm() {
           </Button>
         </div>
       </Form>
-    }
-
+    );
+  }
 
   return (
     <Container>
-        {content}
+      {errorMessage && (
+        <Alert
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMessage(null)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
+      {content}
     </Container>
   );
 }
