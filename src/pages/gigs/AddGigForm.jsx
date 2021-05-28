@@ -2,15 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Col, Alert, Container } from 'react-bootstrap';
-import { parseISO, formatDistanceToNow, format } from 'date-fns';
+import {useHistory} from "react-router-dom"
+import { format } from 'date-fns';
+import { addGig } from '../../slices/gigsSlice.js';
 
 function AddGigForm() {
   const dispatch = useDispatch();
+  const history = useHistory()
   // Get all subcategories as options
   const subcategories = useSelector(
     (state) => state.categories.subcats.content
   );
   const status = useSelector((state) => state.gigs.status);
+  const error = useSelector((state) => state.gigs.error);
+  const createdGig = useSelector(state => state.gigs.activeGig.gig)
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [formValue, setFormValue] = useState({
     title: '',
@@ -29,11 +35,24 @@ function AddGigForm() {
     contact: '',
   });
   const min_date = format(new Date(), 'yyyy-MM-dd');
-  console.log(min_date);
   const duration_unit_options = ['hour', 'day', 'week', 'month'];
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const data = { ...formValue };
+    // Delete postal code if empty value
+    if (!data.postal_code) {
+      delete data.postal_code;
+    }
+    data.expired_at = new Date(data.expired_at)
+    console.log(data)
+    try {
+      const result = await dispatch(addGig(data));
+      unwrapResult(result);
+    } catch (err) {
+      console.log(err);
+      setErrorMessage(error);
+    }
   }
 
   function handleChange(e) {
@@ -55,6 +74,13 @@ function AddGigForm() {
     setFormValue({ ...formValue, [e.target.name]: values });
     // console.log(values)
   }
+
+  useEffect(() => {
+    if(status === 'succeeded' && createdGig) {
+      console.log(createdGig)
+      history.push(`/gigs/${createdGig.id}`)
+    }
+  }, [status])
 
   return (
     <Container className="mt-4">
