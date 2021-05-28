@@ -61,9 +61,15 @@ function EditTalentProfileForm() {
     setFormValue({ ...formValue, [e.target.name]: values });
   }
 
-  useEffect(() => {
-    console.log(formValue);
-  }, [formValue]);
+  function handleCancel(e) {
+    e.preventDefault();
+    dispatch(toggleProfileEdit())
+  }
+
+//   //testing purpose
+//   useEffect(() => {
+//     console.log(formValue);
+//   }, [formValue]);
 
   return (
     <Container>
@@ -192,6 +198,13 @@ function EditTalentProfileForm() {
         <Form.Text className="text-muted">* Required Field</Form.Text>
 
         <div className="text-center mt-3">
+        <Button
+            variant="outline-primary"
+            className="mr-2"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
           <Button variant="primary" className="px-4" type="submit">
             Save
           </Button>
