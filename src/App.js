@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import CategoriesList from './pages/admin/CategoriesList';
+import CategoriesPage from './pages/admin/CategoriesPage';
 import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
 import AdminUserList from './pages/admin/AdminUserList';
@@ -30,6 +30,7 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFav from './pages/talents/TalentFav';
 import Talents from './pages/talents/Talents';
+import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx';
 import HeaderContainer from './components/headers/HeaderContainer';
 import Footer from './components/others/Footer';
 
@@ -41,9 +42,14 @@ import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 
 import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
+import { fetchCategories, fetchSubcats } from './slices/categoriesSlice';
+import { fetchNotifications } from './slices/notificationsSlice';
 
 function App() {
   const dispatch = useDispatch();
+  const { isAuthenticated, status, isAdmin } = useSelector(
+    (state) => state.authentication
+  );
 
   useEffect(() => {
     if (localStorage.access) {
@@ -53,6 +59,17 @@ function App() {
       dispatch(setFailedStatus());
     }
   }, [dispatch]);
+
+  // Fetch categories details if user is login
+  if (status === 'succeeded' && isAuthenticated) {
+    dispatch(fetchCategories());
+    dispatch(fetchSubcats());
+
+    // Only fetch notifications if current user is not admin
+    if (!isAdmin) {
+      dispatch(fetchNotifications());
+    }
+  }
 
   return (
     <Router>
@@ -73,7 +90,7 @@ function App() {
           <AdminRoute
             exact
             path="/admin/categories"
-            component={CategoriesList}
+            component={CategoriesPage}
           />
           <AdminRoute
             exact

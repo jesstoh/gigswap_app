@@ -59,16 +59,33 @@ footer {
   font-size: smaller;
 }
 
-.gig-card a {
+.gig-card a, .notification-card a {
   text-decoration-style: none;
   color: black
 }
 
-.gig-card a:hover{
+.gig-card a:hover, .notification-card a:hover{
   text-decoration: none;
   color: inherit;
 }
 
 .card-sm-text {
   font-size: smaller;
+}
+
+.notification-badge {
+  position: relative;
+  right: 10px;
+}
+
+.small-date {
+  font-size: x-small;
+}
+
+/* .notification-card {
+  border-top: 0.5px solid rgba(151, 172, 172, 0.8);
+} */
+
+.unread-notification {
+  background-color: rgba(226, 240, 254, 0.4);
 }

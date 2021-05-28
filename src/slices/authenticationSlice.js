@@ -5,7 +5,8 @@ const initialState = {
   isAuthenticated: false,
   isHirer: false,
   isAdmin: false,
-  user: { username: '' },
+  isProfileComplete: false,
+  user: { username: '', id: '' },
   status: 'idle',
   error: null,
 };
@@ -70,15 +71,18 @@ const authenticationSlice = createSlice({
     logout(state, action) {
       return { ...initialState, status: 'failed' };
     },
+    setProfileComplete(state, action) {
+      state.isProfileComplete = true;
+    },
   },
 
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       console.log(action.payload);
-      return { ...action.payload, status: 'success', error: null };
+      return { ...action.payload, status: 'succeeded', error: null };
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
-      state.status = 'failed'
+      state.status = 'failed';
     });
     builder.addCase(login.fulfilled, (state, action) => {
       const { user } = action.payload;
@@ -86,7 +90,9 @@ const authenticationSlice = createSlice({
       state.isHirer = user.is_hirer;
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
-      state.status = 'success';
+      state.user.isProfileComplete = user.is_profile_complete;
+      state.user.id = user.id;
+      state.status = 'succeeded';
     });
     builder.addCase(register.fulfilled, (state, action) => {
       const { user } = action.payload;
@@ -94,7 +100,8 @@ const authenticationSlice = createSlice({
       state.isHirer = user.is_hirer;
       state.isAdmin = user.is_staff;
       state.user.username = user.username;
-      state.status = 'success';
+      state.user.id = user.id;
+      state.status = 'succeeded';
     });
     builder.addCase(register.rejected, (state, action) => {
       //Only take first error data
@@ -106,4 +113,4 @@ const authenticationSlice = createSlice({
 
 export default authenticationSlice.reducer;
 
-export const { setFailedStatus, logout } = authenticationSlice.actions;
+export const { setFailedStatus, logout, setProfileComplete } = authenticationSlice.actions;
