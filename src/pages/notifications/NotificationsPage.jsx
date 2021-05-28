@@ -15,7 +15,7 @@ function NotificationsPage() {
     try {
       const response = await Axios.put(
         `${process.env.REACT_APP_API_URL}/api/notifications/read/`,
-        { "all": true }
+        { all: true }
       );
       dispatch(fetchNotifications());
     } catch (err) {
@@ -32,21 +32,30 @@ function NotificationsPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = (
-      <div>
-        {notifications.map((notification) => (
-          <NotificationExcerpt
-            key={notification.id}
-            notification={notification}
-          />
-        ))}
-      </div>
-    );
+    if (!notifications.length) {
+      content = <p className='text-center'>No notification</p>;
+    } else {
+      content = (
+        <div>
+          {notifications.map((notification) => (
+            <NotificationExcerpt
+              key={notification.id}
+              notification={notification}
+            />
+          ))}
+        </div>
+      );
+    }
   }
 
   return (
     <Container className="mt-5 p-2">
-      <Row className='mb-3'> <Button onClick={readAllNotifications} variant='light' className='px-3'>Read All</Button></Row>
+      <Row className="mb-3">
+        {' '}
+        <Button onClick={readAllNotifications} variant="light" className="px-3">
+          Read All
+        </Button>
+      </Row>
       <Row>
         <Col
           md={{ span: 8, offset: 2 }}
