@@ -32,8 +32,15 @@ function CreateSubcategoryForm() {
       setErrorMessage(err.data.detail);
     } finally {
       setFormValue({ name: '', category: '' });
+      setEdit(false);
     }
     // console.log(formValue);
+  }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    setEdit(false);
+    setFormValue({ name: '', category: '' });
   }
 
   let content;
@@ -81,6 +88,13 @@ function CreateSubcategoryForm() {
           </Form.Control>
         </Form.Group>
         <div className="text-center mt-3">
+          <Button
+            variant="outline-primary"
+            className="mr-2"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
           <Button variant="primary" className="px-4" type="submit">
             Add
           </Button>
