@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Col, Alert, Container } from 'react-bootstrap';
-import { setProfileComplete } from '../../slices/authenticationSlice';
 import { toggleProfileEdit, editProfile } from '../../slices/profileSlice';
 
 function EditTalentProfileForm() {
