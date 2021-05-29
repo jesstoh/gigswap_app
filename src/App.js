@@ -28,7 +28,7 @@ import ReviewForm from './pages/reviews/ReviewForm';
 import HirerReview from './pages/reviews/HirerReview';
 import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
-import TalentFav from './pages/talents/TalentFav';
+import TalentFavPage from './pages/talents/TalentFavPage';
 import Talents from './pages/talents/Talents';
 import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx';
 import HeaderContainer from './components/headers/HeaderContainer';
@@ -125,7 +125,7 @@ function App() {
             path="/gigs/recommended"
             component={GigsRecommended}
           />
-          <TalentRoute exact path="/talent/mygigs" component={TalentFav} />
+          <TalentRoute exact path="/talent/mygigs" component={TalentFavPage} />
 
           {/* Routes for log in hirer or talent */}
           <SharedRoute exact path="/profile" component={ProfilePage} />
