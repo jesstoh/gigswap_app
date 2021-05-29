@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { fetchTalentFav } from '../../slices/favouritesSlicer.js';
+import TalentFavList  from '../../components/talents/TalentFavList'
 
-function TalentFav() {
+function TalentFavPage() {
   const dispatch = useDispatch();
-  const { fav, status, error } = useSelector((state) => state.favourites);
+  const { status, error } = useSelector((state) => state.favourites);
 
   useEffect(() => {
     dispatch(fetchTalentFav());
@@ -20,7 +21,7 @@ function TalentFav() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <div>Favorite container </div>;
+    content = <TalentFavList />;
   } else if (status === 'failed') {
     //Show error
     content = <span>{error}</span>;
@@ -30,4 +31,4 @@ function TalentFav() {
 
 }
 
-export default TalentFav;
+export default TalentFavPage;
