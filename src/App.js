@@ -21,7 +21,7 @@ import GigsRecommended from './pages/gigs/GigsRecommended';
 import GigDetails from './pages/gigs/GigDetails';
 import AddGigForm from './pages/gigs/AddGigForm';
 import HirerDetail from './pages/hirers/HirerDetails';
-import HirerFav from './pages/hirers/HirerFav';
+import HirerFavPage from './pages/hirers/HirerFavPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import ProfilePage from './pages/profiles/ProfilePage';
 import ReviewForm from './pages/reviews/ReviewForm';
@@ -116,7 +116,7 @@ function App() {
           {/* Routes for log in hires only */}
           <HirerRoute exact path="/gigs/create" component={AddGigForm} />
           <HirerRoute exact path="/talents" component={Talents} />
-          <HirerRoute exact path="/hirer/mygigs" component={HirerFav} />
+          <HirerRoute exact path="/hirer/mygigs" component={HirerFavPage} />
 
           {/* Routes for log in talents only */}
           <TalentRoute exact path="/gigs" component={Gigs} />
