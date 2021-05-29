@@ -5,6 +5,7 @@ import profileReducer from '../slices/profileSlice';
 import categoriesReducer from '../slices/categoriesSlice';
 import notificationsReducer from '../slices/notificationsSlice';
 import favouritesReducer from '../slices/favouritesSlicer';
+import talentsReducer from '../slices/talentsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     categories: categoriesReducer,
     notifications: notificationsReducer,
     favourites: favouritesReducer,
+    talents: talentsReducer,
   },
 });
