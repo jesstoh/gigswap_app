@@ -85,6 +85,22 @@ export const editGig = createAsyncThunk(
   }
 );
 
+// Fetch all gigs of login hirer
+export const fetchHirerGigs = createAsyncThunk(
+  'gigs/fetchHirerGigs',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/gigs/hirer/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
@@ -159,6 +175,18 @@ const gigsSlice = createSlice({
     builder.addCase(editGig.rejected, (state, action) => {
       state.activeGig.status = 'failed';
       state.activeGig.error = Object.values(action.payload.data)[0][0];
+    });
+    builder.addCase(fetchHirerGigs.fulfilled, (state, action) => {
+      state.gigs = action.payload;
+      state.status = 'succeeded';
+    });
+    builder.addCase(fetchHirerGigs.pending, (state, action) => {
+      state.status = 'loading';
+    });
+    // Change status to failed & set error, when fetchGigs rejected
+    builder.addCase(fetchHirerGigs.rejected, (state, action) => {
+      state.status = 'failed';
+      state.error = action.payload.data.detail;
     });
   },
 });
