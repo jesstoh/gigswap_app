@@ -6,7 +6,7 @@ function SmallTalentExcerpt({ talent }) {
     <Card className="talent-card shadow-sm  bg-white rounded">
       <a href={`/talents/${talent.user.id}`}>
         <Card.Body>
-          <Card.Title>{talent.username}</Card.Title>
+          <Card.Title>{talent.user.username}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             Review: ..... <br />
             Gigs Won: {talent.gigs_won}

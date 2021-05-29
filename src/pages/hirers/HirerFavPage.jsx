@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Spinner } from 'react-bootstrap';
+import { Container, Spinner, Tab, Row, Col, Nav } from 'react-bootstrap';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
 import HirerFavGigsList from '../../components/hirers/HirerFavGigsList';
+import HirerFavTalentsList from '../../components/hirers/HirerFavTalentsList';
 
 function HirerFavPage() {
   const dispatch = useDispatch();
@@ -21,7 +22,38 @@ function HirerFavPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <HirerFavGigsList />;
+    // content = (
+    //   <div>
+    //     <HirerFavGigsList /> <HirerFavTalentsList />
+    //   </div>
+    // );
+
+    content = (
+      <Tab.Container id="left-tabs-example" defaultActiveKey="my-gigs">
+        <Row>
+          <Col sm={2}>
+            <Nav variant="pills" className="flex-column">
+              <Nav.Item>
+                <Nav.Link eventKey="my-gigs">My Gigs</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="my-talents">Fav Talents</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Col>
+          <Col sm={10}>
+            <Tab.Content>
+              <Tab.Pane eventKey="my-gigs">
+                <HirerFavGigsList />
+              </Tab.Pane>
+              <Tab.Pane eventKey="my-talents">
+                <HirerFavTalentsList />
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
+    );
   } else if (status === 'failed') {
     //Show error
     content = <span>{error}</span>;
