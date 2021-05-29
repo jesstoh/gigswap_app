@@ -25,9 +25,9 @@ function EditTalentProfileForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     const data = { ...formValue };
-    // Delete postal code if empty value
+    // Set postal code as null if empty value
     if (!data.postal_code) {
-      delete data.postal_code;
+      data.postal_code = null
     } 
     delete data.user;
     delete data.id;

@@ -31,7 +31,7 @@ function CreateTalentProfileForm() {
     const data = { ...formValue };
     // Delete postal code if empty value
     if (!data.postal_code) {
-      delete data.postal_code;
+      data.postal_code = null
     }
     try {
       const result = await dispatch(createProfile(data));
