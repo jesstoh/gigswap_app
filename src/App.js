@@ -116,7 +116,7 @@ function App() {
           {/* Routes for log in hires only */}
           <HirerRoute exact path="/gigs/create" component={AddGigForm} />
           <HirerRoute exact path="/talents" component={Talents} />
-          <HirerRoute exact path="/hirer/mygigs" component={HirerFavPage} />
+          <HirerRoute exact path="/hirer/mypage" component={HirerFavPage} />
 
           {/* Routes for log in talents only */}
           <TalentRoute exact path="/gigs" component={Gigs} />

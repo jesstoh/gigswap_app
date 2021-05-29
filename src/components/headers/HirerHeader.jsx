@@ -23,7 +23,7 @@ function HirerHeader() {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="/talents">Talents</Nav.Link>
-          <Nav.Link href="/hirer/mygigs">My Gigs</Nav.Link>
+          <Nav.Link href="/hirer/mypage">MyWorkspace</Nav.Link>
         </Nav>
         <Nav>
           <Nav.Link href="/notifications" className="mr-2 text-white">
