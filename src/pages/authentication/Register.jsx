@@ -16,7 +16,7 @@ function Register() {
       unwrapResult(response);
     } catch (err) {
       // console.log(err)
-      setErrorMessage(Object.values(err.data)[0][0])
+      setErrorMessage(Object.values(err.data)[0][0]);
       // console.log(errorMessage)
     }
   }
@@ -24,19 +24,23 @@ function Register() {
   const schema = yup.object().shape({
     username: yup.string().required(),
     email: yup.string().required(),
+    first_name: yup.string().required(),
+    last_name: yup.string().required(),
     password: yup.string().required(),
     confirmPassword: yup.string().required(),
-    is_hirer: yup.bool()
+    is_hirer: yup.bool(),
   });
 
   const formik = useFormik({
     initialValues: {
       username: '',
       email: '',
+      first_name: '',
+      last_name: '',
       password: '',
       confirmPassword: '',
       is_hirer: false,
-      isSubmitted: false,
+      // isSubmitted: false,
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -101,6 +105,38 @@ function Register() {
               />
               {/* {formik.errors.email && formik.errors.email} */}
             </Form.Group>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  id="first_name"
+                  name="first_name"
+                  value={formik.values.first_name}
+                  onChange={formik.handleChange}
+                  minLength={1}
+                />
+                <span className="text-danger">
+                  {/* {formik.errors.username && formik.errors.username} */}
+                </span>
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  id="last_name"
+                  name="last_name"
+                  value={formik.values.last_name}
+                  onChange={formik.handleChange}
+                  minLength={1}
+                />
+                <span className="text-danger">
+                  {/* {formik.errors.username && formik.errors.username} */}
+                </span>
+              </Form.Group>
+            </Form.Row>
             <Form.Group>
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -127,7 +163,12 @@ function Register() {
               {/* {formik.errors.confirmPassword && formik.errors.confirmPassword} */}
             </Form.Group>
             <Form.Group>
-              <Form.Check type="checkbox" name="is_hirer" onChange={formik.handleChange} label="Hirer" />
+              <Form.Check
+                type="checkbox"
+                name="is_hirer"
+                onChange={formik.handleChange}
+                label="Hirer"
+              />
             </Form.Group>
             <Form.Text className="text-muted">
               Already have an account? <a href="/login">Login here</a>
