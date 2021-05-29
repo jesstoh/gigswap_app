@@ -11,19 +11,17 @@ function TalentFavList() {
     ['saved', 'Saved'],
     ['applied', 'Applied'],
     ['invited', 'invited'],
-    // ['in_progress', 'In progress'],
-    // ['not_paid', 'Pending payment'],
-    // ['completed', 'Completed'],
+    ['in_progress', 'In progress'],
+    ['not_paid', 'Pending payment'],
+    ['completed', 'Completed'],
   ];
-  console.log(fav['applied']);
-
 
   return (
     <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
       {keySelections.map(([currentKey, title]) => {
         return (
           <Tab eventKey={currentKey} title={title}>
-            {fav[currentKey].map((gig) => (
+            {!fav[currentKey].length ? <div className='text-center mt-3'>No relevant gigs</div>: fav[currentKey].map((gig) => (
               <SmallGigExcerpt gig={gig} />
             ))}
           </Tab>
