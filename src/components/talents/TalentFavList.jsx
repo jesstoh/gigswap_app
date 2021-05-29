@@ -2,24 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import { fetchTalentFav } from '../../slices/favouritesSlicer.js';
+import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
 
 function TalentFavList() {
   const fav = useSelector((state) => state.favourites.fav);
-  const [key, setKey] = useState('Saved');
+  const [key, setKey] = useState('saved');
   const keySelections = [
-    'Saved',
-    'Applied',
-    'Active',
-    'Pending payment',
-    'Completed',
+    ['saved', 'Saved'],
+    ['applied', 'Applied'],
+    ['invited', 'invited'],
+    // ['in_progress', 'In progress'],
+    // ['not_paid', 'Pending payment'],
+    // ['completed', 'Completed'],
   ];
+  console.log(fav['applied']);
+
 
   return (
     <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
-      {keySelections.map((k) => {
+      {keySelections.map(([currentKey, title]) => {
         return (
-          <Tab eventKey={k} title={k}>
-            <p>{key}</p>
+          <Tab eventKey={currentKey} title={title}>
+            {fav[currentKey].map((gig) => (
+              <SmallGigExcerpt gig={gig} />
+            ))}
           </Tab>
         );
       })}
