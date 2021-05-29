@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {  useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
-import { fetchTalentFav } from '../../slices/favouritesSlicer.js';
 import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
 
 function TalentFavList() {

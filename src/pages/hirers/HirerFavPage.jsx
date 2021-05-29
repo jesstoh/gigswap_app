@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
+import HirerFavGigsList from '../../components/hirers/HirerFavGigsList';
 
 function HirerFavPage() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function HirerFavPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <div>Hirer Fav</div>;
+    content = <HirerFavGigsList />;
   } else if (status === 'failed') {
     //Show error
     content = <span>{error}</span>;
