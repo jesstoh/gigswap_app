@@ -18,10 +18,11 @@ function EditHirerProfileForm() {
     const data = { ...formValue };
     // Delete postal code if empty value
     if (!data.postal_code) {
-      delete data.postal_code;
-      delete data.user;
-      delete data.id;
-    }
+      data.postal_code = null
+    } 
+    
+    delete data.user;
+    delete data.id;
     try {
       const result = await dispatch(editProfile(data));
       unwrapResult(result);
@@ -54,7 +55,7 @@ function EditHirerProfileForm() {
       <Form onSubmit={handleSubmit}>
         <h4 className="text-center mb-4">Your Profile</h4>
         <Form.Group>
-          <Form.Label>Company Name</Form.Label>
+          <Form.Label>Company Name*</Form.Label>
           <Form.Control
             required
             type="text"
@@ -64,8 +65,9 @@ function EditHirerProfileForm() {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Profile Photo</Form.Label>
+          <Form.Label>Profile Photo*</Form.Label>
           <Form.Control
+          required  
             type="url"
             name="image"
             value={formValue.image}
@@ -93,8 +95,9 @@ function EditHirerProfileForm() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Country</Form.Label>
+            <Form.Label>Country*</Form.Label>
             <Form.Control
+              required
               type="text"
               name="country"
               value={formValue.country}

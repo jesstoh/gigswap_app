@@ -23,7 +23,7 @@ function CreateHirerProfileForm() {
     const data = { ...formValue };
     // Delete postal code if empty value
     if (!data.postal_code) {
-      delete data.postal_code;
+      data.postal_code = null
     }
     try {
       const result = await dispatch(createProfile(data));
@@ -59,7 +59,7 @@ function CreateHirerProfileForm() {
       <Form onSubmit={handleSubmit}>
         <h4 className="text-center mb-4">Your Profile</h4>
         <Form.Group>
-          <Form.Label>Company Name</Form.Label>
+          <Form.Label>Company Name*</Form.Label>
           <Form.Control
             required
             type="text"
@@ -69,8 +69,9 @@ function CreateHirerProfileForm() {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Profile Photo</Form.Label>
+          <Form.Label>Profile Photo*</Form.Label>
           <Form.Control
+            required
             type="url"
             name="image"
             value={formValue.image}
@@ -98,8 +99,9 @@ function CreateHirerProfileForm() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Country</Form.Label>
+            <Form.Label>Country*</Form.Label>
             <Form.Control
+              required
               type="text"
               name="country"
               value={formValue.country}
