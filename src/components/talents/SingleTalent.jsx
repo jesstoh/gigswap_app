@@ -39,6 +39,7 @@ function SingleTalent() {
   //Close Modal
   function handleModalClose() {
     setModalShow(false);
+    setGigId('') // Reset gigId after modal is closed
   }
   // Open modal
   function handleModalOpen() {
@@ -51,6 +52,7 @@ function SingleTalent() {
   }
 
   let modalContent;
+  // Only display content once favourite state is loaded successfully
   if (favStatus === 'succeeded') {
     modalContent = (
       <Modal show={modalShow} onHide={handleModalClose}>
@@ -64,7 +66,7 @@ function SingleTalent() {
                 key={gig.id}
                 id={gig.id}
                 onClick={selectGig}
-                className="btn text-left"
+                className={`btn text-left ${gig.id === gigId?'bg-light':''}`}
               >
                 {gig.title}{' '}
               </ListGroup.Item>
