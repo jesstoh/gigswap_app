@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { saveTalent, unsaveTalent } from '../../slices/favouritesSlicer';
 
-
+// Buttons for hirer to save & unsave buttons
 function TalentButtons() {
   const dispatch = useDispatch();
   const { talent } = useSelector((state) => state.talents.activeTalent);

@@ -90,7 +90,7 @@ function SingleGig() {
       <Row className="button-container">
         <TalentGigButtons />
       </Row>
-      <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button>
+      {/* <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button> */}
     </Container>
   );
 }
