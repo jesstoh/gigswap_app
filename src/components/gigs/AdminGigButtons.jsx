@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 
-function HirerGigButtons() {
-  return <>Hirer Gig Buttons</>;
+function AdminGigButtons() {
+  return <>Admin Gig Buttons</>;
 }
 
-export default HirerGigButtons;
+export default AdminGigButtons;
