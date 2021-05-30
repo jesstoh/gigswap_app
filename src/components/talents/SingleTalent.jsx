@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
-import TalentButtons from '../../components/talents/TalentsButtons'
+import TalentButtons from '../../components/talents/TalentsButtons';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -52,9 +52,16 @@ function SingleTalent() {
         </Col>
       </Row>
       {/* Button container for login hirer action */}
-      {!isHirer ? null : (<Row className="button-container my-3"><TalentButtons />
-          
-          </Row>)}
+      {!isHirer ? null : (
+        <Row className="button-container my-3">
+          <Col className="text-center">
+            <TalentButtons />
+            <Button variant="outline-primary px-4 rounded-pill">
+              Invite
+            </Button>
+          </Col>
+        </Row>
+      )}
 
       <Row className="reviews-container border my-2">
         Placeholder of reviews for talent

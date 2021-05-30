@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import { saveTalent, unsaveTalent } from '../../slices/favouritesSlicer';
+import Axios from '../../utilz/Axios.js';
 
 function TalentButtons() {
   const dispatch = useDispatch();
@@ -11,11 +12,28 @@ function TalentButtons() {
   );
   const status = useSelector((state) => state.favourites.status);
 
+  const [errorMessage, setErrorMessage] = useState(null); // Storing error message
+  const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  //Api call to invite talent
+  async function inviteTalent() {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/invite/`,
+        { talent: talent.id }
+      );
+      setSuccessMessage(response.data.detail);
+    } catch (err) {
+      setErrorMessage(err.response.data.detail);
+    }
+  }
+
   let content;
 
   if (status === 'succeeded') {
     content = (
-      <Col className="text-center">
+      <>
         {savedTalents.includes(talent.talent_profile.id) ? (
           <Button
             className="mr-3 px-4 "
@@ -47,12 +65,14 @@ function TalentButtons() {
             Save
           </Button>
         )}
-
-        <Button variant="outline-primary px-4 rounded-pill"> Invite </Button>
-      </Col>
+      </>
     );
   } else {
-    content = null;
+    content = (
+      <Button className="mr-3 px-4 text-light " variant="light rounded-pill" disabled>
+        Unsave
+      </Button>
+    );
   }
 
   return <React.Fragment>{content}</React.Fragment>;
