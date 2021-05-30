@@ -16,7 +16,7 @@ function SingleGig() {
         <Col xs="5" sm="3">
           <img
             src={gig.poster_profile.image}
-            className="img-fluid border rounded-circle"
+            className="img-fluid border rounded-circle" alt={gig.poster_profile.first_name}
           />
         </Col>
         <Col>
