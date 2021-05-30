@@ -2,7 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
-import TalentGigButtons from './TalentGigButtons';
+// import TalentGigButtons from './TalentGigButtons';
+import GigButtonContainer from './GigButtonContainer';
 import { toggleGigEdit } from '../../slices/gigsSlice';
 import TimeAgo from '../others/TimeAgo';
 
@@ -88,7 +89,7 @@ function SingleGig() {
         </Col>
       </Row>
       <Row className="button-container">
-        <TalentGigButtons />
+        <GigButtonContainer />
       </Row>
       {/* <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button> */}
     </Container>
