@@ -33,7 +33,7 @@ function NotificationsPage() {
     );
   } else if (status === 'succeeded') {
     if (!notifications.length) {
-      content = <p className='text-center'>No notification</p>;
+      content = <p className="text-center">No notification</p>;
     } else {
       content = (
         <div>
@@ -51,10 +51,15 @@ function NotificationsPage() {
   return (
     <Container className="mt-5 p-2">
       <Row className="mb-3">
-        {' '}
-        <Button onClick={readAllNotifications} variant="light" className="px-3">
-          Read All
-        </Button>
+        <Col md={{ span: 8, offset: 2 }}>
+          <Button
+            onClick={readAllNotifications}
+            variant="outline-primary"
+            className="px-3"
+          >
+            Read All
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Col
