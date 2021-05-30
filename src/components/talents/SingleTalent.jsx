@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button, Modal, ListGroup } from 'react-bootstrap';
 import TalentButtons from '../../components/talents/TalentsButtons';
@@ -29,13 +29,24 @@ function SingleTalent() {
     }
   }
 
+    //Close Modal
   function handleModalClose () {
       setModalShow(false)
   }
-
+    // Open modal
   function handleModalOpen () {
       setModalShow(true)
   }
+
+    //Store gig id when click on the gig item in modal
+    function selectGig(e) {
+        setGigId(e.target.id)
+    }
+
+    // //testing purpose
+    // useEffect(()=> {
+    //     console.log(gigId)
+    // }, [gigId])
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
@@ -103,7 +114,7 @@ function SingleTalent() {
         </Modal.Header>
         <Modal.Body>
             <ListGroup>
-            {activeGigs.map(gig => <ListGroup.Item key={gig.id}>{gig.title}</ListGroup.Item>)}
+            {activeGigs.map(gig => <ListGroup.Item key={gig.id} id={gig.id} onClick={selectGig} className='btn text-left'>{gig.title} </ListGroup.Item>)}
             </ListGroup>
         
         </Modal.Body>
