@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Badge, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button, Modal, ListGroup } from 'react-bootstrap';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import Axios from '../../utilz/Axios.js';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
-//   const savedTalents = useSelector(
-//     (state) => state.favourites.fav.saved_talents_list
-//   );
+  const activeGigs = useSelector(
+    (state) => state.favourites.fav.active_gigs
+  );
   const isHirer = useSelector((state) => state.authentication.isHirer);
 
   const [errorMessage, setErrorMessage] = useState(null); // Storing error message
@@ -101,7 +101,12 @@ function SingleTalent() {
         <Modal.Header closeButton>
           <Modal.Title>My Gigs List</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Placeholder of gig list</Modal.Body>
+        <Modal.Body>
+            <ListGroup>
+            {activeGigs.map(gig => <ListGroup.Item key={gig.id}>{gig.title}</ListGroup.Item>)}
+            </ListGroup>
+        
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary rounded-pill" className='px-4' onClick={handleModalClose}>
             Cancel
