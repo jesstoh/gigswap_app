@@ -84,6 +84,22 @@ export const saveGig = createAsyncThunk(
   }
 );
 
+// Unsave gig by talent
+export const unsaveGig = createAsyncThunk(
+  'favourites/unsaveGig',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/unsave/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const favouritesSlice = createSlice({
   name: 'favourites',
   initialState,
@@ -135,6 +151,17 @@ const favouritesSlice = createSlice({
     // Update saved_gig list when talent save a gig
     builder.addCase(saveGig.fulfilled, (state, action) => {
       state.fav.saved_list.push(action.payload.gigId);
+    });
+    //Remote talent from saved list
+    builder.addCase(unsaveGig.fulfilled, (state, action) => {
+      //Find index of gig
+      const index = state.fav.saved_list.indexOf(
+        action.payload.gigId
+      );
+      if (index !== -1) {
+        //if found, remove it from saved gig list
+        state.fav.saved_list.splice(index, 1);
+      }
     });
   },
 });
