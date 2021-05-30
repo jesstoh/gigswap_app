@@ -55,6 +55,7 @@ export const fetchSingleGig = createAsyncThunk(
   }
 );
 
+//Create gig by hirer
 export const addGig = createAsyncThunk(
   'gigs/addGig',
   async (data, { rejectWithValue }) => {
@@ -70,6 +71,7 @@ export const addGig = createAsyncThunk(
   }
 );
 
+//Edit gig by gig poster
 export const editGig = createAsyncThunk(
   'gigs/editGig',
   async ({data, id}, { rejectWithValue }) => {
@@ -85,7 +87,7 @@ export const editGig = createAsyncThunk(
   }
 );
 
-// Fetch all gigs of login hirer
+// Fetch all gigs of login hirer, may be redundant (to consider remove)
 export const fetchHirerGigs = createAsyncThunk(
   'gigs/fetchHirerGigs',
   async (_, { rejectWithValue }) => {
