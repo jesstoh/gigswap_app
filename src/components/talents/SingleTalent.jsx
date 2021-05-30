@@ -22,8 +22,8 @@ function SingleTalent() {
 
   const [errorMessage, setErrorMessage] = useState(null); // Storing error message
   const [modalErrorMessage, setModalErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); // Storing message to display when invite sent
   const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
-  const [successMessage, setSuccessMessage] = useState(null);
   const [modalShow, setModalShow] = useState(false); //Storing state of showing modal of hire's gig list
 
   //Api call to invite talent
@@ -33,7 +33,7 @@ function SingleTalent() {
         `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/invite/`,
         { talent: talent.id }
       );
-      setSuccessMessage(response.data.detail);
+      setSuccessMessage('Invite sent successfully');
     } catch (err) {
       setErrorMessage(err.response.data.detail);
     } finally {
@@ -80,6 +80,7 @@ function SingleTalent() {
             {modalErrorMessage}
           </Alert>
         )}
+
         <Modal.Header closeButton>
           <Modal.Title>My Gigs List</Modal.Title>
         </Modal.Header>
@@ -134,6 +135,15 @@ function SingleTalent() {
           onClose={() => setErrorMessage(null)}
         >
           {errorMessage}
+        </Alert>
+      )}
+      {successMessage && (
+        <Alert
+          variant="success"
+          dismissible
+          onClose={() => setSuccessMessage(null)}
+        >
+          {successMessage}
         </Alert>
       )}
       <Row className="mb-3">
