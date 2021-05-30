@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Alert, Container } from 'react-bootstrap';
 import { fetchSingleHirer } from '../../slices/hirersSlice';
+import SingleHirer from '../../components/hirers/SingleHirer'
 
 function HirerDetails({ match }) {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function HirerDetails({ match }) {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <div>{hirer.username}</div>;
+    content = <SingleHirer />;
   } else if (status === 'failed') {
     //Show error if fetch failed
     content = (
