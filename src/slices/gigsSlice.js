@@ -6,7 +6,7 @@ const initialState = {
   status: 'idle',
   error: null,
   errorCode: null,
-  activeGig: { gig: null, status: 'idle', error: null, edit: false },
+  activeGig: { gig: null, status: 'idle', error: null, edit: false, success: null },
 };
 
 export const fetchGigs = createAsyncThunk(
@@ -109,6 +109,13 @@ const gigsSlice = createSlice({
   reducers: {
     toggleGigEdit(state,action) {
       state.activeGig.edit = !state.activeGig.edit
+    }, 
+    //Placeholders to set error and success messages
+    setActionSuccessMessage(state, action) {
+      state.activeGig.success = action.payload
+    },
+    setActionErrorMessage(state, action) {
+      state.activeGig.error = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -195,4 +202,4 @@ const gigsSlice = createSlice({
 
 export default gigsSlice.reducer;
 
-export const {toggleGigEdit} = gigsSlice.actions;
+export const {toggleGigEdit, setActionSuccessMessage, setActionErrorMessage} = gigsSlice.actions;

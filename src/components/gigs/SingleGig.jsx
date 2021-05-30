@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
@@ -9,7 +9,8 @@ import TimeAgo from '../others/TimeAgo';
 
 function SingleGig() {
   const dispatch = useDispatch();
-  const { gig } = useSelector((state) => state.gigs.activeGig);
+  const { gig, error, success } = useSelector((state) => state.gigs.activeGig);
+
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
       <Row className="mb-3">

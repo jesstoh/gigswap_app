@@ -9,6 +9,10 @@ import {
   withdrawGig,
 } from '../../slices/favouritesSlicer.js';
 import Axios from '../../utilz/Axios.js';
+import {
+  setActionSuccessMessage,
+  setActionErrorMessage,
+} from '../../slices/gigsSlice.js';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -58,7 +62,10 @@ function TalentGigButtons() {
         if (!gig.is_completed) {
           // if gig is not marked as complete, request acceptance of deliverable from owner
           content = (
-            <Button variant="outline-primary px-4 rounded-pill" onClick={requestDeliverableAcceptance}>
+            <Button
+              variant="outline-primary px-4 rounded-pill"
+              onClick={requestDeliverableAcceptance}
+            >
               Request Acceptance of Deliverable
             </Button>
           );
