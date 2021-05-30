@@ -4,18 +4,28 @@ import { Spinner, Alert } from 'react-bootstrap';
 import SingleGig from '../../components/gigs/SingleGig';
 import EditGigForm from '../../components/gigs/EditGigForm';
 import { fetchSingleGig } from '../../slices/gigsSlice';
+import {fetchTalentFav, fetchHirerFav} from '../../slices/favouritesSlicer.js'
 
 function GigDetails({ match }) {
   const dispatch = useDispatch();
   const { gig, status, error, edit } = useSelector(
     (state) => state.gigs.activeGig
   );
-  const {user} = useSelector(state => state.authentication)
+  const {user, isHirer, isAdmin } = useSelector(state => state.authentication)
 
   const { gigId } = match.params;
 
   useEffect(() => {
     dispatch(fetchSingleGig(gigId));
+    if (!isAdmin) {
+      // Dispatch corresponding thunk to fetch favourites of login hirer or talent
+      if (isHirer) {
+        dispatch(fetchHirerFav())
+      } else {
+        dispatch(fetchTalentFav())
+      }
+    }
+
   }, []);
 
   let content;
