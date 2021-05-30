@@ -31,6 +31,18 @@ function TalentGigButtons() {
     }
   }
 
+  // Sending message to request for acceptance of deliverable
+  async function requestDeliverableAcceptance() {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/notifications/`,
+        { title: 'Request for acceptance', gig_id: gig.id }
+      );
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+
   // Gig closed without award
   if (gig.is_closed) {
     content = (
@@ -46,7 +58,7 @@ function TalentGigButtons() {
         if (!gig.is_completed) {
           // if gig is not marked as complete, request acceptance of deliverable from owner
           content = (
-            <Button variant="outline-primary px-4 rounded-pill">
+            <Button variant="outline-primary px-4 rounded-pill" onClick={requestDeliverableAcceptance}>
               Request Acceptance of Deliverable
             </Button>
           );
@@ -57,7 +69,10 @@ function TalentGigButtons() {
           } else {
             //else request for payment by talent
             content = (
-              <Button className="mr-3 px-4 rounded-pill" onClick={requestPayment}>
+              <Button
+                className="mr-3 px-4 rounded-pill"
+                onClick={requestPayment}
+              >
                 Request for Payment
               </Button>
             );
