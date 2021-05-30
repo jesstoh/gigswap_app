@@ -15,7 +15,7 @@ function TalentGigButtons() {
   // Gig closed without award
   if (gig.is_closed) {
     content = (
-      <span className="text-danger">Gig is closed by owner without award</span>
+      <span className="text-danger">Gig is closed/cancelled by owner without award</span>
     );
   } else {
     // if gig is already awarded

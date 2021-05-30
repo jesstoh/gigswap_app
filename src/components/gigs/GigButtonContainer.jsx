@@ -7,6 +7,7 @@ import AdminGigButtons from './AdminGigButtons';
 
 function GigButtonContainer() {
   const { isHirer, isAdmin } = useSelector((state) => state.authentication);
+  const gig = useSelector((state) => state.gigs.activeGig.gig);
   //Check fetching favourite status
   const status = useSelector((state) => state.favourites.status);
 
