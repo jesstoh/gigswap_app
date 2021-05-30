@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button, Modal } from 'react-bootstrap';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import Axios from '../../utilz/Axios.js';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
-  const savedTalents = useSelector(
-    (state) => state.favourites.fav.saved_talents_list
-  );
+//   const savedTalents = useSelector(
+//     (state) => state.favourites.fav.saved_talents_list
+//   );
   const isHirer = useSelector((state) => state.authentication.isHirer);
 
   const [errorMessage, setErrorMessage] = useState(null); // Storing error message
   const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
   const [successMessage, setSuccessMessage] = useState(null);
+  const [modalShow, setModalShow] = useState(false); //Storing state of showing modal of hire's gig list
 
   //Api call to invite talent
   async function inviteTalent() {
@@ -26,6 +27,14 @@ function SingleTalent() {
     } catch (err) {
       setErrorMessage(err.response.data.detail);
     }
+  }
+
+  function handleModalClose () {
+      setModalShow(false)
+  }
+
+  function handleModalOpen () {
+      setModalShow(true)
   }
 
   return (
@@ -74,7 +83,7 @@ function SingleTalent() {
         <Row className="button-container my-3">
           <Col className="text-center">
             <TalentButtons />
-            <Button variant="outline-primary px-4 rounded-pill">
+            <Button variant="outline-primary px-4 rounded-pill" onClick={handleModalOpen}>
               Invite
             </Button>
           </Col>
@@ -86,6 +95,22 @@ function SingleTalent() {
       </Row>
 
       <Row className="gigs-container border">Placeholder of gigs of talent</Row>
+
+      {/* Modal of hirer's gigs list */}
+      <Modal show={modalShow} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>My Gigs List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Placeholder of gig list</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary rounded-pill" className='px-4' onClick={handleModalClose}>
+            Cancel
+          </Button>
+          <Button variant="primary rounded-pill" className='px-4' onClick={handleModalClose}>
+            Send Invite
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
