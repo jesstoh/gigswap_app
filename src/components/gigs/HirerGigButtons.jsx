@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
-import { closeGig } from '../../slices/gigsSlice';
+import { closeGig, awardGig } from '../../slices/gigsSlice';
 
 function HirerGigButtons() {
   const dispatch = useDispatch();

@@ -6,7 +6,13 @@ const initialState = {
   status: 'idle',
   error: null,
   errorCode: null,
-  activeGig: { gig: null, status: 'idle', error: null, edit: false, success: null },
+  activeGig: {
+    gig: null,
+    status: 'idle',
+    error: null,
+    edit: false,
+    success: null,
+  },
 };
 
 export const fetchGigs = createAsyncThunk(
@@ -61,7 +67,8 @@ export const addGig = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await Axios.post(
-        `${process.env.REACT_APP_API_URL}/api/gigs/`, data
+        `${process.env.REACT_APP_API_URL}/api/gigs/`,
+        data
       );
       return response.data;
     } catch (err) {
@@ -74,10 +81,11 @@ export const addGig = createAsyncThunk(
 //Edit gig by gig poster
 export const editGig = createAsyncThunk(
   'gigs/editGig',
-  async ({data, id}, { rejectWithValue }) => {
+  async ({ data, id }, { rejectWithValue }) => {
     try {
       const response = await Axios.put(
-        `${process.env.REACT_APP_API_URL}/api/gigs/${id}/`, data
+        `${process.env.REACT_APP_API_URL}/api/gigs/${id}/`,
+        data
       );
       return response.data;
     } catch (err) {
@@ -119,20 +127,36 @@ export const closeGig = createAsyncThunk(
   }
 );
 
+// Owner close or cancel gig
+export const awardGig = createAsyncThunk(
+  'gigs/awardGig',
+  async ({ gigId, winner }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/award/`
+      );
+      return { data: response.data, winner };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
   reducers: {
-    toggleGigEdit(state,action) {
-      state.activeGig.edit = !state.activeGig.edit
-    }, 
+    toggleGigEdit(state, action) {
+      state.activeGig.edit = !state.activeGig.edit;
+    },
     //Placeholders to set error and success messages
     setActionSuccess(state, action) {
-      state.activeGig.success = action.payload
+      state.activeGig.success = action.payload;
     },
     setActionError(state, action) {
-      state.activeGig.error = action.payload
-    }
+      state.activeGig.error = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Update gigs state when fetchGigs success
@@ -192,7 +216,7 @@ const gigsSlice = createSlice({
     builder.addCase(editGig.fulfilled, (state, action) => {
       state.activeGig.gig = action.payload;
       state.activeGig.status = 'succeeded';
-      state.activeGig.edit = false
+      state.activeGig.edit = false;
     });
     builder.addCase(editGig.pending, (state, action) => {
       state.activeGig.status = 'loading';
@@ -216,9 +240,16 @@ const gigsSlice = createSlice({
     builder.addCase(closeGig.fulfilled, (state, action) => {
       state.activeGig.gig.is_closed = true;
     });
+    builder.addCase(awardGig.fulfilled, (state, action) => {
+      state.activeGig.gig.winner = { id: action.payload.winner };
+    });
   },
 });
 
 export default gigsSlice.reducer;
 
-export const {toggleGigEdit, setActionSuccess, setActionError} = gigsSlice.actions;
+export const {
+  toggleGigEdit,
+  setActionSuccess,
+  setActionError,
+} = gigsSlice.actions;
