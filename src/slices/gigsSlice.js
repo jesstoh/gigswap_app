@@ -127,17 +127,18 @@ export const closeGig = createAsyncThunk(
   }
 );
 
-// Owner close or cancel gig
+// Owner award gig
 export const awardGig = createAsyncThunk(
   'gigs/awardGig',
-  async ({ gigId, winner }, { rejectWithValue }) => {
+  async ({ gigId, winnerId }, { rejectWithValue }) => {
     try {
       const response = await Axios.put(
-        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/award/`
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/award/`, {winner: winnerId}
       );
-      return { data: response.data, winner };
+      return { data: response.data, winnerId };
     } catch (err) {
       const { data, status } = err.response;
+      // console.log(err.response)
       return rejectWithValue({ data, status });
     }
   }
@@ -241,7 +242,7 @@ const gigsSlice = createSlice({
       state.activeGig.gig.is_closed = true;
     });
     builder.addCase(awardGig.fulfilled, (state, action) => {
-      state.activeGig.gig.winner = { id: action.payload.winner };
+      state.activeGig.gig.winner = { id: action.payload.winnerId };
     });
   },
 });

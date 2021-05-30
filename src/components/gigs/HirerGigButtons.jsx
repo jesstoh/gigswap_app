@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, Modal, ListGroup, Alert } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 import { closeGig, awardGig } from '../../slices/gigsSlice';
 
@@ -8,6 +8,76 @@ function HirerGigButtons() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authentication.user);
   const gig = useSelector((state) => state.gigs.activeGig.gig);
+
+  const [modalShow, setModalShow] = useState(false);
+  const [modalErrorMessage, setModalErrorMessage] = useState(null);
+  const [winner, setWinner] = useState(''); // Store winner id that hirer select
+
+  //Close Modal
+  function handleModalClose() {
+    setModalShow(false);
+    setWinner('');
+  }
+  // Open modal
+  function handleModalOpen() {
+    setModalShow(true);
+  }
+
+  function handleAward() {
+    // console.log(winner);
+    dispatch(awardGig({ gigId: gig.id, winnerId: winner }));
+    handleModalClose();
+  }
+
+  let modalContent = (
+    <Modal show={modalShow} onHide={handleModalClose}>
+      {modalErrorMessage && (
+        <Alert
+          variant="danger"
+          dismissible
+          onClose={() => setModalErrorMessage(null)}
+        >
+          {modalErrorMessage}
+        </Alert>
+      )}
+
+      <Modal.Header closeButton>
+        <Modal.Title>Participant List</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <ListGroup>
+          {gig.applicants.map((applicant) => (
+            <ListGroup.Item
+              key={applicant.user.id}
+              id={applicant.user.id}
+              onClick={() => setWinner(applicant.user.id)}
+              className={`btn text-left ${
+                applicant.user.id === winner ? 'bg-light' : ''
+              }`}
+            >
+              {applicant.user.first_name}, {applicant.user.last_name}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="secondary rounded-pill"
+          className="px-4"
+          onClick={handleModalClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="primary rounded-pill"
+          className="px-4"
+          onClick={handleAward}
+        >
+          Award
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 
   let content;
 
@@ -32,7 +102,13 @@ function HirerGigButtons() {
             >
               Close
             </Button>
-            <Button variant="outline-primary px-4 rounded-pill">Award</Button>
+            <Button
+              variant="outline-primary px-4 rounded-pill"
+              onClick={handleModalOpen}
+            >
+              Award
+            </Button>
+            {modalContent}
           </>
         );
       } else {
