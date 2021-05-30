@@ -40,6 +40,7 @@ import HirerRoute from './components/routes/HirerRoute';
 import TalentRoute from './components/routes/TalentRoute';
 import SharedRoute from './components/routes/SharedRoute';
 import PublicRoute from './components/routes/PublicRoute';
+import PrivateRoute from './components/routes/PrivateRoute';
 
 import { checkAuth, setFailedStatus } from './slices/authenticationSlice';
 import { fetchCategories, fetchSubcats } from './slices/categoriesSlice';
@@ -127,12 +128,14 @@ function App() {
           />
           <TalentRoute exact path="/talent/mygigs" component={TalentFavPage} />
 
+          {/* Routes for log in users and admin*/}
+          <PrivateRoute exact path="/gigs/:gigId" component={GigDetails} />
+          <PrivateRoute exact path="/talents/:talentId" component={TalentDetails} />
+          <PrivateRoute exact path="/hirers/:hirerId" component={HirerDetail} />
+
           {/* Routes for log in hirer or talent */}
           <SharedRoute exact path="/profile" component={ProfilePage} />
           <SharedRoute exact path="/profile/create" component={CreateProfilePage} />
-          <SharedRoute exact path="/gigs/:gigId" component={GigDetails} />
-          <SharedRoute exact path="/talents/:talentId" component={TalentDetails} />
-          <SharedRoute exact path="/hirers/:hirerId" component={HirerDetail} />
           <SharedRoute
             exact
             path="/notifications"
