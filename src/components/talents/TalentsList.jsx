@@ -20,17 +20,17 @@ function TalentsList() {
       content = <span>No relevant talents</span>;
     } else {
       content = (
-        <Container>
+        <div>
           {talents.map((talent) => (
             <TalentExcerpt key={talent.id} talent={talent} />
           ))}
-        </Container>
+        </div>
       );
     }
   } else if (status === 'failed') {
     content = <span>{error}</span>;
   }
 
-  return <Container className="mt-5">{content}</Container>;
+  return <Container>{content}</Container>;
 }
 export default TalentsList;
