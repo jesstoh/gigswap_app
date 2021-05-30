@@ -6,6 +6,7 @@ import categoriesReducer from '../slices/categoriesSlice';
 import notificationsReducer from '../slices/notificationsSlice';
 import favouritesReducer from '../slices/favouritesSlicer';
 import talentsReducer from '../slices/talentsSlice';
+import hirersReducer from '../slices/hirersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     notifications: notificationsReducer,
     favourites: favouritesReducer,
     talents: talentsReducer,
+    hirers: hirersReducer,
   },
 });
