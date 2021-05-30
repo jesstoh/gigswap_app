@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import TalentButtons from '../../components/talents/TalentsButtons';
+import Axios from '../../utilz/Axios.js';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -9,6 +10,23 @@ function SingleTalent() {
     (state) => state.favourites.fav.saved_talents_list
   );
   const isHirer = useSelector((state) => state.authentication.isHirer);
+
+  const [errorMessage, setErrorMessage] = useState(null); // Storing error message
+  const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  //Api call to invite talent
+  async function inviteTalent() {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/invite/`,
+        { talent: talent.id }
+      );
+      setSuccessMessage(response.data.detail);
+    } catch (err) {
+      setErrorMessage(err.response.data.detail);
+    }
+  }
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
