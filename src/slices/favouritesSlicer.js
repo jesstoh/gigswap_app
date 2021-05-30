@@ -40,12 +40,12 @@ export const fetchHirerFav = createAsyncThunk(
 //Save talent
 export const saveTalent = createAsyncThunk(
   'favourites/saveTalent',
-  async ({talentId, profileId }, { rejectWithValue }) => {
+  async ({ talentId, profileId }, { rejectWithValue }) => {
     try {
       const response = await Axios.put(
         `${process.env.REACT_APP_API_URL}/api/talents/${talentId}/save/`
       );
-      return {data: response.data, profileId}
+      return { data: response.data, profileId };
     } catch (err) {
       const { data, status } = err.response;
       return rejectWithValue({ data, status });
@@ -53,6 +53,20 @@ export const saveTalent = createAsyncThunk(
   }
 );
 
+export const unsaveTalent = createAsyncThunk(
+  'favourites/unsaveTalent',
+  async ({ talentId, profileId }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/talents/${talentId}/unsave/`
+      );
+      return { data: response.data, profileId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
 
 const favouritesSlice = createSlice({
   name: 'favourites',
@@ -87,9 +101,19 @@ const favouritesSlice = createSlice({
       state.status = 'failed';
       state.error = action.payload.data.detail;
     });
-     // Update talent lists when fetch at login hirer landing page
-     builder.addCase(saveTalent.fulfilled, (state, action) => {
-      state.fav.saved_talents_list.push(action.payload.profileId)
+    // Update talent lists when hirer save a talent
+    builder.addCase(saveTalent.fulfilled, (state, action) => {
+      state.fav.saved_talents_list.push(action.payload.profileId);
+      // state.status = 'succeeded';
+    });
+    //Remote talent from saved list
+    builder.addCase(unsaveTalent.fulfilled, (state, action) => {
+      const index = state.fav.saved_talents_list.indexOf(
+        action.payload.profileId
+      );
+      if (index !== -1) {
+        state.fav.saved_talents_list.splice(index, 1);
+      }
       // state.status = 'succeeded';
     });
   },
