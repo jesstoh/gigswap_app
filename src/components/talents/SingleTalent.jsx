@@ -1,15 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Badge, Button, Modal, ListGroup } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Badge,
+  Button,
+  Modal,
+  ListGroup,
+} from 'react-bootstrap';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import Axios from '../../utilz/Axios.js';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
-  const activeGigs = useSelector(
-    (state) => state.favourites.fav.active_gigs
-  );
+  const activeGigs = useSelector((state) => state.favourites.fav.active_gigs);
   const isHirer = useSelector((state) => state.authentication.isHirer);
+  const favStatus = useSelector((state) => state.favourites.status);
 
   const [errorMessage, setErrorMessage] = useState(null); // Storing error message
   const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
@@ -29,24 +36,66 @@ function SingleTalent() {
     }
   }
 
-    //Close Modal
-  function handleModalClose () {
-      setModalShow(false)
+  //Close Modal
+  function handleModalClose() {
+    setModalShow(false);
   }
-    // Open modal
-  function handleModalOpen () {
-      setModalShow(true)
+  // Open modal
+  function handleModalOpen() {
+    setModalShow(true);
   }
 
-    //Store gig id when click on the gig item in modal
-    function selectGig(e) {
-        setGigId(e.target.id)
-    }
+  //Store gig id when click on the gig item in modal
+  function selectGig(e) {
+    setGigId(e.target.id);
+  }
 
-    // //testing purpose
-    // useEffect(()=> {
-    //     console.log(gigId)
-    // }, [gigId])
+  let modalContent;
+  if (favStatus === 'succeeded') {
+    modalContent = (
+      <Modal show={modalShow} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>My Gigs List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ListGroup>
+            {activeGigs.map((gig) => (
+              <ListGroup.Item
+                key={gig.id}
+                id={gig.id}
+                onClick={selectGig}
+                className="btn text-left"
+              >
+                {gig.title}{' '}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary rounded-pill"
+            className="px-4"
+            onClick={handleModalClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary rounded-pill"
+            className="px-4"
+            onClick={handleModalClose}
+          >
+            Send Invite
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  } else {
+    modalContent = null;
+  }
+  // //testing purpose
+  // useEffect(()=> {
+  //     console.log(gigId)
+  // }, [gigId])
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
@@ -94,7 +143,10 @@ function SingleTalent() {
         <Row className="button-container my-3">
           <Col className="text-center">
             <TalentButtons />
-            <Button variant="outline-primary px-4 rounded-pill" onClick={handleModalOpen}>
+            <Button
+              variant="outline-primary px-4 rounded-pill"
+              onClick={handleModalOpen}
+            >
               Invite
             </Button>
           </Col>
@@ -108,25 +160,7 @@ function SingleTalent() {
       <Row className="gigs-container border">Placeholder of gigs of talent</Row>
 
       {/* Modal of hirer's gigs list */}
-      <Modal show={modalShow} onHide={handleModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>My Gigs List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <ListGroup>
-            {activeGigs.map(gig => <ListGroup.Item key={gig.id} id={gig.id} onClick={selectGig} className='btn text-left'>{gig.title} </ListGroup.Item>)}
-            </ListGroup>
-        
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary rounded-pill" className='px-4' onClick={handleModalClose}>
-            Cancel
-          </Button>
-          <Button variant="primary rounded-pill" className='px-4' onClick={handleModalClose}>
-            Send Invite
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {!isHirer ? null : modalContent}
     </Container>
   );
 }
