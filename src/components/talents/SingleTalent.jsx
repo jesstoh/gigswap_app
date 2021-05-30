@@ -1,12 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import TalentButtons from '../../components/talents/TalentsButtons'
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
   const savedTalents = useSelector(
     (state) => state.favourites.fav.saved_talents_list
   );
+  const isHirer = useSelector((state) => state.authentication.isHirer);
 
   return (
     <Container className="px-5 py-3 my-3 shadow-sm bg-white rounded">
@@ -26,10 +28,8 @@ function SingleTalent() {
           </div>
         </Col>
         <Col className="d-flex align-items-center">
-   
-            No. of Gigs Won: {talent.talent_profile.gigs_won} <br />
-            Review: .....
-    
+          No. of Gigs Won: {talent.talent_profile.gigs_won} <br />
+          Review: .....
         </Col>
       </Row>
       <Row className="mb-4 mt-5">
@@ -51,7 +51,16 @@ function SingleTalent() {
           <p>{talent.talent_profile.bio}</p>
         </Col>
       </Row>
-      <Row className="button-container"></Row>
+      {/* Button container for login hirer action */}
+      {!isHirer ? null : (<Row className="button-container"><TalentButtons />
+          
+          </Row>)}
+
+      <Row className="reviews-container border my-2">
+        Placeholder of reviews for talent
+      </Row>
+
+      <Row className="gigs-container border">Placeholder of gigs of talent</Row>
     </Container>
   );
 }

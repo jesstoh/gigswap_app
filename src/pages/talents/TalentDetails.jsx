@@ -11,6 +11,7 @@ function TalentDetails({ match }) {
   const { status, error } = useSelector(
     (state) => state.talents.activeTalent
   );
+  const isHirer = useSelector((state) => state.authentication.isHirer);
 
   //Talent id in url
   const { talentId } = match.params;
@@ -18,7 +19,12 @@ function TalentDetails({ match }) {
   useEffect(() => {
     //Fetch single talent details to the store
     dispatch(fetchSingleTalent(talentId));
-    dispatch(fetchHirerFav());
+
+    // Fetch hirer favourite if login user is hirer
+    if (isHirer){
+      dispatch(fetchHirerFav());
+    }
+    
   }, []);
 
   let content;
