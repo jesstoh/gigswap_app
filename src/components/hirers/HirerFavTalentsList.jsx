@@ -15,7 +15,7 @@ function HirerFavTalentsList() {
       <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
         {keySelections.map(([currentKey, title]) => {
           return (
-            <Tab eventKey={currentKey} title={title}>
+            <Tab eventKey={currentKey} title={title} key={currentKey}>
               {!fav[currentKey].length ? <div className='text-center mt-3'>No relevant gigs</div>: fav[currentKey].map((talent) => (
                 <SmallTalentExcerpt talent={talent} key={talent.user.id} />
               ))}
