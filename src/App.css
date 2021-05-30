@@ -89,3 +89,13 @@ footer {
 .unread-notification {
   background-color: rgba(226, 240, 254, 0.4);
 }
+
+.sqr-image-container{
+  width: 7rem;
+  max-height: 7rem;
+  overflow: hidden;
+}
+
+.sqr-image-container img{
+  object-fit: cover;
+}
