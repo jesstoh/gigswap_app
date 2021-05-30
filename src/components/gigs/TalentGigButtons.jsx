@@ -9,10 +9,6 @@ import {
   withdrawGig,
 } from '../../slices/favouritesSlicer.js';
 import Axios from '../../utilz/Axios.js';
-import {
-  setActionSuccessMessage,
-  setActionErrorMessage,
-} from '../../slices/gigsSlice.js';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();

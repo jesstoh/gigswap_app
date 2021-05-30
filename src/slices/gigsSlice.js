@@ -103,6 +103,22 @@ export const fetchHirerGigs = createAsyncThunk(
   }
 );
 
+// Owner close or cancel gig
+export const closeGig = createAsyncThunk(
+  'gigs/closeGig',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/close/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
@@ -111,10 +127,10 @@ const gigsSlice = createSlice({
       state.activeGig.edit = !state.activeGig.edit
     }, 
     //Placeholders to set error and success messages
-    setActionSuccessMessage(state, action) {
+    setActionSuccess(state, action) {
       state.activeGig.success = action.payload
     },
-    setActionErrorMessage(state, action) {
+    setActionError(state, action) {
       state.activeGig.error = action.payload
     }
   },
@@ -197,9 +213,12 @@ const gigsSlice = createSlice({
       state.status = 'failed';
       state.error = action.payload.data.detail;
     });
+    builder.addCase(closeGig.fulfilled, (state, action) => {
+      state.activeGig.gig.is_closed = true;
+    });
   },
 });
 
 export default gigsSlice.reducer;
 
-export const {toggleGigEdit, setActionSuccessMessage, setActionErrorMessage} = gigsSlice.actions;
+export const {toggleGigEdit, setActionSuccess, setActionError} = gigsSlice.actions;
