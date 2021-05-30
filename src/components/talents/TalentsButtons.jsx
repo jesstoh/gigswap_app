@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
-import { saveTalent } from '../../slices/favouritesSlicer';
+import { saveTalent, unsaveTalent } from '../../slices/favouritesSlicer';
 
 function TalentButtons() {
   const dispatch = useDispatch();
@@ -17,7 +17,18 @@ function TalentButtons() {
     content = (
       <Col className="text-center">
         {savedTalents.includes(talent.talent_profile.id) ? (
-          <Button className="mr-3 px-4 " variant="light rounded-pill">
+          <Button
+            className="mr-3 px-4 "
+            variant="light rounded-pill"
+            onClick={() => {
+              dispatch(
+                unsaveTalent({
+                  talentId: talent.id,
+                  profileId: talent.talent_profile.id,
+                })
+              );
+            }}
+          >
             Unsave
           </Button>
         ) : (
