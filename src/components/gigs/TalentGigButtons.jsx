@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
+import { saveGig, unsaveGig } from '../../slices/favouritesSlicer.js';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -15,7 +16,9 @@ function TalentGigButtons() {
   // Gig closed without award
   if (gig.is_closed) {
     content = (
-      <span className="text-danger">Gig is closed/cancelled by owner without award</span>
+      <span className="text-danger">
+        Gig is closed/cancelled by owner without award
+      </span>
     );
   } else {
     // if gig is already awarded
@@ -60,9 +63,19 @@ function TalentGigButtons() {
           <>
             {/* Render save and unsave button */}
             {savedGigs.includes(gig.id) ? (
-              <Button className="mr-3 px-4 rounded-pill">Unsave</Button>
+              <Button
+                className="mr-3 px-4 rounded-pill"
+                onClick={() => dispatch(unsaveGig(gig.id))}
+              >
+                Unsave
+              </Button>
             ) : (
-              <Button className="mr-3 px-4 rounded-pill">Save</Button>
+              <Button
+                className="mr-3 px-4 rounded-pill"
+                onClick={() => dispatch(saveGig(gig.id))}
+              >
+                Save
+              </Button>
             )}
             {/* Render apply and withdraw button */}
             {appliedGigs.includes(gig.id) ? (
