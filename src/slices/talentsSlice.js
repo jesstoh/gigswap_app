@@ -70,7 +70,7 @@ const talentsSlice = createSlice({
     // Change status to failed & set error, when not found
     builder.addCase(fetchSingleTalent.rejected, (state, action) => {
       state.activeTalent.status = 'failed';
-      console.log(action.payload)
+      console.log(action.payload);
       state.activeTalent.error = action.payload.data.detail;
     });
   },
