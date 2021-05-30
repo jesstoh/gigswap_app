@@ -11,7 +11,7 @@ function SingleTalent() {
   const isHirer = useSelector((state) => state.authentication.isHirer);
 
   return (
-    <Container className="px-5 py-3 my-3 shadow-sm bg-white rounded">
+    <Container className="px-5 py-3 my-3 shadow bg-white rounded">
       <Row className="mb-3">
         <h3>
           {talent.first_name}, {talent.last_name}
@@ -52,7 +52,7 @@ function SingleTalent() {
         </Col>
       </Row>
       {/* Button container for login hirer action */}
-      {!isHirer ? null : (<Row className="button-container"><TalentButtons />
+      {!isHirer ? null : (<Row className="button-container my-3"><TalentButtons />
           
           </Row>)}
 

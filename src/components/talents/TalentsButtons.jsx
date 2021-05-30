@@ -1,8 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
+import { saveTalent } from '../../slices/favouritesSlicer';
 
 function TalentButtons() {
+  const dispatch = useDispatch();
   const { talent } = useSelector((state) => state.talents.activeTalent);
   const savedTalents = useSelector(
     (state) => state.favourites.fav.saved_talents_list
@@ -19,7 +21,18 @@ function TalentButtons() {
             Unsave
           </Button>
         ) : (
-          <Button className="mr-3 px-4 " variant="primary rounded-pill">
+          <Button
+            className="mr-3 px-4 "
+            variant="primary rounded-pill"
+            onClick={() => {
+              dispatch(
+                saveTalent({
+                  talentId: talent.id,
+                  profileId: talent.talent_profile.id,
+                })
+              );
+            }}
+          >
             Save
           </Button>
         )}
@@ -28,7 +41,7 @@ function TalentButtons() {
       </Col>
     );
   } else {
-      content = null
+    content = null;
   }
 
   return <React.Fragment>{content}</React.Fragment>;
