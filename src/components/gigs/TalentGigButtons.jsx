@@ -8,6 +8,7 @@ import {
   applyGig,
   withdrawGig,
 } from '../../slices/favouritesSlicer.js';
+import Axios from '../../utilz/Axios.js';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -17,6 +18,18 @@ function TalentGigButtons() {
   const appliedGigs = useSelector((state) => state.favourites.fav.applied_list); // Get login talent applied gig list
 
   let content;
+
+  // Sending message for request for payment
+  async function requestPayment() {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/notifications/`,
+        { title: 'Request for pay', gig_id: gig.id }
+      );
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
 
   // Gig closed without award
   if (gig.is_closed) {
@@ -44,7 +57,7 @@ function TalentGigButtons() {
           } else {
             //else request for payment by talent
             content = (
-              <Button className="mr-3 px-4 rounded-pill">
+              <Button className="mr-3 px-4 rounded-pill" onClick={requestPayment}>
                 Request for Payment
               </Button>
             );
