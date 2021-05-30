@@ -100,6 +100,38 @@ export const unsaveGig = createAsyncThunk(
   }
 );
 
+// Apply gig by talent
+export const applyGig = createAsyncThunk(
+  'favourites/applyGig',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/apply/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+// Withdraw gig application by talent
+export const withdrawGig = createAsyncThunk(
+  'favourites/withdrawGig',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/withdraw/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const favouritesSlice = createSlice({
   name: 'favourites',
   initialState,
@@ -155,12 +187,23 @@ const favouritesSlice = createSlice({
     //Remote talent from saved list
     builder.addCase(unsaveGig.fulfilled, (state, action) => {
       //Find index of gig
-      const index = state.fav.saved_list.indexOf(
-        action.payload.gigId
-      );
+      const index = state.fav.saved_list.indexOf(action.payload.gigId);
       if (index !== -1) {
         //if found, remove it from saved gig list
         state.fav.saved_list.splice(index, 1);
+      }
+    });
+    // Update applied_gig list when talent apply a gig
+    builder.addCase(applyGig.fulfilled, (state, action) => {
+      state.fav.applied_list.push(action.payload.gigId);
+    });
+    //Remote gig from applied list
+    builder.addCase(withdrawGig.fulfilled, (state, action) => {
+      //Find index of gig
+      const index = state.fav.applied_list.indexOf(action.payload.gigId);
+      if (index !== -1) {
+        //if found, remove it from applied gig list
+        state.fav.applied_list.splice(index, 1);
       }
     });
   },
