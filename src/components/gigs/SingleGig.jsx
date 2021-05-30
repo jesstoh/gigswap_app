@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
-import TalentGigButtons from './TalentGigButtons'
-import {toggleGigEdit} from '../../slices/gigsSlice'
+import { parseISO, format } from 'date-fns';
+import TalentGigButtons from './TalentGigButtons';
+import { toggleGigEdit } from '../../slices/gigsSlice';
+import TimeAgo from '../others/TimeAgo';
 
 function SingleGig() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { gig } = useSelector((state) => state.gigs.activeGig);
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
@@ -16,14 +18,20 @@ function SingleGig() {
         <Col xs="5" sm="3">
           <img
             src={gig.poster_profile.image}
-            className="img-fluid border rounded-circle" alt={gig.poster_profile.first_name}
+            className="img-fluid border rounded-circle"
+            alt={gig.poster_profile.first_name}
           />
         </Col>
         <Col>
           Company:{' '}
           <a href={`/hirers/${gig.poster}`}>{gig.poster_profile.company}</a>
           <br />
-          Review: .....
+          Review: ..... <br/><br/>
+          <TimeAgo timestamp={gig.created_at} text="Posted " />
+          <br />
+          <span className={`${parseISO(gig.expired_at) < new Date()? 'text-danger':'text-muted'}`}>
+            <i>Expired on {format(parseISO(gig.expired_at), 'd MMM yyyy')} </i>
+          </span>
         </Col>
       </Row>
       <div className="mt-3 mb-4">
@@ -60,7 +68,7 @@ function SingleGig() {
           </Col>
         </Row>
       </div>
-      <Row className='mb-4'>
+      <Row className="mb-4">
         <Col>
           <h5>Skill Set</h5>
           {gig.subcategories.map((subcat, index) => {
@@ -79,8 +87,8 @@ function SingleGig() {
           <p>{gig.description}</p>
         </Col>
       </Row>
-      <Row className='button-container'>
-          <TalentGigButtons/>
+      <Row className="button-container">
+        <TalentGigButtons />
       </Row>
       <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button>
     </Container>
