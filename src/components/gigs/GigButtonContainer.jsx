@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import TalentGigButtons from './TalentGigButtons';
 import HirerGigButtons from './HirerGigButtons';
-import AdminGigButtons from './AdminGigButtons';
 
 function GigButtonContainer() {
   const { isHirer, isAdmin } = useSelector((state) => state.authentication);
@@ -16,7 +15,7 @@ function GigButtonContainer() {
   // Only render button if favorite state is loaded
   if (status === 'succeeded') {
     if (isAdmin) {
-      content = <AdminGigButtons />;
+      content = null;
     } else if (isHirer) {
       content = <HirerGigButtons />;
     } else {
