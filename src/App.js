@@ -29,7 +29,7 @@ import HirerReview from './pages/reviews/HirerReview';
 import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFavPage from './pages/talents/TalentFavPage';
-import Talents from './pages/talents/Talents';
+import TalentsPage from './pages/talents/TalentsPage';
 import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx';
 import HeaderContainer from './components/headers/HeaderContainer';
 import Footer from './components/others/Footer';
@@ -115,7 +115,7 @@ function App() {
 
           {/* Routes for log in hires only */}
           <HirerRoute exact path="/gigs/create" component={AddGigForm} />
-          <HirerRoute exact path="/talents" component={Talents} />
+          <HirerRoute exact path="/talents" component={TalentsPage} />
           <HirerRoute exact path="/hirer/mypage" component={HirerFavPage} />
 
           {/* Routes for log in talents only */}
