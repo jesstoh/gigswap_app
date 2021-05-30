@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Alert, Container } from 'react-bootstrap';
 import { fetchSingleTalent } from '../../slices/talentsSlice';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
+import SingleTalent  from '../../components/talents/SingleTalent'
 
 function TalentDetails({ match }) {
   const dispatch = useDispatch();
   //States of active talent being viewed
-  const { talent, status, error } = useSelector(
+  const { status, error } = useSelector(
     (state) => state.talents.activeTalent
   );
-  const savedTalents = useSelector((state) => state.favourites.fav.saved_talents_list);
 
   //Talent id in url
   const { talentId } = match.params;
@@ -31,7 +31,7 @@ function TalentDetails({ match }) {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <Container>{talentId}</Container>;
+    content = <SingleTalent />;
   } else if (status === 'failed') {
     //Show error if fetch failed
     content = (
