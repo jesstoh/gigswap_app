@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Container,
   Row,
@@ -8,7 +8,9 @@ import {
   Button,
   Modal,
   ListGroup,
+  Alert,
 } from 'react-bootstrap';
+import { IoSend } from 'react-icons/io5';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import Axios from '../../utilz/Axios.js';
 
@@ -19,6 +21,7 @@ function SingleTalent() {
   const favStatus = useSelector((state) => state.favourites.status);
 
   const [errorMessage, setErrorMessage] = useState(null); // Storing error message
+  const [modalErrorMessage, setModalErrorMessage] = useState(null);
   const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
   const [successMessage, setSuccessMessage] = useState(null);
   const [modalShow, setModalShow] = useState(false); //Storing state of showing modal of hire's gig list
@@ -33,13 +36,16 @@ function SingleTalent() {
       setSuccessMessage(response.data.detail);
     } catch (err) {
       setErrorMessage(err.response.data.detail);
+    } finally {
+      handleModalClose();
     }
   }
 
   //Close Modal
   function handleModalClose() {
     setModalShow(false);
-    setGigId('') // Reset gigId after modal is closed
+    setGigId(''); // Reset gigId after modal is closed
+    setModalErrorMessage(null); //reset modal error message
   }
   // Open modal
   function handleModalOpen() {
@@ -51,11 +57,29 @@ function SingleTalent() {
     setGigId(e.target.id);
   }
 
+  function handleSubmitInvite() {
+    setModalErrorMessage(null);
+    if (gigId === '') {
+      setModalErrorMessage('Please select a gig to send invite');
+    } else {
+      inviteTalent();
+    }
+  }
+
   let modalContent;
   // Only display content once favourite state is loaded successfully
   if (favStatus === 'succeeded') {
     modalContent = (
       <Modal show={modalShow} onHide={handleModalClose}>
+        {modalErrorMessage && (
+          <Alert
+            variant="danger"
+            dismissible
+            onClose={() => setModalErrorMessage(null)}
+          >
+            {modalErrorMessage}
+          </Alert>
+        )}
         <Modal.Header closeButton>
           <Modal.Title>My Gigs List</Modal.Title>
         </Modal.Header>
@@ -66,7 +90,9 @@ function SingleTalent() {
                 key={gig.id}
                 id={gig.id}
                 onClick={selectGig}
-                className={`btn text-left ${gig.id === gigId?'bg-light':''}`}
+                className={`btn text-left ${
+                  gig.id === gigId ? 'bg-light' : ''
+                }`}
               >
                 {gig.title}{' '}
               </ListGroup.Item>
@@ -84,9 +110,9 @@ function SingleTalent() {
           <Button
             variant="primary rounded-pill"
             className="px-4"
-            onClick={handleModalClose}
+            onClick={handleSubmitInvite}
           >
-            Send Invite
+            Send Invite <IoSend />
           </Button>
         </Modal.Footer>
       </Modal>
@@ -101,6 +127,15 @@ function SingleTalent() {
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
+      {errorMessage && (
+        <Alert
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMessage(null)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       <Row className="mb-3">
         <h3>
           {talent.first_name}, {talent.last_name}
