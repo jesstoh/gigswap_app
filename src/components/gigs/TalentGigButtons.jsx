@@ -2,7 +2,12 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
-import { saveGig, unsaveGig } from '../../slices/favouritesSlicer.js';
+import {
+  saveGig,
+  unsaveGig,
+  applyGig,
+  withdrawGig,
+} from '../../slices/favouritesSlicer.js';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -79,11 +84,19 @@ function TalentGigButtons() {
             )}
             {/* Render apply and withdraw button */}
             {appliedGigs.includes(gig.id) ? (
-              <Button variant="outline-primary px-4 rounded-pill">
+              <Button
+                variant="outline-primary px-4 rounded-pill"
+                onClick={() => dispatch(withdrawGig(gig.id))}
+              >
                 Withdraw
               </Button>
             ) : (
-              <Button variant="outline-primary px-4 rounded-pill">Apply</Button>
+              <Button
+                variant="outline-primary px-4 rounded-pill"
+                onClick={() => dispatch(applyGig(gig.id))}
+              >
+                Apply
+              </Button>
             )}
           </>
         );
