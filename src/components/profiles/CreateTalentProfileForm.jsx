@@ -98,7 +98,7 @@ function CreateTalentProfileForm() {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Profile Photo</Form.Label>
+          <Form.Label>Profile Photo*</Form.Label>
           <Form.Control
             type="url"
             required

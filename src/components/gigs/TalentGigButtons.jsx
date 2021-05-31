@@ -36,7 +36,8 @@ function TalentGigButtons() {
         {/* <Modal.Title>Participant List</Modal.Title> */}
       </Modal.Header>
       <Modal.Body>
-        Please complete your <a href='/profile/create'>profile </a>before gig application 
+        Please complete your <a href="/profile/create">profile </a>before gig
+        application
       </Modal.Body>
       <Modal.Footer>
         <Button
@@ -140,45 +141,83 @@ function TalentGigButtons() {
         // display message of pending award, if expired
         content = <span className="text-danger">Gig pending award.</span>;
       } else {
-        content = (
-          <>
-            {/* Render save and unsave button */}
-            {savedGigs.includes(gig.id) ? (
-              <Button
-                className="mr-3 px-4 rounded-pill"
-                onClick={() => dispatch(unsaveGig(gig.id))}
-              >
-                Unsave
-              </Button>
-            ) : (
-              <Button
-                className="mr-3 px-4 rounded-pill"
-                onClick={() => dispatch(saveGig(gig.id))}
-              >
-                Save
-              </Button>
-            )}
-            {/* Render apply and withdraw button */}
-            {appliedGigs.includes(gig.id) ? (
+        if (appliedGigs.includes(gig.id)) {
+          content = (
+            <Button
+              variant="outline-primary px-4 rounded-pill"
+              onClick={() => dispatch(withdrawGig(gig.id))}
+            >
+              Withdraw
+            </Button>
+          );
+        } else {
+          content = (
+            <>
+              {/* Render save and unsave button */}
+              {savedGigs.includes(gig.id) ? (
+                <Button
+                  className="mr-3 px-4 rounded-pill"
+                  onClick={() => dispatch(unsaveGig(gig.id))}
+                >
+                  Unsave
+                </Button>
+              ) : (
+                <Button
+                  className="mr-3 px-4 rounded-pill"
+                  onClick={() => dispatch(saveGig(gig.id))}
+                >
+                  Save
+                </Button>
+              )}
+              {modalContent}
               <Button
                 variant="outline-primary px-4 rounded-pill"
-                onClick={() => dispatch(withdrawGig(gig.id))}
+                onClick={handleApplyGig}
               >
-                Withdraw
+                Apply
               </Button>
-            ) : (
-              <>
-                {modalContent}
-                <Button
-                  variant="outline-primary px-4 rounded-pill"
-                  onClick={handleApplyGig}
-                >
-                  Apply
-                </Button>
-              </>
-            )}
-          </>
-        );
+            </>
+          );
+        }
+        // content = (
+        //   <>
+        //     {/* Render save and unsave button */}
+        //     {savedGigs.includes(gig.id) ? (
+        //       <Button
+        //         className="mr-3 px-4 rounded-pill"
+        //         onClick={() => dispatch(unsaveGig(gig.id))}
+        //       >
+        //         Unsave
+        //       </Button>
+        //     ) : (
+        //       <Button
+        //         className="mr-3 px-4 rounded-pill"
+        //         onClick={() => dispatch(saveGig(gig.id))}
+        //       >
+        //         Save
+        //       </Button>
+        //     )}
+        //     {/* Render apply and withdraw button */}
+        //     {appliedGigs.includes(gig.id) ? (
+        //       <Button
+        //         variant="outline-primary px-4 rounded-pill"
+        //         onClick={() => dispatch(withdrawGig(gig.id))}
+        //       >
+        //         Withdraw
+        //       </Button>
+        //     ) : (
+        //       <>
+        //         {modalContent}
+        //         <Button
+        //           variant="outline-primary px-4 rounded-pill"
+        //           onClick={handleApplyGig}
+        //         >
+        //           Apply
+        //         </Button>
+        //       </>
+        //     )}
+        //   </>
+        // );
       }
     }
   }

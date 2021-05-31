@@ -196,6 +196,11 @@ const favouritesSlice = createSlice({
     // Update applied_gig list when talent apply a gig
     builder.addCase(applyGig.fulfilled, (state, action) => {
       state.fav.applied_list.push(action.payload.gigId);
+      const index = state.fav.saved_list.indexOf(action.payload.gigId);
+      if (index !== -1) {
+        //if found, remove it from saved gig list
+        state.fav.saved_list.splice(index, 1);
+      }
     });
     // Update applied_gig list when talent apply a gig
     builder.addCase(applyGig.rejected, (state, action) => {
@@ -209,6 +214,8 @@ const favouritesSlice = createSlice({
         //if found, remove it from applied gig list
         state.fav.applied_list.splice(index, 1);
       }
+      // push gig back to saved list
+      state.fav.saved_list.push(action.payload.gigId);
     });
   },
 });
