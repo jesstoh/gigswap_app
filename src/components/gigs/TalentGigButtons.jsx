@@ -114,7 +114,20 @@ function TalentGigButtons() {
         } else {
           // if owner has pay talent
           if (gig.paid) {
-            content = <span>Owner has made payment to you for this gig</span>;
+            content = (
+              <>
+                <span>Owner has made payment to you for this gig</span>
+                <br />
+                {gig.is_hirer_reviewed ? null : (
+                  <Button
+                    variant="primary"
+                    className=" rounded-pill mt-3 px-4"
+                  >
+                    Leave a review for hirer
+                  </Button>
+                )}
+              </>
+            );
           } else {
             //else request for payment by talent
             content = (
