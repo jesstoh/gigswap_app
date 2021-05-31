@@ -45,7 +45,7 @@ function GigEditButtons() {
           </div>
         </>
       );
-    } else if (user.isAdmin) {
+    } else if (isAdmin) {
       content = (
         <div className="btn text-primary" onClick={handleDeleteGig}>
           <FaTrashAlt />
