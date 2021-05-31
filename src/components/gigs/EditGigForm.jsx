@@ -36,6 +36,7 @@ function EditGigForm() {
       delete data.postal_code;
     }
     data.expired_at = new Date(data.expired_at);
+    data.is_updated = true; //Set edit as true to keep track in model
     console.log(data);
     try {
       const result = await dispatch(editGig({ data, id: gig.id }));

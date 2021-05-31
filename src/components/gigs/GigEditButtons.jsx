@@ -29,7 +29,7 @@ function GigEditButtons() {
   let content;
 
   //Only can edit or delete active gig
-  if (!gig.winner && gig.is_closed && parseISO(gig.expired_at) > new Date()) {
+  if (!gig.winner && !gig.is_closed && (parseISO(gig.expired_at) > new Date())) {
     // Check if login hirer is owner of gig
     if (user.id === gig.poster) {
       content = (
