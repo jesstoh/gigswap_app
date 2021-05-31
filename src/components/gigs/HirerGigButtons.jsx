@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col, Modal, ListGroup, Alert } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
-import { closeGig, awardGig } from '../../slices/gigsSlice';
+import {
+  closeGig,
+  awardGig,
+  acceptGigCompletion,
+} from '../../slices/gigsSlice';
 
 function HirerGigButtons() {
   const dispatch = useDispatch();
@@ -115,7 +119,10 @@ function HirerGigButtons() {
         //Check if gig is completed
         if (!gig.is_completed) {
           content = (
-            <Button className="mr-3 px-4 rounded-pill">
+            <Button
+              className="mr-3 px-4 rounded-pill"
+              onClick={() => dispatch(acceptGigCompletion(gig.id))}
+            >
               Accept deliverable
             </Button>
           );

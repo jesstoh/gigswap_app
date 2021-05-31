@@ -144,6 +144,24 @@ export const awardGig = createAsyncThunk(
   }
 );
 
+
+// Owner accept deliverable
+export const acceptGigCompletion = createAsyncThunk(
+  'gigs/acceptGigCompletion',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/complete/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      // console.log(err.response)
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
@@ -243,6 +261,9 @@ const gigsSlice = createSlice({
     });
     builder.addCase(awardGig.fulfilled, (state, action) => {
       state.activeGig.gig.winner = { id: action.payload.winnerId };
+    });
+    builder.addCase(acceptGigCompletion.fulfilled, (state, action) => {
+      state.activeGig.gig.is_completed = true;
     });
   },
 });
