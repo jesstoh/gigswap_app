@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Col } from 'react-bootstrap';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { Button, Col, Modal } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 import {
   saveGig,
@@ -17,7 +18,50 @@ function TalentGigButtons() {
   const savedGigs = useSelector((state) => state.favourites.fav.saved_list); //Get login talent saved gig list
   const appliedGigs = useSelector((state) => state.favourites.fav.applied_list); // Get login talent applied gig list
 
-  let content;
+  const [modalShow, setModalShow] = useState(false);
+
+  //Close Modal
+  function handleModalClose(e) {
+    setModalShow(false);
+  }
+
+  // Open modal
+  function handleModalOpen(e) {
+    setModalShow(true);
+  }
+
+  let modalContent = (
+    <Modal show={modalShow} onHide={handleModalClose}>
+      <Modal.Header closeButton>
+        {/* <Modal.Title>Participant List</Modal.Title> */}
+      </Modal.Header>
+      <Modal.Body>
+        Please complete your <a href='/profile/create'>profile </a>before gig application 
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="secondary rounded-pill"
+          className="px-4"
+          onClick={handleModalClose}
+        >
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+
+  async function handleApplyGig() {
+    try {
+      const result = await dispatch(applyGig(gig.id));
+      unwrapResult(result);
+    } catch (err) {
+      if (
+        err.data.detail === 'Only talent with complete profile can apply gig'
+      ) {
+        handleModalOpen();
+      }
+    }
+  }
 
   // Sending message for request for payment
   async function requestPayment() {
@@ -43,6 +87,7 @@ function TalentGigButtons() {
     }
   }
 
+  let content;
   // Gig closed without award
   if (gig.is_closed) {
     content = (
@@ -122,12 +167,15 @@ function TalentGigButtons() {
                 Withdraw
               </Button>
             ) : (
-              <Button
-                variant="outline-primary px-4 rounded-pill"
-                onClick={() => dispatch(applyGig(gig.id))}
-              >
-                Apply
-              </Button>
+              <>
+                {modalContent}
+                <Button
+                  variant="outline-primary px-4 rounded-pill"
+                  onClick={handleApplyGig}
+                >
+                  Apply
+                </Button>
+              </>
             )}
           </>
         );
