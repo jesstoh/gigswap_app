@@ -136,7 +136,7 @@ function AddGigForm() {
           </Form.Row>
 
           <Form.Group>
-            <Form.Label>description</Form.Label>
+            <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               rows={7}
