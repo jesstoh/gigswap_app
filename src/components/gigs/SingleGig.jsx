@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Badge, Button, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Badge,
+  Button,
+  Alert,
+  Collapse,
+} from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
 import { toggleGigEdit } from '../../slices/gigsSlice';
 import TimeAgo from '../others/TimeAgo';
+import SmallTalentExcerpt from '../talents/SmallTalentExcerpt'
 
 function SingleGig() {
   const dispatch = useDispatch();
   const { gig, error, success } = useSelector((state) => state.gigs.activeGig);
   const [errorMessage, setErrorMessage] = useState(null);
+  const userId = useSelector((state) => state.authentication.user.id);
+
+  //Open or close applicant list
+  const [showApplicants, setShowApplicants] = useState(false);
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
@@ -39,6 +52,20 @@ function SingleGig() {
           <a href={`/hirers/${gig.poster}`}>{gig.poster_profile.company}</a>
           <br />
           Review: ..... <br />
+          <br />
+          No. of Applicants:{' '}
+          {gig.poster === userId ? (
+            <Button
+              variant="link"
+              aria-controls="applicants-container"
+              onClick={() => setShowApplicants(!showApplicants)}
+            >
+              {gig.applicants.length}
+            </Button>
+          ) : (
+            gig.applicants.length
+          )}
+          <br />
           <br />
           <TimeAgo timestamp={gig.created_at} text="Posted " />
           <br />
@@ -109,6 +136,17 @@ function SingleGig() {
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
+
+      {/* Applicants list */}
+      {!gig.poster === userId ? null : (
+        <Collapse in={showApplicants}>
+          <div id="applicants-container" className='mt-5'>
+            <h5 className='text-center'>Applicants list</h5>
+            {gig.applicants.map(talent => <SmallTalentExcerpt talent={talent} key={talent.id}/>)}
+          </div>
+        </Collapse>
+      )}
+
       {/* <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button> */}
     </Container>
   );
