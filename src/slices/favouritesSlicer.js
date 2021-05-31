@@ -197,6 +197,10 @@ const favouritesSlice = createSlice({
     builder.addCase(applyGig.fulfilled, (state, action) => {
       state.fav.applied_list.push(action.payload.gigId);
     });
+    // Update applied_gig list when talent apply a gig
+    builder.addCase(applyGig.rejected, (state, action) => {
+      state.error = action.payload.data.detail
+    });
     //Remote gig from applied list
     builder.addCase(withdrawGig.fulfilled, (state, action) => {
       //Find index of gig

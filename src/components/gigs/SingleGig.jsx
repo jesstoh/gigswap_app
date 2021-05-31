@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button, Alert } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
@@ -10,9 +10,19 @@ import TimeAgo from '../others/TimeAgo';
 function SingleGig() {
   const dispatch = useDispatch();
   const { gig, error, success } = useSelector((state) => state.gigs.activeGig);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   return (
     <Container className="px-5 py-3 my-3 shadow bg-white rounded">
+      {errorMessage && (
+        <Alert
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMessage(null)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       <Row className="mb-3">
         <h3>{gig.title}</h3>
       </Row>
@@ -28,10 +38,17 @@ function SingleGig() {
           Company:{' '}
           <a href={`/hirers/${gig.poster}`}>{gig.poster_profile.company}</a>
           <br />
-          Review: ..... <br/><br/>
+          Review: ..... <br />
+          <br />
           <TimeAgo timestamp={gig.created_at} text="Posted " />
           <br />
-          <span className={`${parseISO(gig.expired_at) < new Date()? 'text-danger':'text-muted'}`}>
+          <span
+            className={`${
+              parseISO(gig.expired_at) < new Date()
+                ? 'text-danger'
+                : 'text-muted'
+            }`}
+          >
             <i>Expired on {format(parseISO(gig.expired_at), 'd MMM yyyy')} </i>
           </span>
         </Col>

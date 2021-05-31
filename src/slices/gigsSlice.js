@@ -233,11 +233,11 @@ const gigsSlice = createSlice({
     builder.addCase(fetchHirerGigs.pending, (state, action) => {
       state.status = 'loading';
     });
-    // Change status to failed & set error, when fetchGigs rejected
-    builder.addCase(fetchHirerGigs.rejected, (state, action) => {
-      state.status = 'failed';
-      state.error = action.payload.data.detail;
-    });
+    // // Change status to failed & set error, when fetchGigs rejected
+    // builder.addCase(fetchHirerGigs.rejected, (state, action) => {
+    //   state.status = 'failed';
+    //   state.error = action.payload.data.detail;
+    // });
     builder.addCase(closeGig.fulfilled, (state, action) => {
       state.activeGig.gig.is_closed = true;
     });
