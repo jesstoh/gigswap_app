@@ -12,9 +12,9 @@ import {
 import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
-import { toggleGigEdit } from '../../slices/gigsSlice';
 import TimeAgo from '../others/TimeAgo';
 import SmallTalentExcerpt from '../talents/SmallTalentExcerpt'
+import GigEditButtons from './GigEditButtons'
 
 function SingleGig() {
   const dispatch = useDispatch();
@@ -136,7 +136,10 @@ function SingleGig() {
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
-
+      
+      <Row>
+        <GigEditButtons />
+      </Row>
       {/* Applicants list */}
       {!gig.poster === userId ? null : (
         <Collapse in={showApplicants}>
@@ -146,8 +149,6 @@ function SingleGig() {
           </div>
         </Collapse>
       )}
-
-      {/* <Button onClick={() => dispatch(toggleGigEdit())}>Edit</Button> */}
     </Container>
   );
 }
