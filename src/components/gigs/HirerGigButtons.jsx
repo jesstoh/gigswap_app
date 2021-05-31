@@ -129,7 +129,19 @@ function HirerGigButtons() {
         } else {
           //Check if gig is paid
           if (gig.paid) {
-            content = <span>You have paid talent</span>;
+            content = (
+              <>
+                <span>You have paid talent</span> <br />
+                {gig.is_talent_reviewed ? null : (
+                  <Button
+                    variant="outline-primary"
+                    className=" rounded-pill mt-3 px-4"
+                  >
+                    Review Talent Performance
+                  </Button>
+                )}
+              </>
+            );
           } else {
             content = <Button className="mr-3 px-4 rounded-pill">Pay</Button>;
           }
