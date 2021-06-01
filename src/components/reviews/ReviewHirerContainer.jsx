@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { Button, Collapse, Form, Col } from 'react-bootstrap';
-import { createHirerReview } from '../../slices/favouritesSlicer.js';
+import { Button, Collapse, Form, Col, Alert } from 'react-bootstrap';
+import { createHirerReview } from '../../slices/gigsSlice.js';
 
 function ReviewHirerContainer() {
+  const dispatch = useDispatch();
   const gig = useSelector((state) => state.gigs.activeGig.gig);
   //Show review form
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -14,10 +15,21 @@ function ReviewHirerContainer() {
     scope: 5,
     description: '',
   };
-  const [formValue, setFormValue] = useState({...initialFormState});
+  const [formValue, setFormValue] = useState({ ...initialFormState });
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    const data = { ...formValue };
+    // set gig id in post data
+    data.gig_id = gig.id;
+    try {
+      const result = await dispatch(createHirerReview(data));
+      unwrapResult(result);
+    } catch (err) {
+      console.log(err);
+      setErrorMessage(err.data.detail);
+    }
   }
   function checkBoxChange(e) {
     setFormValue({ ...formValue, [e.target.name]: e.target.checked });
@@ -28,7 +40,7 @@ function ReviewHirerContainer() {
 
   function handleCancel(e) {
     e.preventDefault();
-    setFormValue({...initialFormState})
+    setFormValue({ ...initialFormState });
     setShowReviewForm(!showReviewForm);
   }
 
@@ -49,6 +61,15 @@ function ReviewHirerContainer() {
 
       <Collapse in={showReviewForm}>
         <div id="gigs-container" className="mt-5 border rounded p-3">
+          {errorMessage && (
+            <Alert
+              variant="danger"
+              dismissible
+              onClose={() => setErrorMessage(null)}
+            >
+              {errorMessage}
+            </Alert>
+          )}
           <Form onSubmit={handleSubmit}>
             <h5 className="text-center mb-3">Review Hirer</h5>
             <p className="text-left text-muted mb-4">
@@ -103,7 +124,7 @@ function ReviewHirerContainer() {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Text className="text-muted text-right" >
+            <Form.Text className="text-muted text-right">
               Max 500 characters
             </Form.Text>
 
