@@ -15,7 +15,6 @@ import { IoSend } from 'react-icons/io5';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
 import Axios from '../../utilz/Axios.js';
-import gigsSlice from '../../slices/gigsSlice';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -30,8 +29,11 @@ function SingleTalent() {
   const [gigId, setGigId] = useState(''); // Store gig id that hirer select to invite talent
   const [modalShow, setModalShow] = useState(false); //Storing state of showing modal of hire's gig list
 
-  //Open or close applicant list
+  //Open or close gig list
   const [showWonGigs, setShowWonGigs] = useState(false);
+
+  //Open or close gig list
+  const [showReview, setShowReview] = useState(false);
 
   //Api call to invite talent
   async function inviteTalent() {
@@ -169,20 +171,33 @@ function SingleTalent() {
           </div>
         </Col>
         <Col className="">
-          No. of Gigs Won: 
+          No. of Gigs Won:{' '}
           {isHirer || userId === talent.id ? (
-            <Button
-              variant="link"
+            <span
+              className="link-like text-primary"
               aria-controls="gigs-container"
               onClick={() => setShowWonGigs(!showWonGigs)}
             >
               {talent.talent_profile.gigs_won}
-            </Button>
+            </span>
           ) : (
             talent.talent_profile.gigs_won
           )}
           <br />
-          <div>Review: .....</div>
+          <div>
+            Rating:{' '}
+            {isHirer || userId === talent.id ? (
+              <span
+                className="link-like text-primary"
+                aria-controls="reviews-container"
+                onClick={() => setShowReview(!showReview)}
+              >
+                {talent.avg_review_rating} ({talent.review_count} review)
+              </span>
+            ) : (
+              talent.review_count
+            )}
+          </div>
         </Col>
       </Row>
       <Row className="mb-4 mt-5">
@@ -223,19 +238,30 @@ function SingleTalent() {
         Placeholder of reviews for talent
       </Row>
 
-      {/* Applicants list */}
+      {/* Gig won list*/}
       {isHirer || userId === talent.id ? (
         <Collapse in={showWonGigs}>
           <div id="gigs-container" className="mt-5">
             <h5 className="text-center">Portfolio</h5>
+            <span className='link-like text-primary' onClick={() => setShowWonGigs(false)}>Less</span>
             {talent.gigs_won.map((gig) => (
               <SmallGigExcerpt gig={gig} key={gig.id} />
             ))}
-          </div> 
+          </div>
         </Collapse>
-      ): null}
+      ) : null}
 
-      {/* Modal of hirer's gigs list */}
+      {/* Review List*/}
+      {isHirer || userId === talent.id ? (
+        <Collapse in={showReview}>
+          <div id="reviews-container" className="mt-5">
+            <h5 className="text-center">Review</h5>
+            
+          </div>
+        </Collapse>
+      ) : null}
+
+      {/* Modal of hirer's gigs list to select for invitation of talent*/}
       {!isHirer ? null : modalContent}
     </Container>
   );

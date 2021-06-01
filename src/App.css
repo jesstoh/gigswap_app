@@ -103,3 +103,7 @@ footer {
 .hide-div {
   display: hidden;
 }
+
+.link-like {
+  cursor: pointer;
+}
