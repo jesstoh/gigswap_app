@@ -59,7 +59,7 @@ footer {
   font-size: smaller;
 }
 
-.gig-card a, .notification-card a, .talent-card a {
+.gig-card>a, .notification-card>a, .talent-card>a {
   text-decoration-style: none;
   color: black
 }

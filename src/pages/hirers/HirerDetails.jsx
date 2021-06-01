@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Alert, Container } from 'react-bootstrap';
 import { fetchSingleHirer } from '../../slices/hirersSlice';
+import {fetchHirerReviews} from '../../slices/reviewsSlice'
 import SingleHirer from '../../components/hirers/SingleHirer'
 
 function HirerDetails({ match }) {
@@ -17,6 +18,7 @@ function HirerDetails({ match }) {
   useEffect(() => {
     //Fetch single hirer details to the store
     dispatch(fetchSingleHirer(hirerId));
+    dispatch(fetchHirerReviews(hirerId))
   }, []);
 
   let content;
