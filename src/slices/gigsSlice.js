@@ -162,6 +162,41 @@ export const acceptGigCompletion = createAsyncThunk(
   }
 );
 
+//Reviewing talent
+export const createTalentReview = createAsyncThunk(
+  'gigs/createTalentReview',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/reviews/talent/`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+//Reviewing hirer
+export const createHirerReview = createAsyncThunk(
+  'gigs/createHirerReview',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await Axios.post(
+        `${process.env.REACT_APP_API_URL}/api/reviews/hirer/`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+
 const gigsSlice = createSlice({
   name: 'gigs',
   initialState,
@@ -264,6 +299,12 @@ const gigsSlice = createSlice({
     });
     builder.addCase(acceptGigCompletion.fulfilled, (state, action) => {
       state.activeGig.gig.is_completed = true;
+    });
+    builder.addCase(createTalentReview.fulfilled, (state, action) => {
+      state.activeGig.gig.is_talent_reviewed = true;
+    });
+    builder.addCase(createHirerReview.fulfilled, (state, action) => {
+      state.activeGig.gig.is_hirer_reviewed = true;
     });
   },
 });
