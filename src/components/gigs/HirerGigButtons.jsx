@@ -7,6 +7,7 @@ import {
   awardGig,
   acceptGigCompletion,
 } from '../../slices/gigsSlice';
+import ReviewTalentContainer from '../reviews/ReviewTalentContainer';
 
 function HirerGigButtons() {
   const dispatch = useDispatch();
@@ -132,14 +133,7 @@ function HirerGigButtons() {
             content = (
               <>
                 <span>You have paid talent</span> <br />
-                {gig.is_talent_reviewed ? null : (
-                  <Button
-                    variant="outline-primary"
-                    className=" rounded-pill mt-3 px-4"
-                  >
-                    Review Talent Performance
-                  </Button>
-                )}
+                {gig.is_talent_reviewed ? null : <ReviewTalentContainer />}
               </>
             );
           } else {
