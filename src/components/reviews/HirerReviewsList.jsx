@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Container, Spinner } from 'react-bootstrap';
+import { Container, Spinner, Row, Col } from 'react-bootstrap';
 import HirerReviewExcerpt from './HirerReviewExcerpt';
 
 function HirerReviewsList() {
   // const gigs = useSelector((state) => state.gigs.gigs);
-  const { hirerReviews, status, error } = useSelector(
+  const { hirerReviews, status, error, summary } = useSelector(
     (state) => state.reviews
   );
   let content;
@@ -23,18 +23,29 @@ function HirerReviewsList() {
       content = <span>No reviews</span>;
     } else {
       content = (
-        <div>
-          {hirerReviews.map((review) => (
-            <HirerReviewExcerpt key={review.id} review={review} />
-          ))}
-        </div>
+        <>
+          {/* Summary of reviews */}
+          <div>
+            <Row className='p-3 text-center'>
+              <Col>Avg Rating<br/> {summary.avg_rating}</Col>
+              <Col>Payment On Time<br/> {summary.avg_ontime * 100} %</Col>
+              <Col>Scope Clarity<br/>  {summary.avg_scope}</Col>
+            </Row>
+          </div>
+          {/* Review listing */}
+          <div>
+            {hirerReviews.map((review) => (
+              <HirerReviewExcerpt key={review.id} review={review} />
+            ))}
+          </div>
+        </>
       );
     }
   } else if (status === 'failed') {
     content = <span>{error}</span>;
   }
 
-  return <Container className="mt-3">{content}</Container>;
+  return <Container className="mt-2">{content}</Container>;
 }
 
 export default HirerReviewsList;
