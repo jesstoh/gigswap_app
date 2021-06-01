@@ -10,6 +10,7 @@ import {
   withdrawGig,
 } from '../../slices/favouritesSlicer.js';
 import Axios from '../../utilz/Axios.js';
+import ReviewHirerContainer from '../reviews/ReviewHirerContainer'
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -119,12 +120,7 @@ function TalentGigButtons() {
                 <span>Owner has made payment to you for this gig</span>
                 <br />
                 {gig.is_hirer_reviewed ? null : (
-                  <Button
-                    variant="primary"
-                    className=" rounded-pill mt-3 px-4"
-                  >
-                    Leave a review for hirer
-                  </Button>
+                  <ReviewHirerContainer />
                 )}
               </>
             );

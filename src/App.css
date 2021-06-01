@@ -99,3 +99,7 @@ footer {
 .sqr-image-container img{
   object-fit: cover;
 }
+
+.hide-div {
+  display: hidden;
+}
