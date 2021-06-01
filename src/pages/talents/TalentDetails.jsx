@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Alert, Container } from 'react-bootstrap';
 import { fetchSingleTalent } from '../../slices/talentsSlice';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
-import SingleTalent  from '../../components/talents/SingleTalent'
+import SingleTalent from '../../components/talents/SingleTalent';
+import { fetchTalentReviews } from '../../slices/reviewsSlice';
 
 function TalentDetails({ match }) {
   const dispatch = useDispatch();
   //States of active talent being viewed
-  const { status, error } = useSelector(
-    (state) => state.talents.activeTalent
-  );
+  const { status, error } = useSelector((state) => state.talents.activeTalent);
   const isHirer = useSelector((state) => state.authentication.isHirer);
 
   //Talent id in url
@@ -20,11 +19,13 @@ function TalentDetails({ match }) {
     //Fetch single talent details to the store
     dispatch(fetchSingleTalent(talentId));
 
+    //Fetch talent's review
+    dispatch(fetchTalentReviews(talentId))
+
     // Fetch hirer favourite if login user is hirer
-    if (isHirer){
+    if (isHirer) {
       dispatch(fetchHirerFav());
     }
-    
   }, []);
 
   let content;

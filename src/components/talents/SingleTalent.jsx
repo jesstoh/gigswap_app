@@ -12,9 +12,10 @@ import {
   Collapse,
 } from 'react-bootstrap';
 import { IoSend } from 'react-icons/io5';
+import Axios from '../../utilz/Axios.js';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
-import Axios from '../../utilz/Axios.js';
+import TalentReviewsList from '../reviews/TalentReviewsList'
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -32,7 +33,7 @@ function SingleTalent() {
   //Open or close gig list
   const [showWonGigs, setShowWonGigs] = useState(false);
 
-  //Open or close gig list
+  //Open or close review list
   const [showReview, setShowReview] = useState(false);
 
   //Api call to invite talent
@@ -233,10 +234,7 @@ function SingleTalent() {
           </Col>
         </Row>
       )}
-
-      <Row className="reviews-container border my-2">
-        Placeholder of reviews for talent
-      </Row>
+      <hr/>
 
       {/* Gig won list*/}
       {isHirer || userId === talent.id ? (
@@ -256,7 +254,7 @@ function SingleTalent() {
         <Collapse in={showReview}>
           <div id="reviews-container" className="mt-5">
             <h5 className="text-center">Review</h5>
-            
+            <TalentReviewsList />
           </div>
         </Collapse>
       ) : null}

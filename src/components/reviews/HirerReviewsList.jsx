@@ -34,7 +34,7 @@ function HirerReviewsList() {
     content = <span>{error}</span>;
   }
 
-  return <Container className="mt-5">{content}</Container>;
+  return <Container className="mt-3">{content}</Container>;
 }
 
 export default HirerReviewsList;
