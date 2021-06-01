@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Spinner } from 'react-bootstrap';
-import HirerReviewExcerpt from './HirerReviewExcerpt';
+import TalentReviewExcerpt from './TalentReviewExcerpt';
 
-function HirerReviewsList() {
-  // const gigs = useSelector((state) => state.gigs.gigs);
-  const { hirerReviews, status, error } = useSelector(
+// Show talent reviews in list of cards
+function TalentReviewsList() {
+  const { talentReviews, status, error } = useSelector(
     (state) => state.reviews
   );
   let content;
@@ -18,14 +18,14 @@ function HirerReviewsList() {
       </div>
     );
   } else if (status === 'succeeded') {
-    if (!hirerReviews.length) {
+    if (!talentReviews.length) {
       //Show message if there is empty review list
       content = <span>No reviews</span>;
     } else {
       content = (
         <div>
-          {hirerReviews.map((review) => (
-            <HirerReviewExcerpt key={review.id} review={review} />
+          {talentReviews.map((review) => (
+            <TalentReviewExcerpt key={review.id} review={review} />
           ))}
         </div>
       );
@@ -37,4 +37,4 @@ function HirerReviewsList() {
   return <Container className="mt-5">{content}</Container>;
 }
 
-export default HirerReviewsList;
+export default TalentReviewsList;
