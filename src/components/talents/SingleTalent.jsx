@@ -15,7 +15,7 @@ import { IoSend } from 'react-icons/io5';
 import Axios from '../../utilz/Axios.js';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
-import TalentReviewsList from '../reviews/TalentReviewsList'
+import TalentReviewsList from '../reviews/TalentReviewsList';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -35,6 +35,31 @@ function SingleTalent() {
 
   //Open or close review list
   const [showReview, setShowReview] = useState(false);
+
+  //Toggle portfolio container
+  function toggleGig() {
+    if (showWonGigs) {
+      setShowWonGigs(!showWonGigs);
+    } else {
+      if (showReview) {
+        setShowReview(!showReview);
+      }
+      setShowWonGigs(!showWonGigs);
+    }
+  }
+
+
+  //Toggle review container
+  function toggleReview() {
+    if (showReview) {
+      setShowReview(!showReview);
+    } else {
+      if (showWonGigs) {
+        setShowWonGigs(!showWonGigs);
+      }
+      setShowReview(!showReview);
+    }
+  }
 
   //Api call to invite talent
   async function inviteTalent() {
@@ -177,7 +202,7 @@ function SingleTalent() {
             <span
               className="link-like text-primary"
               aria-controls="gigs-container"
-              onClick={() => setShowWonGigs(!showWonGigs)}
+              onClick={toggleGig}
             >
               {talent.talent_profile.gigs_won}
             </span>
@@ -191,12 +216,17 @@ function SingleTalent() {
               <span
                 className="link-like text-primary"
                 aria-controls="reviews-container"
-                onClick={() => setShowReview(!showReview)}
+                onClick={toggleReview}
               >
-                {talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count} review) ` : 'No review'}
+                {talent.avg_review_rating
+                  ? talent.avg_review_rating +
+                    `(${talent.review_count} review) `
+                  : 'No review'}
               </span>
+            ) : talent.avg_review_rating ? (
+              talent.avg_review_rating + `(${talent.review_count} review) `
             ) : (
-              talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count} review) ` : 'No review'
+              'No review'
             )}
           </div>
         </Col>
@@ -222,7 +252,7 @@ function SingleTalent() {
       </Row>
       {/* Button container for login hirer action */}
       {!isHirer ? null : (
-        <Row className="button-container my-3">
+        <Row className="button-container mt-3 mb-4">
           <Col className="text-center">
             <TalentButtons />
             <Button
@@ -234,14 +264,19 @@ function SingleTalent() {
           </Col>
         </Row>
       )}
-      <hr/>
+      <hr />
 
       {/* Gig won list*/}
       {isHirer || userId === talent.id ? (
         <Collapse in={showWonGigs}>
           <div id="gigs-container" className="mt-5">
             <h5 className="text-center">Portfolio</h5>
-            <span className='link-like text-primary' onClick={() => setShowWonGigs(false)}>Less</span>
+            <span
+              className="link-like text-primary"
+              onClick={() => setShowWonGigs(false)}
+            >
+              Less
+            </span>
             {talent.gigs_won.map((gig) => (
               <SmallGigExcerpt gig={gig} key={gig.id} />
             ))}
