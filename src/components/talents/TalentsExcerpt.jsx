@@ -3,7 +3,7 @@ import { Badge, Col, Row, Card, Image } from 'react-bootstrap';
 
 function TalentExcerpt({ talent }) {
   return (
-    <Card className="talent-card shadow-sm  bg-white rounded">
+    <Card className="mb-1 talent-card shadow-sm  bg-white rounded">
       <a href={`/talents/${talent.user.id}`}>
         <Card.Body>
           <Row>

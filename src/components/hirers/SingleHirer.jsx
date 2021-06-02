@@ -53,6 +53,7 @@ function SingleHirer() {
           </div>
         </Collapse>
       )}
+      {isHirer && userId !== hirer.id ? null :
       <Row className="gigs-container mb-4 mt-5 py-3">
         <Col>
           <h5 className="text-center">Active Gig Listing</h5>
@@ -60,7 +61,7 @@ function SingleHirer() {
             <GigExcerpt key={gig.id} gig={gig} />
           ))}
         </Col>
-      </Row>
+      </Row>}
     </Container>
   );
 }
