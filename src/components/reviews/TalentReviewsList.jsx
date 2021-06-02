@@ -27,10 +27,10 @@ function TalentReviewsList() {
           {' '}
           <div>
             <Row className="p-3 text-center">
-              <Col>Avg Rating<br/> {summary.avg_rating}</Col>
-              <Col>Quality<br/> {summary.avg_quality}</Col>
-              <Col>Deliver On Time<br/> {summary.avg_ontime * 100} %</Col>
-              <Col>Recommend<br/>{summary.avg_recommended * 100} %</Col>
+              <Col>Avg Rating<br/> <span className='text-larger '>{summary.avg_rating}</span></Col>
+              <Col>Quality<br/><span className='text-larger'> {summary.avg_quality}</span></Col>
+              <Col>Deliver On Time<br/> <span className='text-larger'>{summary.avg_ontime * 100} %</span></Col>
+              <Col>Recommend<br/><span className='text-larger'>{summary.avg_recommended * 100} %</span></Col>
             </Row>
           </div>
           <div>

@@ -107,3 +107,12 @@ footer {
 .link-like {
   cursor: pointer;
 }
+
+.text-smaller {
+  font-size: smaller;
+}
+
+.text-larger {
+  font-size: larger;
+  /* font-weight: bolder */
+}

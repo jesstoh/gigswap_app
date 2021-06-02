@@ -16,6 +16,7 @@ import Axios from '../../utilz/Axios.js';
 import TalentButtons from '../../components/talents/TalentsButtons';
 import SmallGigExcerpt from '../gigs/SmallGigExcerpt';
 import TalentReviewsList from '../reviews/TalentReviewsList';
+import ReviewStar from '../others/ReviewStar';
 
 function SingleTalent() {
   const { talent } = useSelector((state) => state.talents.activeTalent);
@@ -211,20 +212,20 @@ function SingleTalent() {
           )}
           <br />
           <div>
-            Rating:{' '}
+            Rating:{' '} <ReviewStar rating={talent.avg_review_rating} /> {' '}
             {isHirer || userId === talent.id ? (
               <span
-                className="link-like text-primary"
+                className="link-like text-primary text-smaller"
                 aria-controls="reviews-container"
                 onClick={toggleReview}
               >
                 {talent.avg_review_rating
                   ? talent.avg_review_rating +
-                    `(${talent.review_count} review) `
+                    ` from ${talent.review_count} reviews `
                   : 'No review'}
               </span>
             ) : talent.avg_review_rating ? (
-              talent.avg_review_rating + `(${talent.review_count} review) `
+              talent.avg_review_rating + ` from ${talent.review_count} review `
             ) : (
               'No review'
             )}
