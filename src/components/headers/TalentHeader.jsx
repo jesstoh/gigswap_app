@@ -2,13 +2,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import { FaUser, FaBell, FaComment } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 import { handleLogout } from '../../utilz/authenticationUtilz';
 
-function TalentHeader() {
+function TalentHeader({ location }) {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.authentication.user.username);
   const unreadNotification = useSelector((state) => state.notifications.unread);
 
+  // Get current url
+  const currentPath = location.pathname;
   return (
     <Navbar
       fixed="top"
@@ -22,8 +25,8 @@ function TalentHeader() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/gigs">Gigs</Nav.Link>
-          <Nav.Link href="/gigs/recommended">Hot Gigs</Nav.Link>
+          <Nav.Link href="/gigs" active={currentPath === '/gigs'}>Gigs</Nav.Link>
+          <Nav.Link href="/gigs/recommended" active={currentPath === '/gigs/recommended'}>Hot Gigs</Nav.Link>
         </Nav>
         <Nav>
           <Nav.Link href="/notifications" className="mr-2 text-white">
@@ -64,4 +67,4 @@ function TalentHeader() {
   );
 }
 
-export default TalentHeader;
+export default withRouter(TalentHeader);

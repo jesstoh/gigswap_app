@@ -8,18 +8,18 @@ function ReviewStar({ rating }) {
 
   // Generate full star elementes
   for (let i = 0; i < Math.floor(rating); i++) {
-    stars.push(<FaStar className="text-warning" key={i} />);
+    stars.push(<FaStar className="text-warning" key={'full' + i} />);
   }
 
   // Generate half star if decimal is >= 0.5
   if (rating - Math.floor(rating) >= 0.5) {
-    stars.push(<FaStarHalfAlt className="text-warning" />);
+    stars.push(<FaStarHalfAlt className="text-warning" key="half" />);
     numEmptyStars--;
   }
 
   // Generate empty star elements
   for (let i = 0; i < numEmptyStars; i++) {
-    stars.push(<FaRegStar className="text-warning" key={i} />);
+    stars.push(<FaRegStar className="text-warning" key={'empty' + i} />);
   }
 
   return <>{stars}</>;

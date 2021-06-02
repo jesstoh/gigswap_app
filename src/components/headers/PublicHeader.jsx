@@ -1,7 +1,11 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 
-function AdminHeader() {
+function PublicHeader({location}) {
+  // Get current url
+  const currentPath = location.pathname;
+
   return (
     <Navbar fixed='top'
       collapseOnSelect
@@ -15,11 +19,11 @@ function AdminHeader() {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto"></Nav>
         <Nav>
-          <Nav.Link href="/login" className="mr-2">
+          <Nav.Link href="/login" className="mr-2" active={currentPath === '/login'}>
             Login
           </Nav.Link>
 
-          <Nav.Link className="mr-4" href="/register">
+          <Nav.Link className="mr-4" href="/register" active={currentPath === '/register'}>
             {' '}
             Sign Up
           </Nav.Link>
@@ -30,4 +34,4 @@ function AdminHeader() {
   );
 }
 
-export default AdminHeader;
+export default withRouter(PublicHeader);

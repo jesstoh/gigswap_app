@@ -2,10 +2,10 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';
-// import { logout } from '../../slices/authenticationSlice';
+import { withRouter } from 'react-router-dom';
 import { handleLogout } from '../../utilz/authenticationUtilz';
 
-function AdminHeader() {
+function AdminHeader({location}) {
   const dispatch = useDispatch();
 
   //   function handleLogout() {
@@ -14,8 +14,12 @@ function AdminHeader() {
   //     localStorage.removeItem('refresh');
   //   }
 
+  // Get current url
+  const currentPath = location.pathname;
+
   return (
-    <Navbar fixed='top'
+    <Navbar
+      fixed="top"
       collapseOnSelect
       expand="lg"
       bg="primary"
@@ -30,7 +34,7 @@ function AdminHeader() {
           <Nav.Link href="/hirer/mygigs">My Gigs</Nav.Link> */}
         </Nav>
         <Nav>
-          <Nav.Link href="/admin/dashboard" className="mr-2">
+          <Nav.Link href="/admin/dashboard" className="mr-2" active={currentPath === '/admin/dashboard'}>
             Dashboard
           </Nav.Link>
           <NavDropdown
@@ -38,15 +42,15 @@ function AdminHeader() {
             title="Maintenance"
             id="collasible-nav-dropdown"
             size="lg"
-            className="text-white mr-4"
+            className="text-white mr-4" active={['/admin/categories', '/admin/maintenance/users', '/admin/maintenance/gigs'].includes(currentPath)}
           >
-            <NavDropdown.Item href="/admin/categories">
+            <NavDropdown.Item href="/admin/categories" active={currentPath === '/admin/categories'}>
               Category
             </NavDropdown.Item>
-            <NavDropdown.Item href="/admin/maintenance/users">
+            <NavDropdown.Item href="/admin/maintenance/users" active={currentPath === '/admin/maintenance/users'}>
               Users
             </NavDropdown.Item>
-            <NavDropdown.Item href="/admin/maintenance/gigs">
+            <NavDropdown.Item href="/admin/maintenance/gigs" active={currentPath === '/admin/maintenance/gigs'}>
               Gigs
             </NavDropdown.Item>
           </NavDropdown>
@@ -54,7 +58,7 @@ function AdminHeader() {
             className="mr-4 text-white"
             onClick={() => handleLogout(dispatch)}
           >
-            <FaUser size={23} className='mr-2'/> Logout
+            <FaUser size={23} className="mr-2" /> Logout
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
@@ -62,4 +66,4 @@ function AdminHeader() {
   );
 }
 
-export default AdminHeader;
+export default withRouter(AdminHeader);

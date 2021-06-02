@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import { FaUser, FaBell, FaComment } from 'react-icons/fa';
 import { handleLogout } from '../../utilz/authenticationUtilz';
+import { withRouter } from "react-router-dom";
 
-function HirerHeader() {
+function HirerHeader({location}) {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.authentication.user.username);
   const unreadNotification = useSelector((state) => state.notifications.unread);
+
+  // Get current url
+  const currentPath = location.pathname;
 
   return (
     <Navbar
@@ -22,8 +26,8 @@ function HirerHeader() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/talents">Talents</Nav.Link>
-          <Nav.Link href="/hirer/mypage">MyWorkspace</Nav.Link>
+          <Nav.Link href="/talents" active={currentPath === '/talents'}>Talents</Nav.Link>
+          <Nav.Link href="/hirer/mypage" active={currentPath === '/hirer/mypage'}>MyWorkspace</Nav.Link>
         </Nav>
         <Nav>
           <Nav.Link href="/notifications" className="mr-2 text-white">
@@ -32,7 +36,7 @@ function HirerHeader() {
             <Badge
               variant="warning"
               pill
-              className="align-top notification-badge"
+              className="align-top notification-badge "
             >
               {unreadNotification}
             </Badge>
@@ -64,4 +68,4 @@ function HirerHeader() {
   );
 }
 
-export default HirerHeader;
+export default withRouter(HirerHeader);
