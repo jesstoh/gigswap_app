@@ -212,7 +212,7 @@ function SingleTalent() {
           )}
           <br />
           <div>
-            Rating:{' '} <ReviewStar rating={talent.avg_review_rating} /> {' '}
+            Rating:{' '}<ReviewStar rating={talent.avg_review_rating} /> {' '}
             {isHirer || userId === talent.id ? (
               <span
                 className="link-like text-primary text-smaller"

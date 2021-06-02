@@ -86,7 +86,6 @@ function SingleGig() {
             <i>Expired on {format(parseISO(gig.expired_at), 'd MMM yyyy')} </i>
           </span>
           <br />
-          {gig.is_updated ? '(edit)' : null}
         </Col>
       </Row>
       <div className="mt-3 mb-4">
@@ -142,6 +141,7 @@ function SingleGig() {
           <p>{gig.description}</p>
         </Col>
       </Row>
+      <span className="text-muted">{gig.is_updated ? '(edited)' : null}</span>
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
