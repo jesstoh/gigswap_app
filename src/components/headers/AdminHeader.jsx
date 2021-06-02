@@ -55,7 +55,7 @@ function AdminHeader({location}) {
             </NavDropdown.Item>
           </NavDropdown>
           <Nav.Link
-            className="mr-4 text-white"
+            className="mr-4"
             onClick={() => handleLogout(dispatch)}
           >
             <FaUser size={23} className="mr-2" /> Logout
