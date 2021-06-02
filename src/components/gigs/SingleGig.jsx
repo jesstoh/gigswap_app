@@ -13,8 +13,9 @@ import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
 import TimeAgo from '../others/TimeAgo';
-import SmallTalentExcerpt from '../talents/SmallTalentExcerpt'
-import GigEditButtons from './GigEditButtons'
+import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
+import GigEditButtons from './GigEditButtons';
+import ReviewStar from '../others/ReviewStar';
 
 function SingleGig() {
   const dispatch = useDispatch();
@@ -51,7 +52,13 @@ function SingleGig() {
           Company:{' '}
           <a href={`/hirers/${gig.poster}`}>{gig.poster_profile.company}</a>
           <br />
-          Review: {gig.avg_review_rating ? gig.avg_review_rating + `(${gig.review_count} review)` : 'No review'}<br />
+          Rating: <ReviewStar rating={gig.avg_review_rating} />{' '}
+          <span className="text-smaller">
+            {gig.avg_review_rating
+              ? gig.avg_review_rating + ` from ${gig.review_count} review `
+              : 'No review'}
+          </span>
+          <br />
           <br />
           No. of Applicants:{' '}
           {gig.poster === userId ? (
@@ -77,9 +84,9 @@ function SingleGig() {
             }`}
           >
             <i>Expired on {format(parseISO(gig.expired_at), 'd MMM yyyy')} </i>
-          </span><br/>
-          {gig.is_updated? '(edit)' : null}
-
+          </span>
+          <br />
+          {gig.is_updated ? '(edit)' : null}
         </Col>
       </Row>
       <div className="mt-3 mb-4">
@@ -138,16 +145,18 @@ function SingleGig() {
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
-      
+
       <Row>
         <GigEditButtons />
       </Row>
       {/* Applicants list */}
       {!gig.poster === userId ? null : (
         <Collapse in={showApplicants}>
-          <div id="applicants-container" className='mt-5'>
-            <h5 className='text-center'>Applicants list</h5>
-            {gig.applicants.map(talent => <SmallTalentExcerpt talent={talent} key={talent.id}/>)}
+          <div id="applicants-container" className="mt-5">
+            <h5 className="text-center">Applicants list</h5>
+            {gig.applicants.map((talent) => (
+              <SmallTalentExcerpt talent={talent} key={talent.id} />
+            ))}
           </div>
         </Collapse>
       )}

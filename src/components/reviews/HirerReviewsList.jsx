@@ -27,9 +27,9 @@ function HirerReviewsList() {
           {/* Summary of reviews */}
           <div>
             <Row className='p-3 text-center'>
-              <Col>Avg Rating<br/> {summary.avg_rating}</Col>
-              <Col>Payment On Time<br/> {summary.avg_ontime * 100} %</Col>
-              <Col>Scope Clarity<br/>  {summary.avg_scope}</Col>
+              <Col>Avg Rating<br/> <span className='text-larger'>{summary.avg_rating}</span></Col>
+              <Col>Payment On Time<br/> <span className='text-larger'>{summary.avg_ontime * 100} %</span></Col>
+              <Col>Scope Clarity<br/>  <span className='text-larger'>{summary.avg_scope}</span></Col>
             </Row>
           </div>
           {/* Review listing */}

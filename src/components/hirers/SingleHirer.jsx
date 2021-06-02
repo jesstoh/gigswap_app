@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Collapse } from 'react-bootstrap';
 import GigExcerpt from '../gigs/GigExcerpt';
-import HirerReviewsList from '../reviews/HirerReviewsList'
+import HirerReviewsList from '../reviews/HirerReviewsList';
+import ReviewStar from '../others/ReviewStar';
 
 function SingleHirer() {
   const hirer = useSelector((state) => state.hirers.activeHirer.hirer);
@@ -30,15 +31,22 @@ function SingleHirer() {
         <Col className="">
           <div>No. of Gigs Awarded: {hirer.gigs_award_count} </div>
           <div>
-            Rating:{' '}
+            Rating:{' '}<ReviewStar rating={hirer.avg_review_rating} /> {' '}
             {isHirer && userId !== hirer.id ? (
-              hirer.avg_review_rating ? hirer.avg_review_rating + `(${hirer.review_count} review) ` : 'No reviews'
+              hirer.avg_review_rating ? (
+                hirer.avg_review_rating + ` from ${hirer.review_count} review) `
+              ) : (
+                'No review'
+              )
             ) : (
               <span
-                className="link-like text-primary"
+                className="link-like text-primary text-smaller"
                 aria-controls="reviews-container"
                 onClick={() => setShowReview(!showReview)}
-              >{hirer.avg_review_rating ? hirer.avg_review_rating + `(${hirer.review_count} review) ` : 'No review'}
+              >
+                {hirer.avg_review_rating
+                  ? hirer.avg_review_rating + ` from ${hirer.review_count} review`
+                  : 'No review'}
               </span>
             )}
           </div>
@@ -53,15 +61,16 @@ function SingleHirer() {
           </div>
         </Collapse>
       )}
-      {isHirer && userId !== hirer.id ? null :
-      <Row className="gigs-container mb-4 mt-5 py-3">
-        <Col>
-          <h5 className="text-center">Active Gig Listing</h5>
-          {hirer.active_gigs.map((gig) => (
-            <GigExcerpt key={gig.id} gig={gig} />
-          ))}
-        </Col>
-      </Row>}
+      {isHirer && userId !== hirer.id ? null : (
+        <Row className="gigs-container mb-4 mt-5 py-3">
+          <Col>
+            <h5 className="text-center">Active Gig Listing</h5>
+            {hirer.active_gigs.map((gig) => (
+              <GigExcerpt key={gig.id} gig={gig} />
+            ))}
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 }

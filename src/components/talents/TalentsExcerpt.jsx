@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, Col, Row, Card, Image } from 'react-bootstrap';
+import ReviewStar from '../others/ReviewStar';
 
 function TalentExcerpt({ talent }) {
   return (
@@ -21,8 +22,8 @@ function TalentExcerpt({ talent }) {
                 {talent.user.first_name}, {talent.user.last_name}{' '}
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                Review: {talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count})` : 'No reviews'} <br />
-                Gigs Won: {talent.gigs_won}
+                Review: <ReviewStar rating={talent.avg_review_rating}/> <span className='text-smaller mr-5'>{talent.avg_review_rating ? `${talent.review_count} review` : 'No review'} </span>
+                <span className='text-smaller'>Gigs Won: {talent.gigs_won}</span>
               </Card.Subtitle>
 
               <div>
