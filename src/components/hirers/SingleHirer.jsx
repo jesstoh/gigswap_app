@@ -28,7 +28,7 @@ function SingleHirer() {
           </div>
         </Col>
         <Col className="">
-          <div>No. of Gigs Awarded: </div>
+          <div>No. of Gigs Awarded: {hirer.gigs_award_count} </div>
           <div>
             Rating:{' '}
             {isHirer && userId !== hirer.id ? (
