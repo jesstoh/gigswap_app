@@ -21,7 +21,7 @@ function TalentExcerpt({ talent }) {
                 {talent.user.first_name}, {talent.user.last_name}{' '}
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                Review: ..... <br />
+                Review: {talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count})` : 'No reviews'} <br />
                 Gigs Won: {talent.gigs_won}
               </Card.Subtitle>
 
