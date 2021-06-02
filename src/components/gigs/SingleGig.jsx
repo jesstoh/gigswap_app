@@ -51,17 +51,17 @@ function SingleGig() {
           Company:{' '}
           <a href={`/hirers/${gig.poster}`}>{gig.poster_profile.company}</a>
           <br />
-          Review: ..... <br />
+          Review: {gig.avg_review_rating ? gig.avg_review_rating + `(${gig.review_count} review)` : 'No review'}<br />
           <br />
           No. of Applicants:{' '}
           {gig.poster === userId ? (
-            <Button
-              variant="link"
+            <span
+              className="link-like text-primary"
               aria-controls="applicants-container"
               onClick={() => setShowApplicants(!showApplicants)}
             >
               {gig.applicants.length}
-            </Button>
+            </span>
           ) : (
             gig.applicants.length
           )}

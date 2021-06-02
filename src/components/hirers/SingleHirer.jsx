@@ -32,14 +32,13 @@ function SingleHirer() {
           <div>
             Rating:{' '}
             {isHirer && userId !== hirer.id ? (
-              hirer.review_count
+              hirer.avg_review_rating ? hirer.avg_review_rating + `(${hirer.review_count} review) ` : 'No reviews'
             ) : (
               <span
                 className="link-like text-primary"
                 aria-controls="reviews-container"
                 onClick={() => setShowReview(!showReview)}
-              >
-                {hirer.avg_review_rating} ({hirer.review_count} review)
+              >{hirer.avg_review_rating ? hirer.avg_review_rating + `(${hirer.review_count} review) ` : 'No review'}
               </span>
             )}
           </div>

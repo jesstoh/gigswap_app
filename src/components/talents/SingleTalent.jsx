@@ -193,10 +193,10 @@ function SingleTalent() {
                 aria-controls="reviews-container"
                 onClick={() => setShowReview(!showReview)}
               >
-                {talent.avg_review_rating} ({talent.review_count} review)
+                {talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count} review) ` : 'No review'}
               </span>
             ) : (
-              talent.review_count
+              talent.avg_review_rating ? talent.avg_review_rating + `(${talent.review_count} review) ` : 'No review'
             )}
           </div>
         </Col>
