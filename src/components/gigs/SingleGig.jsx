@@ -71,7 +71,8 @@ function SingleGig() {
             </span>
           ) : (
             gig.applicants.length
-          )}
+          )}<br/>
+          {!gig.winner ? null : (<span>Winner: <a href={`/talents/${gig.winner.id}`}>{gig.winner.first_name}, {gig.winner.last_name} </a></span>)}
           <br />
           <br />
           <TimeAgo timestamp={gig.created_at} text="Posted " />
