@@ -27,7 +27,7 @@ function HirerFavPage() {
   } else if (status === 'succeeded') {
 
     content = (
-      <Tab.Container id="left-tabs-example" defaultActiveKey="my-gigs">
+      <Tab.Container id="hirer-fav" defaultActiveKey="my-gigs">
         <Row>
           <Col sm={2}>
             <Nav variant="pills" className="flex-column">
