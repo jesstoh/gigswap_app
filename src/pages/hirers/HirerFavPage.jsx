@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Spinner, Tab, Row, Col, Nav } from 'react-bootstrap';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
+import {fetchMyReviews} from '../../slices/reviewsSlice.js'
 import HirerFavGigsList from '../../components/hirers/HirerFavGigsList';
 import HirerFavTalentsList from '../../components/hirers/HirerFavTalentsList';
+import HirerFavReviewsList from '../../components/hirers/HirerFavReviewsList'
 
 function HirerFavPage() {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ function HirerFavPage() {
 
   useEffect(() => {
     dispatch(fetchHirerFav());
+    dispatch(fetchMyReviews());
   }, []);
 
   let content;
@@ -22,11 +25,6 @@ function HirerFavPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    // content = (
-    //   <div>
-    //     <HirerFavGigsList /> <HirerFavTalentsList />
-    //   </div>
-    // );
 
     content = (
       <Tab.Container id="left-tabs-example" defaultActiveKey="my-gigs">
@@ -39,6 +37,9 @@ function HirerFavPage() {
               <Nav.Item>
                 <Nav.Link eventKey="my-talents">Fav Talents</Nav.Link>
               </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="my-reviews">Reviews</Nav.Link>
+              </Nav.Item>
             </Nav>
           </Col>
           <Col sm={10}>
@@ -48,6 +49,9 @@ function HirerFavPage() {
               </Tab.Pane>
               <Tab.Pane eventKey="my-talents">
                 <HirerFavTalentsList />
+              </Tab.Pane>
+              <Tab.Pane eventKey="my-reviews">
+                <HirerFavReviewsList />
               </Tab.Pane>
             </Tab.Content>
           </Col>
