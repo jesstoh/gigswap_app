@@ -10,7 +10,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoriesPage from './pages/admin/CategoriesPage';
 import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
-import AdminUserList from './pages/admin/AdminUserList';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminGigList from './pages/admin/AdminGigList';
 import LandingPage from './pages/authentication/LandingPage';
 import Login from './pages/authentication/Login';
@@ -104,7 +104,7 @@ function App() {
           <AdminRoute
             exact
             path="/admin/maintenance/users"
-            component={AdminUserList}
+            component={AdminUsersPage}
           />
           <AdminRoute
             exact

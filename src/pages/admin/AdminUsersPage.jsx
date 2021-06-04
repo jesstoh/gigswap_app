@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { fetchUsers} from '../../slices/adminsSlice';
 
-function AdminUserList() {
+function AdminUsersPage() {
   const dispatch = useDispatch();
   const { users, status, error } = useSelector((state) => state.admins);
 
@@ -21,7 +21,12 @@ function AdminUserList() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <Container>User List</Container>
+    content = 
+    (<Container>
+
+
+
+    </Container>)
   }else if (status === 'failed') {
     //Show error if fetch failed
     content = (
@@ -34,4 +39,4 @@ function AdminUserList() {
   return <>{content}</>;
 }
 
-export default AdminUserList;
+export default AdminUsersPage;
