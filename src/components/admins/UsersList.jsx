@@ -1,17 +1,19 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import { parseISO, format } from 'date-fns';
 
 function UsersList({ users }) {
   return (
-    <Table striped bordered hover className="mt-5">
+    <Table striped bordered hover className="mt-5 text-center">
       <thead>
-        <tr className='text-center'>
+        <tr>
           <th>No.</th>
           <th>Username</th>
           <th>Email</th>
+          <th className="px-2">Date Joined</th>
           <th>Profile Complete?</th>
-          <th>Date Joined</th>
-          <th>Status</th>
+          <th className="px-5">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -21,9 +23,40 @@ function UsersList({ users }) {
               <td>{index + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
-              <td className='text-center'>{user.is_profile_complete?'Yes':'No'}</td>
-              <td>{user.date_joined}</td>
-              <td className='text-center'>{user.is_active?'Yes':'No'}</td>
+              <td>{format(parseISO(user.date_joined), 'd MMM yyyy')}</td>
+              <td>
+                {user.is_profile_complete ? (
+                  <FaCheck className="text-success" />
+                ) : (
+                  <FaTimes className="text-danger" />
+                )}
+              </td>
+              <td>
+                {user.is_active ? (
+                  <Button
+                    variant="outline-primary"
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.innerText = 'Deactivate')
+                    }
+                    onMouseLeave={(e) => (e.currentTarget.innerText = 'Active')}
+                    style={{ width: '100%' }}
+                  >
+                    Active
+                  </Button>
+                ) : (
+                  <Button
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.innerText = 'Activate')
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.innerText = 'Inactive')
+                    }
+                    style={{ width: '100%' }}
+                  >
+                    Inactive
+                  </Button>
+                )}
+              </td>
             </tr>
           );
         })}
