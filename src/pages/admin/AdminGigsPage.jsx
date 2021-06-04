@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Spinner, Alert } from 'react-bootstrap';
 import { fetchAdminGigs } from '../../slices/adminsSlice';
+import GigsTable from '../../components/admins/GigsTable';
 
 function AdminGigsPage() {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ function AdminGigsPage() {
 
   // Fetch active gigs upon first rendering
   useEffect(() => {
-    dispatch(fetchAdminGigs({ active: 'active' }));
+    dispatch(fetchAdminGigs({ active: 'false' }));
   }, []);
 
   let content;
@@ -21,7 +22,12 @@ function AdminGigsPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = <Container>Active gigs</Container>;
+    content = (
+      <Container className='px-5 py-3 my-3'>
+        <h1 className='text-center'>Gigs List</h1>
+        <GigsTable gigs={gigs} />
+      </Container>
+    );
   } else if (status === 'failed') {
     //Show error if fetch failed
     content = (
