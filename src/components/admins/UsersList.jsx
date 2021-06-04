@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { parseISO, format } from 'date-fns';
-import { deactivateUser } from '../../slices/adminsSlice';
+import { deactivateUser, activateUser } from '../../slices/adminsSlice';
 
 function UsersList({ users }) {
   const dispatch = useDispatch();
@@ -64,6 +64,14 @@ function UsersList({ users }) {
                       (e.currentTarget.innerText = 'Inactive')
                     }
                     style={{ width: '100%' }}
+                    onClick={() =>
+                      dispatch(
+                        activateUser({
+                          isHirer: user.is_hirer,
+                          userId: user.id,
+                        })
+                      )
+                    }
                   >
                     Inactive
                   </Button>
