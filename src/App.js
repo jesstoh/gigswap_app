@@ -140,7 +140,7 @@ function App() {
             path="/notifications"
             component={NotificationsPage}
           />
-          <SharedRoute exact path="/hirer-review/:id" component={HirerReview} />
+          <SharedRoute exact path="/hirer-review/:reviewId" component={HirerReview} />
           <SharedRoute
             exact
             path="/talent-review/:id"

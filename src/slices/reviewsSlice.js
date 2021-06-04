@@ -117,7 +117,7 @@ const reviewsSlice = createSlice({
     });
     builder.addCase(fetchSingleHirerReview.fulfilled, (state, action) => {
       state.activeReview.review = action.payload;
-      state.status = 'succeeded';
+      state.activeReview.status = 'succeeded';
     });
     builder.addCase(fetchSingleHirerReview.pending, (state, action) => {
       state.activeReview.status = 'loading';
