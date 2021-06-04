@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Collapse } from 'react-bootstrap';
 import GigExcerpt from '../gigs/GigExcerpt';

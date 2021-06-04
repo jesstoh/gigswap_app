@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Col, Modal, ListGroup, Alert } from 'react-bootstrap';
+import {  Col } from 'react-bootstrap';
 import { FaRegEdit, FaTrashAlt } from 'react-icons/fa';
 import { parseISO } from 'date-fns';
 import { toggleGigEdit } from '../../slices/gigsSlice';

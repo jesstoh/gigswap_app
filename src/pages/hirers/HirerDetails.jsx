@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Spinner, Alert, Container } from 'react-bootstrap';
+import { Spinner, Alert } from 'react-bootstrap';
 import { fetchSingleHirer } from '../../slices/hirersSlice';
 import {fetchHirerReviews} from '../../slices/reviewsSlice'
 import SingleHirer from '../../components/hirers/SingleHirer'
@@ -8,7 +8,7 @@ import SingleHirer from '../../components/hirers/SingleHirer'
 function HirerDetails({ match }) {
   const dispatch = useDispatch();
   //States of active hirer being viewed
-  const { hirer, status, error } = useSelector(
+  const { status, error } = useSelector(
     (state) => state.hirers.activeHirer
   );
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Spinner, Alert, Container } from 'react-bootstrap';
+import { Spinner, Alert } from 'react-bootstrap';
 import { fetchSingleTalent } from '../../slices/talentsSlice';
 import { fetchHirerFav } from '../../slices/favouritesSlicer.js';
 import SingleTalent from '../../components/talents/SingleTalent';

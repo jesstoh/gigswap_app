@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import TalentGigButtons from './TalentGigButtons';
 import HirerGigButtons from './HirerGigButtons';
 
