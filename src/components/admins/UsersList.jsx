@@ -1,9 +1,13 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { parseISO, format } from 'date-fns';
+import { deactivateUser } from '../../slices/adminsSlice';
 
 function UsersList({ users }) {
+  const dispatch = useDispatch();
+
   return (
     <Table striped bordered hover className="mt-5 text-center">
       <thead>
@@ -40,6 +44,14 @@ function UsersList({ users }) {
                     }
                     onMouseLeave={(e) => (e.currentTarget.innerText = 'Active')}
                     style={{ width: '100%' }}
+                    onClick={() =>
+                      dispatch(
+                        deactivateUser({
+                          isHirer: user.is_hirer,
+                          userId: user.id,
+                        })
+                      )
+                    }
                   >
                     Active
                   </Button>
