@@ -30,12 +30,9 @@ function HirerReview({ match }) {
   } else if (status === 'succeeded') {
     content = (
       <Container className="px-5 py-3 my-5 border rounded">
-        {/* <Row className="mb-3"> */}
         <h4 className="text-center">
           Review for Company: <a href={`/hirers/${review.hirer}`} className='line-less'> {review.company}</a>
-        </h4>
-        {/* </Row> */}
-
+        </h4>      
         <Row className="mb-1 mt-4">
           <Col xs="6" sm="2">
             Rating
