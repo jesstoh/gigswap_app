@@ -10,8 +10,6 @@ function GigsTable({ gigs }) {
         <tr>
           <th>No.</th>
           <th>Gig Title</th>
-          <th>Cancelled/Closed?</th>
-          <th>Awarded?</th>
           <th>Expired Date</th>
           <th>Flag Count</th>
         </tr>
@@ -22,19 +20,9 @@ function GigsTable({ gigs }) {
             <tr key={gig.id}>
               <td>{index + 1}</td>
               <td>
-                <a href={`/gigs/${gig.id}`} className='line-less'>{gig.title} </a>
-              </td>
-              <td>
-                {gig.is_closed ? (
-                  <span className='text-danger'>CANCELLED</span>
-                ) : null}
-              </td>
-              <td>
-                {gig.winner ? (
-                  <FaCheck className="text-success" />
-                ) : (
-                  <FaTimes className="text-danger" />
-                )}
+                <a href={`/gigs/${gig.id}`} className="line-less">
+                  {gig.title}{' '}
+                </a>
               </td>
               <td>{format(parseISO(gig.expired_at), 'd MMM yyyy')}</td>
               <td>{gig.flag_count}</td>
