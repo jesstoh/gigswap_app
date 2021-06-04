@@ -56,6 +56,22 @@ export const deactivateUser = createAsyncThunk(
   }
 );
 
+// Activate user
+export const activateUser = createAsyncThunk(
+  'admins/activateUser',
+  async ({ isHirer, userId }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/admins/users/${userId}/activate/`
+      );
+      return { data: response.data, userId, isHirer };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const adminsSlice = createSlice({
   name: 'admins',
   initialState,
@@ -87,11 +103,22 @@ const adminsSlice = createSlice({
       const { isHirer, userId } = action.payload;
       let index;
       if (isHirer) {
-        index = state.users.hirers.findIndex((hirer) => (hirer.id === userId));
+        index = state.users.hirers.findIndex((hirer) => hirer.id === userId);
         state.users.hirers[index].is_active = false;
       } else {
-        index = state.users.talents.findIndex((talent) => (talent.id === userId));
+        index = state.users.talents.findIndex((talent) => talent.id === userId);
         state.users.talents[index].is_active = false;
+      }
+    });
+    builder.addCase(activateUser.fulfilled, (state, action) => {
+      const { isHirer, userId } = action.payload;
+      let index;
+      if (isHirer) {
+        index = state.users.hirers.findIndex((hirer) => hirer.id === userId);
+        state.users.hirers[index].is_active = true;
+      } else {
+        index = state.users.talents.findIndex((talent) => talent.id === userId);
+        state.users.talents[index].is_active = true;
       }
     });
   },
