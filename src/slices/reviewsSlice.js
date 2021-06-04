@@ -74,7 +74,7 @@ export const fetchSingleHirerReview = createAsyncThunk(
   }
 );
 
-// Fetch talent's review
+// Fetch talent's review by id
 export const fetchSingleTalentReview = createAsyncThunk(
   'reviews/fetchSingleTalentReview',
   async (reviewId, { rejectWithValue }) => {
