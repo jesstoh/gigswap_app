@@ -6,6 +6,7 @@ const initialState = {
   users: null,
   status: 'idle',
   error: null,
+  gigs: [],
 };
 
 // Fetch app summary
@@ -72,6 +73,22 @@ export const activateUser = createAsyncThunk(
   }
 );
 
+// Fetch gigs
+export const fetchAdminGigs = createAsyncThunk(
+  'admins/fetchAdminGigs',
+  async ({ active }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/admins/gigs/?active=${active}`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const adminsSlice = createSlice({
   name: 'admins',
   initialState,
@@ -120,6 +137,17 @@ const adminsSlice = createSlice({
         index = state.users.talents.findIndex((talent) => talent.id === userId);
         state.users.talents[index].is_active = true;
       }
+    });
+    builder.addCase(fetchAdminGigs.fulfilled, (state, action) => {
+      state.gigs = action.payload;
+      state.status = 'succeeded';
+    });
+    builder.addCase(fetchAdminGigs.pending, (state, action) => {
+      state.status = 'loading';
+    });
+    builder.addCase(fetchAdminGigs.rejected, (state, action) => {
+      state.status = 'failed';
+      state.error = action.payload.data.detail;
     });
   },
 });
