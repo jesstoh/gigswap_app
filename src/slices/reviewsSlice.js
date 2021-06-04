@@ -7,6 +7,7 @@ const initialState = {
   status: 'idle',
   error: null,
   summary: null,
+  activeReview: { review: null, status: 'idle', error: null },
 };
 
 //Get hirer's reviews
@@ -16,7 +17,6 @@ export const fetchHirerReviews = createAsyncThunk(
     try {
       const response = await Axios.get(
         `${process.env.REACT_APP_API_URL}/api/reviews/hirer/all/${hirerId}/`
-      
       );
       return response.data;
     } catch (err) {
@@ -33,7 +33,6 @@ export const fetchTalentReviews = createAsyncThunk(
     try {
       const response = await Axios.get(
         `${process.env.REACT_APP_API_URL}/api/reviews/talent/all/${talentId}/`
-      
       );
       return response.data;
     } catch (err) {
@@ -50,7 +49,22 @@ export const fetchMyReviews = createAsyncThunk(
     try {
       const response = await Axios.get(
         `${process.env.REACT_APP_API_URL}/api/reviews/myreviews/`
-      
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+// Fetch hirer's review
+export const fetchSingleHirerReview = createAsyncThunk(
+  'reviews/fetchSingleHirerReview',
+  async (reviewId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/reviews/hirer/${reviewId}/`
       );
       return response.data;
     } catch (err) {
@@ -66,7 +80,7 @@ const reviewsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchHirerReviews.fulfilled, (state, action) => {
-      state.summary = action.payload.summary
+      state.summary = action.payload.summary;
       state.hirerReviews = action.payload.reviews;
       state.status = 'succeeded';
     });
@@ -75,10 +89,10 @@ const reviewsSlice = createSlice({
     });
     builder.addCase(fetchHirerReviews.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.payload.data.detail
+      state.error = action.payload.data.detail;
     });
     builder.addCase(fetchTalentReviews.fulfilled, (state, action) => {
-      state.summary = action.payload.summary
+      state.summary = action.payload.summary;
       state.talentReviews = action.payload.reviews;
       state.status = 'succeeded';
     });
@@ -87,7 +101,7 @@ const reviewsSlice = createSlice({
     });
     builder.addCase(fetchTalentReviews.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.payload.data.detail
+      state.error = action.payload.data.detail;
     });
     builder.addCase(fetchMyReviews.fulfilled, (state, action) => {
       state.talentReviews = action.payload.talent_reviews;
@@ -99,7 +113,18 @@ const reviewsSlice = createSlice({
     });
     builder.addCase(fetchMyReviews.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.payload.data.detail
+      state.error = action.payload.data.detail;
+    });
+    builder.addCase(fetchSingleHirerReview.fulfilled, (state, action) => {
+      state.activeReview.review = action.payload;
+      state.status = 'succeeded';
+    });
+    builder.addCase(fetchSingleHirerReview.pending, (state, action) => {
+      state.activeReview.status = 'loading';
+    });
+    builder.addCase(fetchSingleHirerReview.rejected, (state, action) => {
+      state.activeReview.status = 'failed';
+      state.activeReview.error = action.payload.data.detail;
     });
   },
 });
