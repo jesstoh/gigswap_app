@@ -143,7 +143,7 @@ function App() {
           <SharedRoute exact path="/hirer-review/:reviewId" component={HirerReview} />
           <SharedRoute
             exact
-            path="/talent-review/:id"
+            path="/talent-review/:reviewId"
             component={TalentReview}
           />
         </Switch>
