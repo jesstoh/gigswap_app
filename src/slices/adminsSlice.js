@@ -40,6 +40,22 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+// Deactivate user
+export const deactivateUser = createAsyncThunk(
+  'admins/deactivateUser',
+  async ({ isHirer, userId }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/admins/users/${userId}/deactivate/`
+      );
+      return { data: response.data, userId, isHirer };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const adminsSlice = createSlice({
   name: 'admins',
   initialState,
@@ -66,6 +82,17 @@ const adminsSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state, action) => {
       state.status = 'failed';
       state.error = action.payload.data.detail;
+    });
+    builder.addCase(deactivateUser.fulfilled, (state, action) => {
+      const { isHirer, userId } = action.payload;
+      let index;
+      if (isHirer) {
+        index = state.users.hirers.findIndex((hirer) => (hirer.id === userId));
+        state.users.hirers[index].is_active = false;
+      } else {
+        index = state.users.talents.findIndex((talent) => (talent.id === userId));
+        state.users.talents[index].is_active = false;
+      }
     });
   },
 });
