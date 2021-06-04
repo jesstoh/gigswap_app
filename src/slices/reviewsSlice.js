@@ -74,6 +74,22 @@ export const fetchSingleHirerReview = createAsyncThunk(
   }
 );
 
+// Fetch talent's review
+export const fetchSingleTalentReview = createAsyncThunk(
+  'reviews/fetchSingleTalentReview',
+  async (reviewId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/reviews/talent/${reviewId}/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState,
@@ -123,6 +139,17 @@ const reviewsSlice = createSlice({
       state.activeReview.status = 'loading';
     });
     builder.addCase(fetchSingleHirerReview.rejected, (state, action) => {
+      state.activeReview.status = 'failed';
+      state.activeReview.error = action.payload.data.detail;
+    });
+    builder.addCase(fetchSingleTalentReview.fulfilled, (state, action) => {
+      state.activeReview.review = action.payload;
+      state.activeReview.status = 'succeeded';
+    });
+    builder.addCase(fetchSingleTalentReview.pending, (state, action) => {
+      state.activeReview.status = 'loading';
+    });
+    builder.addCase(fetchSingleTalentReview.rejected, (state, action) => {
       state.activeReview.status = 'failed';
       state.activeReview.error = action.payload.data.detail;
     });
