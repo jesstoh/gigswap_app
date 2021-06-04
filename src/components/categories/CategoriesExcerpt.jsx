@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { editCategory, fetchCategories } from '../../slices/categoriesSlice';
+import { fetchCategories, fetchSubcats } from '../../slices/categoriesSlice';
 import Axios from '../../utilz/Axios';
 
 function CategoriesExcerpt({ cat, index }) {
@@ -14,9 +14,18 @@ function CategoriesExcerpt({ cat, index }) {
     setName(e.target.value);
   }
 
-  function handleSubmitEdit() {
-    dispatch(editCategory({ data: { name }, catId: cat.id }));
-    setEdit(false);
+  async function handleSubmitEdit() {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/categories/${cat.id}/`,
+        { name }
+      );
+      dispatch(fetchCategories());
+      dispatch(fetchSubcats());
+      setEdit(false);
+    } catch (err) {
+      console.log(err.response);
+    }
   }
 
   async function deleteCategory() {
@@ -25,6 +34,7 @@ function CategoriesExcerpt({ cat, index }) {
         `${process.env.REACT_APP_API_URL}/api/categories/${cat.id}/`
       );
       dispatch(fetchCategories());
+      dispatch(fetchSubcats());
     } catch (err) {
       console.log(err.response);
     }
@@ -58,7 +68,9 @@ function CategoriesExcerpt({ cat, index }) {
             >
               EDIT
             </Button>
-            <Button variant="outline-secondary" onClick={deleteCategory}>DELETE</Button>
+            <Button variant="outline-secondary" onClick={deleteCategory}>
+              DELETE
+            </Button>
           </td>
         </>
       )}

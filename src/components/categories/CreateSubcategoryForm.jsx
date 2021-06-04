@@ -54,7 +54,7 @@ function CreateSubcategoryForm() {
           setErrorMessage(null);
         }}
       >
-        Add category
+        Add Subcategory
       </Button>
     );
   } else {
