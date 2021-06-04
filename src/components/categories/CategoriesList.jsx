@@ -17,7 +17,7 @@ function CategoriesList() {
       </thead>
       <tbody>
         {categories.map((cat, index) => (
-          <CategoriesExcerpt index={index} cat={cat} />
+          <CategoriesExcerpt index={index} cat={cat} key={cat.id} />
         ))}
       </tbody>
     </Table>

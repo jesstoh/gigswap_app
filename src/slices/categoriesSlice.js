@@ -125,6 +125,7 @@ const categoriesSlice = createSlice({
         state.cats.content[index] = action.payload;
       }
     });
+
   },
 });
 

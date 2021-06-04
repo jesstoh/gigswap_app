@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { editCategory } from '../../slices/categoriesSlice';
+import { editCategory, fetchCategories } from '../../slices/categoriesSlice';
+import Axios from '../../utilz/Axios';
 
 function CategoriesExcerpt({ cat, index }) {
   const dispatch = useDispatch();
@@ -15,11 +16,22 @@ function CategoriesExcerpt({ cat, index }) {
 
   function handleSubmitEdit() {
     dispatch(editCategory({ data: { name }, catId: cat.id }));
-    setEdit(false)
+    setEdit(false);
+  }
+
+  async function deleteCategory() {
+    try {
+      const response = await Axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/categories/${cat.id}/`
+      );
+      dispatch(fetchCategories());
+    } catch (err) {
+      console.log(err.response);
+    }
   }
 
   return (
-    <tr key={cat.id}>
+    <tr>
       <td>{index + 1}</td>
       {edit ? (
         <>
@@ -46,7 +58,7 @@ function CategoriesExcerpt({ cat, index }) {
             >
               EDIT
             </Button>
-            <Button variant="outline-secondary">DELETE</Button>
+            <Button variant="outline-secondary" onClick={deleteCategory}>DELETE</Button>
           </td>
         </>
       )}
