@@ -24,7 +24,6 @@ import HirerDetail from './pages/hirers/HirerDetails';
 import HirerFavPage from './pages/hirers/HirerFavPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import ProfilePage from './pages/profiles/ProfilePage';
-import ReviewForm from './pages/reviews/ReviewForm';
 import HirerReview from './pages/reviews/HirerReview';
 import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
@@ -141,7 +140,6 @@ function App() {
             path="/notifications"
             component={NotificationsPage}
           />
-          <SharedRoute exact path="/gigs/:id/review" component={ReviewForm} />
           <SharedRoute exact path="/hirer-review/:id" component={HirerReview} />
           <SharedRoute
             exact
