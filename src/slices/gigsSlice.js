@@ -148,12 +148,12 @@ export const awardGig = createAsyncThunk(
 // Owner accept deliverable
 export const acceptGigCompletion = createAsyncThunk(
   'gigs/acceptGigCompletion',
-  async ({ gigId, userId }, { rejectWithValue }) => {
+  async (gigId, { rejectWithValue }) => {
     try {
       const response = await Axios.put(
         `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/complete/`
       );
-      return { data: response.data, userId };
+      return { data: response.data, gigId };
     } catch (err) {
       const { data, status } = err.response;
       // console.log(err.response)
@@ -199,12 +199,28 @@ export const createHirerReview = createAsyncThunk(
 // Login talent flag active gig
 export const flagGig = createAsyncThunk(
   'gigs/flagGig',
-  async (gigId, { rejectWithValue }) => {
+  async ({ gigId, userId }, { rejectWithValue }) => {
     try {
       const response = await Axios.put(
         `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/flag/`
       );
-      return { data: response.data, gigId };
+      return { data: response.data, userId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+// Login talent unflag active gig
+export const unflagGig = createAsyncThunk(
+  'gigs/unflagGig',
+  async ({ gigId, userId }, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/unflag/`
+      );
+      return { data: response.data, userId };
     } catch (err) {
       const { data, status } = err.response;
       return rejectWithValue({ data, status });
@@ -323,6 +339,14 @@ const gigsSlice = createSlice({
     });
     builder.addCase(flagGig.fulfilled, (state, action) => {
       state.activeGig.gig.flag.push(action.payload.userId);
+    });
+    builder.addCase(unflagGig.fulfilled, (state, action) => {
+      //Find index of login talent in flag list
+      const index = state.activeGig.gig.flag.indexOf(action.payload.userId);
+      // Remove user from flag list
+      if (index !== -1) {
+        state.activeGig.gig.flag.splice(index, 1);
+      }
     });
   },
 });
