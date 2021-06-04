@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap';
 import CategoriesExcerpt from './CategoriesExcerpt';
 
 function CategoriesList() {
-  const categories = useSelector((state) => state.categories.cats.content);
+  const categories = useSelector((state) => state.categories.cats.content).slice();
 
   return (
     <Table striped bordered hover className="mt-5">

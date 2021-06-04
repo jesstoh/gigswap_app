@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
 function SubcategoriesList() {
-  const subcategories = useSelector((state) => state.categories.subcats.content);
+  const subcategories = useSelector(
+    (state) => state.categories.subcats.content
+  );
 
   return (
-    <Table striped bordered hover className='mt-5'>
+    <Table striped bordered hover className="mt-5">
       <thead>
         <tr>
           <th>No.</th>
@@ -15,11 +17,18 @@ function SubcategoriesList() {
         </tr>
       </thead>
       <tbody>
-        {subcategories.map((subcat,index) => {
+        {subcategories.map((subcat, index) => {
           return (
             <tr key={subcat.id}>
               <td>{index + 1}</td>
-              <td>{subcat.name}</td>
+              <td>
+                <a
+                  href={`/admin/subcategories/${subcat.id}`}
+                  className="line-less"
+                >
+                  {subcat.name}
+                </a>
+              </td>
               <td>{subcat.category}</td>
             </tr>
           );
