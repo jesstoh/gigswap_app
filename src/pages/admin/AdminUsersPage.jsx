@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
-import { fetchUsers} from '../../slices/adminsSlice';
+import { fetchUsers } from '../../slices/adminsSlice';
+import UsersList from '../../components/admins/UsersList';
 
 function AdminUsersPage() {
   const dispatch = useDispatch();
@@ -21,13 +22,12 @@ function AdminUsersPage() {
       </div>
     );
   } else if (status === 'succeeded') {
-    content = 
-    (<Container>
-
-
-
-    </Container>)
-  }else if (status === 'failed') {
+    content = (
+      <Container>
+        <UsersList users={users.talents} />
+      </Container>
+    );
+  } else if (status === 'failed') {
     //Show error if fetch failed
     content = (
       <Alert variant="danger" className="text-center">
