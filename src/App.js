@@ -11,7 +11,7 @@ import CategoriesPage from './pages/admin/CategoriesPage';
 import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminGigList from './pages/admin/AdminGigList';
+import AdminGigsPage from './pages/admin/AdminGigsPage';
 import LandingPage from './pages/authentication/LandingPage';
 import Login from './pages/authentication/Login';
 import Register from './pages/authentication/Register';
@@ -109,7 +109,7 @@ function App() {
           <AdminRoute
             exact
             path="/admin/maintenance/gigs"
-            component={AdminGigList}
+            component={AdminGigsPage}
           />
 
           {/* Routes for log in hires only */}

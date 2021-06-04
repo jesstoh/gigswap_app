@@ -50,7 +50,7 @@ function AdminDashboard() {
             </div>
           </Col>
         </Row>
-        <Container className='mt-4 graph-container text-white text-center bg-dark border rounded p-3' style={{'min-height': '50vh'}}>
+        <Container className='mt-4 graph-container text-white text-center bg-dark border rounded p-3' style={{'minHeight': '50vh'}}>
           <h2>Placeholder for graph</h2>
 
         </Container>
