@@ -23,7 +23,7 @@ function TalentsPage() {
 
   //current active page
   const [activePage, setActivePage] = useState(1);
-  const pageCount = useSelector((state) => state.gigs.pageCount); // To change to the one from api
+  const pageCount = useSelector((state) => state.talents.pageCount); // To change to the one from api
 
   const [urlQuery, setUrlQuery] = useState('?');
 
@@ -87,7 +87,7 @@ function TalentsPage() {
       filterValue.skills
     )}`;
     setUrlQuery(filterUrl); //Set current url query
-    dispatch(fetchTalents(filterUrl)); //Fetching gigs with filter params
+    dispatch(fetchTalents(filterUrl)); //Fetching talents with filter params
     setSearchValue(''); // reset search value
   }
 
