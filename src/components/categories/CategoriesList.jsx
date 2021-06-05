@@ -1,30 +1,36 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import CategoriesExcerpt from './CategoriesExcerpt';
 
 function CategoriesList() {
-  const categories = useSelector((state) => state.categories.cats.content);
+  const categories = useSelector((state) => state.categories.cats.content).slice();
 
   return (
-    <Table striped bordered hover className='mt-5'>
+    <Table striped bordered hover className="mt-5">
       <thead>
         <tr>
           <th>No.</th>
           <th>Category Name</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        {categories.map((cat,index) => {
-          return (
-            <tr key={cat.id}>
-              <td>{index + 1}</td>
-              <td>{cat.name}</td>
-            </tr>
-          );
-        })}
+        {categories.map((cat, index) => (
+          <CategoriesExcerpt index={index} cat={cat} key={cat.id} />
+        ))}
       </tbody>
     </Table>
   );
 }
 
 export default CategoriesList;
+
+// {categories.map((cat,index) => {
+//   return (
+//     <tr key={cat.id}>
+//       <td>{index + 1}</td>
+//       <td>{cat.name}</td>
+//     </tr>
+//   );
+// })}

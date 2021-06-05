@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector} from 'react-redux';
 import {
   Container,
   Row,
   Col,
   Badge,
-  Button,
   Alert,
   Collapse,
 } from 'react-bootstrap';
@@ -16,9 +15,10 @@ import TimeAgo from '../others/TimeAgo';
 import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
 import GigEditButtons from './GigEditButtons';
 import ReviewStar from '../others/ReviewStar';
+import GigFlagButtons from './GigFlagButtons';
 
 function SingleGig() {
-  const dispatch = useDispatch();
+ 
   const { gig, error, success } = useSelector((state) => state.gigs.activeGig);
   const [errorMessage, setErrorMessage] = useState(null);
   const userId = useSelector((state) => state.authentication.user.id);
@@ -71,7 +71,8 @@ function SingleGig() {
             </span>
           ) : (
             gig.applicants.length
-          )}
+          )}<br/>
+          {!gig.winner ? null : (<span>Winner: <a href={`/talents/${gig.winner.id}`}>{gig.winner.first_name}, {gig.winner.last_name} </a></span>)}
           <br />
           <br />
           <TimeAgo timestamp={gig.created_at} text="Posted " />
@@ -145,7 +146,6 @@ function SingleGig() {
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
-
       <Row>
         <GigEditButtons />
       </Row>

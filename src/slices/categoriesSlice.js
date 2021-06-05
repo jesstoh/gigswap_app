@@ -4,6 +4,7 @@ import Axios from '../utilz/Axios';
 const initialState = {
   cats: { content: [], status: 'idle', error: null },
   subcats: { content: [], status: 'idle', error: null },
+  activeSubcat: {subcat: null, status:'idle', error: null}
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -68,6 +69,41 @@ export const fetchSubcats = createAsyncThunk(
   }
 );
 
+//Fetch single subcategory by id
+export const fetchSingleSubcat = createAsyncThunk(
+  'categories/fetchSingleSubcat',
+  async (subcatId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.get(
+        `${process.env.REACT_APP_API_URL}/api/categories/sub/${subcatId}/`
+      );
+      return response.data;
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+
+
+
+// export const editCategory = createAsyncThunk(
+//   'categories/editCategory',
+//   async ({ data, catId }, { rejectWithValue }) => {
+//     try {
+//       const response = await Axios.put(
+//         `${process.env.REACT_APP_API_URL}/api/categories/${catId}/`,
+//         data
+//       );
+//       return response.data;
+//     } catch (err) {
+//       const { data, status } = err.response;
+//       return rejectWithValue({ data, status });
+//     }
+//   }
+// );
+
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
@@ -101,6 +137,26 @@ const categoriesSlice = createSlice({
     builder.addCase(addSubcategory.fulfilled, (state, action) => {
       state.subcats.content.push(action.payload);
     });
+    // builder.addCase(editCategory.fulfilled, (state, action) => {
+    //   const index = state.cats.content.findIndex(
+    //     (cat) => cat.id === action.payload.id
+    //   );
+    //   if (index !== -1) {
+    //     state.cats.content[index] = action.payload;
+    //   }
+    // });
+    builder.addCase(fetchSingleSubcat.fulfilled, (state, action) => {
+      state.activeSubcat.subcat = action.payload;
+      state.activeSubcat.status = 'succeeded';
+    });
+    builder.addCase(fetchSingleSubcat.pending, (state, action) => {
+      state.activeSubcat.status = 'pending';
+    });
+    builder.addCase(fetchSingleSubcat.rejected, (state, action) => {
+      state.activeSubcat.status = 'failed';
+      state.activeSubcat.error = action.payload.data.detail;
+    });
+
   },
 });
 

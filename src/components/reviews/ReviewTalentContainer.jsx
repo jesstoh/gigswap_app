@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Collapse, Form, Col, Alert } from 'react-bootstrap';
+import { FaStar, FaRegStar } from 'react-icons/fa';
 import { createTalentReview } from '../../slices/gigsSlice.js';
 
 function ReviewTalentContainer() {
@@ -10,26 +11,46 @@ function ReviewTalentContainer() {
   //Show review form
   const [showReviewForm, setShowReviewForm] = useState(false);
   const initialFormState = {
-    rating: 5,
-    quality: 5,
+    // rating: 5,
+    // quality: 5,
     is_ontime: true,
     recommended: true,
     description: '',
   };
+  const [rating, setRating] = useState(5); // Store rating value with stars
+  const [quality, setQuality] = useState(5); // Store quality value with stars
   const [formValue, setFormValue] = useState({ ...initialFormState });
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Handle change by clicking on star of rating
+  function handleRatingChange(e) {
+    // console.log(e.target)
+    // console.log(e.currentTarget.id)
+    setRating(Number(e.currentTarget.id));
+  }
+
+  // Handle change by clicking on star of quality
+  function handleQualityChange(e) {
+    // console.log(e.target)
+    // console.log(e.currentTarget.id)
+    setQuality(Number(e.currentTarget.id));
+  }
+
+  // Post to backend when clicking submit button
   async function handleSubmit(e) {
     e.preventDefault();
     const data = { ...formValue };
+    data.rating = rating;
+    data.quality = quality;
     // set gig id in post data
     data.gig_id = gig.id;
+    // console.log(data);
     try {
       const result = await dispatch(createTalentReview(data));
-      console.log(result);
+      // console.log(result);
       unwrapResult(result);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrorMessage(err.data.detail);
     }
   }
@@ -40,11 +61,19 @@ function ReviewTalentContainer() {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   }
 
+  // Clearing and hide form for cancel button
   function handleCancel(e) {
     e.preventDefault();
     setFormValue({ ...initialFormState });
+    setRating(5);
+    setQuality(5);
     setShowReviewForm(!showReviewForm);
   }
+
+  // Testing purpose
+  // useEffect(() => {
+  //   console.log(rating)
+  // }, [rating]);
 
   return (
     <>
@@ -62,7 +91,7 @@ function ReviewTalentContainer() {
       )}
 
       <Collapse in={showReviewForm}>
-        <div id="gigs-container" className="mt-5 border rounded p-3">
+        <div id="gigs-container" className="mt-5 border rounded py-3 px-4">
           {errorMessage && (
             <Alert
               variant="danger"
@@ -72,36 +101,45 @@ function ReviewTalentContainer() {
               {errorMessage}
             </Alert>
           )}
+
           <Form onSubmit={handleSubmit}>
             <h5 className="text-center mb-3">Review Talent</h5>
-            <p className="text-left text-muted mb-4">
+            <p className="text-left text-muted mb-4 text-smaller">
               <i>Think about this gig when leaving the review</i>
             </p>
 
-            <Form.Row>
+            <Form.Row> 
               <Form.Group as={Col}>
                 <Form.Label>Overall Rating</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  max="5"
-                  required
-                  name="rating"
-                  value={formValue.rating}
-                  onChange={handleChange}
-                />
+                <div>
+                  {[1, 2, 3, 4, 5].map((ele) => {
+                    return ele <= rating ? (
+                      <span key={ele} id={ele} onClick={handleRatingChange}>
+                        <FaStar className="text-warning link-like" />
+                      </span>
+                    ) : (
+                      <span key={ele} id={ele} onClick={handleRatingChange}>
+                        <FaRegStar className="text-warning link-like" />
+                      </span>
+                    );
+                  })}
+                </div>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Quality of Work</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  max="5"
-                  required
-                  name="quality"
-                  value={formValue.quality}
-                  onChange={handleChange}
-                />
+                <div>
+                  {[1, 2, 3, 4, 5].map((ele) => {
+                    return ele <= quality ? (
+                      <span key={ele} id={ele} onClick={handleQualityChange}>
+                        <FaStar className="text-warning link-like" />
+                      </span>
+                    ) : (
+                      <span key={ele} id={ele} onClick={handleQualityChange}>
+                        <FaRegStar className="text-warning link-like" />
+                      </span>
+                    );
+                  })}
+                </div>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Delivery On Time </Form.Label>
@@ -114,7 +152,7 @@ function ReviewTalentContainer() {
                 />
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label>Worthy of Recommending</Form.Label>
+                <Form.Label>Recommend?</Form.Label>
                 <Form.Check
                   type="checkbox"
                   label="Yes"
@@ -124,8 +162,8 @@ function ReviewTalentContainer() {
                 />
               </Form.Group>
             </Form.Row>
-            <Form.Group>
-              <Form.Label>Review details</Form.Label>
+            <Form.Group className='text-left mt-3'>
+              <Form.Label>Details</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}

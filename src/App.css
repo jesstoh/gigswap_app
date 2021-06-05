@@ -40,6 +40,7 @@
 
 * {
   /* border: 2px solid red; */
+  /* box-sizing: border-box; */
 }
 
 .App {
@@ -116,3 +117,16 @@ footer {
   font-size: larger;
   /* font-weight: bolder */
 }
+
+.line-less:hover{
+  text-decoration: none;
+}
+
+.full-size {
+  width: 100%;
+  height: 100%;
+}
+
+/* .graph-container {
+  background-color: rgb(231, 225, 225);
+} */

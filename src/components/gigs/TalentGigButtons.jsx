@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Col, Modal } from 'react-bootstrap';
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import {
   saveGig,
   unsaveGig,

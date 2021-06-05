@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Collapse, Form, Col, Alert } from 'react-bootstrap';
+import { FaStar, FaRegStar } from 'react-icons/fa';
 import { createHirerReview } from '../../slices/gigsSlice.js';
 
 function ReviewHirerContainer() {
@@ -10,27 +11,43 @@ function ReviewHirerContainer() {
   //Show review form
   const [showReviewForm, setShowReviewForm] = useState(false);
   const initialFormState = {
-    rating: 5,
+    // rating: 5,
     payment_ontime: false,
-    scope: 5,
+    // scope: 5,
     description: '',
   };
   const [formValue, setFormValue] = useState({ ...initialFormState });
   const [errorMessage, setErrorMessage] = useState(null);
+  const [rating, setRating] = useState(5); // Store rating value with stars
+  const [scope, setScope] = useState(5); // Store scope value with stars
+
+  // Handle change by clicking on star of rating
+  function handleRatingChange(e) {
+    setRating(Number(e.currentTarget.id));
+  }
+
+  // Handle change by clicking on star of rating
+  function handleScopeChange(e) {
+    setScope(Number(e.currentTarget.id));
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const data = { ...formValue };
+    data.rating = rating;
+    data.scope = scope;
     // set gig id in post data
     data.gig_id = gig.id;
+    // console.log(data)
     try {
       const result = await dispatch(createHirerReview(data));
       unwrapResult(result);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrorMessage(err.data.detail);
     }
   }
+
   function checkBoxChange(e) {
     setFormValue({ ...formValue, [e.target.name]: e.target.checked });
   }
@@ -38,9 +55,12 @@ function ReviewHirerContainer() {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   }
 
+  //Clear and hide form
   function handleCancel(e) {
     e.preventDefault();
     setFormValue({ ...initialFormState });
+    setRating(5);
+    setScope(5);
     setShowReviewForm(!showReviewForm);
   }
 
@@ -79,27 +99,35 @@ function ReviewHirerContainer() {
             <Form.Row>
               <Form.Group as={Col}>
                 <Form.Label>Overall Rating</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  max="5"
-                  required
-                  name="rating"
-                  value={formValue.rating}
-                  onChange={handleChange}
-                />
+                <div>
+                  {[1, 2, 3, 4, 5].map((ele) => {
+                    return ele <= rating ? (
+                      <span key={ele} id={ele} onClick={handleRatingChange}>
+                        <FaStar className="text-warning link-like" />
+                      </span>
+                    ) : (
+                      <span key={ele} id={ele} onClick={handleRatingChange}>
+                        <FaRegStar className="text-warning link-like" />
+                      </span>
+                    );
+                  })}
+                </div>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Scope Clarity</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="1"
-                  max="5"
-                  required
-                  name="scope"
-                  value={formValue.scope}
-                  onChange={handleChange}
-                />
+                <div>
+                  {[1, 2, 3, 4, 5].map((ele) => {
+                    return ele <= scope ? (
+                      <span key={ele} id={ele} onClick={handleScopeChange}>
+                        <FaStar className="text-warning link-like" />
+                      </span>
+                    ) : (
+                      <span key={ele} id={ele} onClick={handleScopeChange}>
+                        <FaRegStar className="text-warning link-like" />
+                      </span>
+                    );
+                  })}
+                </div>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Payment on Time </Form.Label>

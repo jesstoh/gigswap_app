@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Col, Alert, Container } from 'react-bootstrap';
@@ -17,8 +17,8 @@ function EditTalentProfileForm() {
     </option>
   ));
 
-  const status = useSelector((state) => state.profile.editStatus);
-  const edit = useSelector((state) => state.profile.edit);
+  // const status = useSelector((state) => state.profile.editStatus);
+  // const edit = useSelector((state) => state.profile.edit);
   const [errorMessage, setErrorMessage] = useState(null);
   const [formValue, setFormValue] = useState(initialFormValue);
 

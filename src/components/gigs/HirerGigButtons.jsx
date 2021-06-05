@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Col, Modal, ListGroup, Alert } from 'react-bootstrap';
-import { parseISO, format } from 'date-fns';
 import {
   closeGig,
   awardGig,

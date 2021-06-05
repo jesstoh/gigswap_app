@@ -4,15 +4,14 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
   Redirect,
 } from 'react-router-dom';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoriesPage from './pages/admin/CategoriesPage';
 import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
-import AdminUserList from './pages/admin/AdminUserList';
-import AdminGigList from './pages/admin/AdminGigList';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminGigsPage from './pages/admin/AdminGigsPage';
 import LandingPage from './pages/authentication/LandingPage';
 import Login from './pages/authentication/Login';
 import Register from './pages/authentication/Register';
@@ -24,7 +23,6 @@ import HirerDetail from './pages/hirers/HirerDetails';
 import HirerFavPage from './pages/hirers/HirerFavPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import ProfilePage from './pages/profiles/ProfilePage';
-import ReviewForm from './pages/reviews/ReviewForm';
 import HirerReview from './pages/reviews/HirerReview';
 import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
@@ -106,12 +104,12 @@ function App() {
           <AdminRoute
             exact
             path="/admin/maintenance/users"
-            component={AdminUserList}
+            component={AdminUsersPage}
           />
           <AdminRoute
             exact
             path="/admin/maintenance/gigs"
-            component={AdminGigList}
+            component={AdminGigsPage}
           />
 
           {/* Routes for log in hires only */}
@@ -141,11 +139,10 @@ function App() {
             path="/notifications"
             component={NotificationsPage}
           />
-          <SharedRoute exact path="/gigs/:id/review" component={ReviewForm} />
-          <SharedRoute exact path="/hirer-review/:id" component={HirerReview} />
+          <SharedRoute exact path="/hirer-review/:reviewId" component={HirerReview} />
           <SharedRoute
             exact
-            path="/talent-review/:id"
+            path="/talent-review/:reviewId"
             component={TalentReview}
           />
         </Switch>

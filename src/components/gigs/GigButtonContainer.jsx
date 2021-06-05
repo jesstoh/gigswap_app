@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import TalentGigButtons from './TalentGigButtons';
 import HirerGigButtons from './HirerGigButtons';
+import GigFlagButtons from './GigFlagButtons';
 
 function GigButtonContainer() {
   const { isHirer, isAdmin } = useSelector((state) => state.authentication);
@@ -17,9 +18,17 @@ function GigButtonContainer() {
     if (isAdmin) {
       content = null;
     } else if (isHirer) {
-      content = <HirerGigButtons />;
+      content = (
+        <>
+          <HirerGigButtons />
+        </>
+      );
     } else {
-      content = <TalentGigButtons />;
+      content = (
+        <>
+          <TalentGigButtons /> <GigFlagButtons />
+        </>
+      );
     }
   } else {
     //Display no content if favourite is not fetched successfully in store
