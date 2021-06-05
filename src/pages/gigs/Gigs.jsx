@@ -65,6 +65,12 @@ function Gigs() {
     const searchUrl = `?search=${searchValue}`;
     setUrlQuery(searchUrl); //Set current url query
     dispatch(fetchGigs(searchUrl)); //Fetching gigs with search params
+    setFilterValue({
+      subcategories: [],
+      is_remote: false,
+      is_fixed: false,
+      hour_rate: 35,
+    }); //Clear filter
     setActivePage(1); //Reset page
   }
 
@@ -78,7 +84,18 @@ function Gigs() {
     )}&hour_rate=${filterValue.hour_rate}`;
     setUrlQuery(filterUrl); //Set current url query
     dispatch(fetchGigs(filterUrl)); //Fetching gigs with filter params
+    setSearchValue(''); // reset search value
     setActivePage(1); //reset page count
+  }
+
+  function clearFilter(e) {
+    e.preventDefault();
+    setFilterValue({
+      subcategories: [],
+      is_remote: false,
+      is_fixed: false,
+      hour_rate: 35,
+    });
   }
 
   useEffect(() => {
@@ -217,7 +234,11 @@ function Gigs() {
           <Button variant="primary" className="px-3 mt-3 mr-2" type="submit">
             Filter
           </Button>
-          <Button variant="outline-secondary" className="px-3 mr-2 mt-3">
+          <Button
+            variant="outline-secondary"
+            className="px-3 mr-2 mt-3"
+            onClick={clearFilter}
+          >
             Clear
           </Button>
         </div>
