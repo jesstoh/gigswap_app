@@ -27,7 +27,7 @@ function Gigs() {
   const pageCount = 5; // To change to the one from api
 
   // Store current url query
-  const [urlQuery, setUrlQuery] = useState('');
+  const [urlQuery, setUrlQuery] = useState('?');
 
   function handleSearchChange(e) {
     setSearchValue(e.target.value);
@@ -55,7 +55,7 @@ function Gigs() {
 
   function handlePageChange(e) {
     setActivePage(Number(e.target.id));
-    console.log(e.target.id);
+    console.log(urlQuery + '&page=' + e.target.id);
   }
 
   function handleSearch(e) {
@@ -69,7 +69,11 @@ function Gigs() {
   function handleFilter(e) {
     e.preventDefault();
     console.log(filterValue);
-    const filterUrl = `?is_fixed=${filterValue.is_fixed}&is_remote=${filterValue.is_remote}&subcategories=${JSON.stringify(filterValue.subcategories)}&hour_rate=${filterValue.hour_rate}`;
+    const filterUrl = `?is_fixed=${filterValue.is_fixed}&is_remote=${
+      filterValue.is_remote
+    }&subcategories=${JSON.stringify(filterValue.subcategories)}&hour_rate=${
+      filterValue.hour_rate
+    }`;
     setUrlQuery(filterUrl);
     setActivePage(1); //reset page count
   }
