@@ -31,6 +31,6 @@ function TalentsList() {
     content = <span>{error}</span>;
   }
 
-  return <Container>{content}</Container>;
+  return <Container className="mt-5">{content}</Container>;
 }
 export default TalentsList;

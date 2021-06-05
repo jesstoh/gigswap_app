@@ -19,7 +19,7 @@ function GigsRecommended() {
       <Row>
       
         {/* <Col md={3} className='border'> </Col> */}
-        <Col md={{span:9, offset:3}}>
+        <Col md={{span:8, offset:2}}>
         
           <GigsList />
         </Col>
