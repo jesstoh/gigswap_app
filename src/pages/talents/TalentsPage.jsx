@@ -54,6 +54,11 @@ function TalentsPage() {
     });
   }
 
+  // clear rating
+  function handleClearRating() {
+    setFilterValue({ ...filterValue, rating: 0 });
+  }
+
   // handling submit search
   function handleSearch(e) {
     e.preventDefault();
@@ -71,6 +76,15 @@ function TalentsPage() {
   //When clicking on filter button
   function handleFilter(e) {
     e.preventDefault();
+    console.log(filterValue);
+    const filterUrl = `?filter=true&gigs_completed=${
+      filterValue.gigs_completed
+    }&rating=${filterValue.rating}&skills=${JSON.stringify(
+      filterValue.skills
+    )}`;
+    setUrlQuery(filterUrl); //Set current url query
+    dispatch(fetchTalents(filterUrl)); //Fetching gigs with filter params
+    setSearchValue(''); // reset search value
   }
 
   // Handle change by clicking on star of rating
@@ -140,7 +154,8 @@ function TalentsPage() {
                   <FaRegStar className="text-warning link-like" />
                 </span>
               );
-            })}
+            })}{' '}
+            <span onClick={handleClearRating} className='text-muted text-smaller link-like ml-2'>Any review</span>
           </div>
         </Form.Group>
 
