@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Pagination } from 'react-bootstrap';
 import GigsList from '../../components/gigs/GigsList';
 import { fetchGigs } from '../../slices/gigsSlice.js';
 // import SearchGigs from '../../components/gigs/SearchGigs';
@@ -21,6 +21,10 @@ function Gigs() {
     is_fixed: false,
     hour_rate: 35,
   });
+
+  //current active page
+  const [activePage, setActivePage] = useState(1);
+  const pageCount = 5;
 
   function handleSearchChange(e) {
     setSearchValue(e.target.value);
@@ -46,6 +50,11 @@ function Gigs() {
     // console.log(values)
   }
 
+  function handlePageChange(e) {
+    setActivePage(Number(e.target.id))
+    console.log(e.target.id)
+  }
+
   function handleSearch(e) {
     e.preventDefault();
     console.log(searchValue);
@@ -53,7 +62,7 @@ function Gigs() {
 
   function handleFilter(e) {
     e.preventDefault();
-    console.log(filterValue)
+    console.log(filterValue);
   }
 
   useEffect(() => {
@@ -90,7 +99,7 @@ function Gigs() {
       <Form onSubmit={handleFilter}>
         <h5 className="text-center">Filter</h5>
 
-        <Form.Group className='mb-4'>
+        <Form.Group className="mb-4">
           <Form.Label>Category</Form.Label>
           <Form.Control
             required
@@ -117,7 +126,7 @@ function Gigs() {
             onChange={checkBoxChange}
           />
         </Form.Group>
-        <Form.Group  className='mb-4'>
+        <Form.Group className="mb-4">
           {/* <Form.Label>Project or Fixed Term </Form.Label> */}
           <Form.Check
             type="checkbox"
@@ -128,7 +137,7 @@ function Gigs() {
           />
         </Form.Group>
 
-        <Form.Group className='mb-3'>
+        <Form.Group className="mb-3">
           <Form.Label>Min Hourly Rate</Form.Label>
           <Form.Control
             type="range"
@@ -182,13 +191,12 @@ function Gigs() {
         </Form.Text> */}
 
         <div className="text-center ">
-        <Button variant="primary" className="px-3 mt-3 mr-2" type="submit">
+          <Button variant="primary" className="px-3 mt-3 mr-2" type="submit">
             Filter
           </Button>
           <Button variant="outline-secondary" className="px-3 mr-2 mt-3">
             Clear
           </Button>
-  
         </div>
       </Form>
     </>
@@ -207,6 +215,17 @@ function Gigs() {
         </Col>
         <Col md={9} className="pl-4">
           <GigsList />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 9, offset: 3 }} className="pl-5">
+          <Pagination>
+            {new Array(pageCount).fill(0).map((el, index) => (
+              <Pagination.Item key={index + 1} active={ (index + 1) === activePage} id={index + 1} onClick={handlePageChange}>
+                {index + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
         </Col>
       </Row>
     </Container>
