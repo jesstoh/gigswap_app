@@ -55,7 +55,9 @@ function Gigs() {
 
   function handlePageChange(e) {
     setActivePage(Number(e.target.id));
-    console.log(urlQuery + '&page=' + e.target.id);
+    const pageUrl = urlQuery + '&page=' + e.target.id;
+    dispatch(fetchGigs(pageUrl))
+    // console.log(urlQuery + '&page=' + e.target.id);
   }
 
   function handleSearch(e) {
