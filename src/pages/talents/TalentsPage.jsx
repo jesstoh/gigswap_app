@@ -21,6 +21,8 @@ function TalentsPage() {
     gigs_completed: 0,
   });
 
+  const [urlQuery, setUrlQuery] = useState('?');
+
   function handleSearchChange(e) {
     setSearchValue(e.target.value);
   }
@@ -55,6 +57,15 @@ function TalentsPage() {
   // handling submit search
   function handleSearch(e) {
     e.preventDefault();
+    //Set it into current url query
+    const searchUrl = `?search=${searchValue}`;
+    setUrlQuery(searchUrl); //Set current url query
+    dispatch(fetchTalents(searchUrl)); //Fetching talents with search params
+    setFilterValue({
+      skills: [],
+      rating: 0,
+      gigs_completed: 0,
+    }); // clear filter
   }
 
   //When clicking on filter button
