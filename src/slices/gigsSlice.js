@@ -248,7 +248,8 @@ const gigsSlice = createSlice({
     // Update gigs state when fetchGigs success
     builder.addCase(fetchGigs.fulfilled, (state, action) => {
       //   console.log(action.payload);
-      state.gigs = action.payload;
+      state.gigs = action.payload.gigs;
+      state.pageCount = action.payload.pageCount;
       state.status = 'succeeded';
     });
     // Change status to loading when fetching
