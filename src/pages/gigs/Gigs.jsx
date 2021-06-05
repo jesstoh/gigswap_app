@@ -24,7 +24,10 @@ function Gigs() {
 
   //current active page
   const [activePage, setActivePage] = useState(1);
-  const pageCount = 5;
+  const pageCount = 5; // To change to the one from api
+
+  // Store current url query
+  const [urlQuery, setUrlQuery] = useState('');
 
   function handleSearchChange(e) {
     setSearchValue(e.target.value);
@@ -51,23 +54,30 @@ function Gigs() {
   }
 
   function handlePageChange(e) {
-    setActivePage(Number(e.target.id))
-    console.log(e.target.id)
+    setActivePage(Number(e.target.id));
+    console.log(e.target.id);
   }
 
   function handleSearch(e) {
     e.preventDefault();
     console.log(searchValue);
+    //Set it into current url query
+    setUrlQuery(`?search=${searchValue}`);
+    setActivePage(1); //Reset page
   }
 
   function handleFilter(e) {
     e.preventDefault();
     console.log(filterValue);
+    const filterUrl = `?is_fixed=${filterValue.is_fixed}&is_remote=${filterValue.is_remote}&subcategories=${JSON.stringify(filterValue.subcategories)}&hour_rate=${filterValue.hour_rate}`;
+    setUrlQuery(filterUrl);
+    setActivePage(1); //reset page count
   }
 
   useEffect(() => {
-    dispatch(fetchGigs());
-  }, []);
+    // dispatch(fetchGigs());
+    console.log(urlQuery);
+  }, [urlQuery]);
 
   const searchContainer = (
     <Container className="px-5 my-3">
@@ -102,7 +112,7 @@ function Gigs() {
         <Form.Group className="mb-4">
           <Form.Label>Category</Form.Label>
           <Form.Control
-            required
+            // required
             as="select"
             multiple
             name="subcategories"
@@ -221,7 +231,12 @@ function Gigs() {
         <Col md={{ span: 9, offset: 3 }} className="pl-5">
           <Pagination>
             {new Array(pageCount).fill(0).map((el, index) => (
-              <Pagination.Item key={index + 1} active={ (index + 1) === activePage} id={index + 1} onClick={handlePageChange}>
+              <Pagination.Item
+                key={index + 1}
+                active={index + 1 === activePage}
+                id={index + 1}
+                onClick={handlePageChange}
+              >
                 {index + 1}
               </Pagination.Item>
             ))}
