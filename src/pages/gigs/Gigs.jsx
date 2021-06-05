@@ -69,7 +69,7 @@ function Gigs() {
   function handleFilter(e) {
     e.preventDefault();
     console.log(filterValue);
-    const filterUrl = `?is_fixed=${filterValue.is_fixed}&is_remote=${
+    const filterUrl = `?filter=true&is_fixed=${filterValue.is_fixed}&is_remote=${
       filterValue.is_remote
     }&subcategories=${JSON.stringify(filterValue.subcategories)}&hour_rate=${
       filterValue.hour_rate
@@ -79,9 +79,13 @@ function Gigs() {
   }
 
   useEffect(() => {
-    // dispatch(fetchGigs());
-    console.log(urlQuery);
-  }, [urlQuery]);
+    dispatch(fetchGigs());
+  }, []);
+
+  // Testing purpose
+  // useEffect(() => {
+  //   console.log(urlQuery);
+  // }, [urlQuery]);
 
   const searchContainer = (
     <Container className="px-5 my-3">

@@ -17,10 +17,10 @@ const initialState = {
 
 export const fetchGigs = createAsyncThunk(
   'gigs/fetchGigs',
-  async (_, { rejectWithValue }) => {
+  async (urlQuery, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
-        `${process.env.REACT_APP_API_URL}/api/gigs/`
+        `${process.env.REACT_APP_API_URL}/api/gigs/${urlQuery ? urlQuery:''}`
       );
       return response.data;
     } catch (err) {
