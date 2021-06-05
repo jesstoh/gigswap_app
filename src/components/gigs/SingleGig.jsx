@@ -15,6 +15,7 @@ import TimeAgo from '../others/TimeAgo';
 import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
 import GigEditButtons from './GigEditButtons';
 import ReviewStar from '../others/ReviewStar';
+import GigFlagButtons from './GigFlagButtons';
 
 function SingleGig() {
  
@@ -145,7 +146,6 @@ function SingleGig() {
       <Row className="button-container">
         <GigButtonContainer />
       </Row>
-
       <Row>
         <GigEditButtons />
       </Row>

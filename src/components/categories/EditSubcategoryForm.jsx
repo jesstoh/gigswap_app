@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Axios from '../../utilz/Axios';
 import { fetchSubcats } from '../../slices/categoriesSlice';
 
+//Subcategory edit page
 function SubcategoryDetails() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -24,6 +25,7 @@ function SubcategoryDetails() {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   }
 
+  //Submit editting
   async function handleEdit(e) {
     e.preventDefault();
     const formatName = capitalizeWord(formValue.name);
@@ -34,13 +36,14 @@ function SubcategoryDetails() {
         `${process.env.REACT_APP_API_URL}/api/categories/sub/${subcat.id}/`,
         data
       );
-      dispatch(fetchSubcats());
-      history.push('/admin/categories');
+      dispatch(fetchSubcats()); // fetching subcat to update store state
+      history.push('/admin/categories'); // redirecting to categories main page
     } catch (err) {
       setErrorMessage(err.response.detail);
     }
   }
 
+  //Deleting subcategories
   async function handleDelete(e) {
     e.preventDefault();
     try {
