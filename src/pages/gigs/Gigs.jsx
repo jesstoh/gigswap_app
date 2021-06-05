@@ -24,7 +24,7 @@ function Gigs() {
 
   //current active page
   const [activePage, setActivePage] = useState(1);
-  const pageCount = 5; // To change to the one from api
+  const pageCount = useSelector((state) => state.gigs.pageCount); // To change to the one from api
 
   // Store current url query
   const [urlQuery, setUrlQuery] = useState('?');
@@ -62,18 +62,20 @@ function Gigs() {
     e.preventDefault();
     console.log(searchValue);
     //Set it into current url query
-    setUrlQuery(`?search=${searchValue}`);
+    const searchUrl = `?search=${searchValue}`;
+    setUrlQuery(searchUrl); //Set current url query
+    dispatch(fetchGigs(searchUrl)); //Fetching gigs with search params
     setActivePage(1); //Reset page
   }
 
   function handleFilter(e) {
     e.preventDefault();
     console.log(filterValue);
-    const filterUrl = `?filter=true&is_fixed=${filterValue.is_fixed}&is_remote=${
-      filterValue.is_remote
-    }&subcategories=${JSON.stringify(filterValue.subcategories)}&hour_rate=${
-      filterValue.hour_rate
-    }`;
+    const filterUrl = `?filter=true&is_fixed=${
+      filterValue.is_fixed
+    }&is_remote=${filterValue.is_remote}&subcategories=${JSON.stringify(
+      filterValue.subcategories
+    )}&hour_rate=${filterValue.hour_rate}`;
     setUrlQuery(filterUrl);
     setActivePage(1); //reset page count
   }
@@ -89,26 +91,28 @@ function Gigs() {
 
   const searchContainer = (
     <Container className="px-5 my-3">
-      <Row>
-        <Col xs="9" sm={{ span: 8, offset: 3 }}>
-          <Form.Control
-            // className="rounded-pill"
-            type="text"
-            name="search"
-            value={searchValue}
-            onChange={handleSearchChange}
-          />
-        </Col>
-        <Col xs="2" sm="1">
-          <Button
-            // variant="primary rounded-pill"
-            className=" px-2 "
-            onClick={handleSearch}
-          >
-            Submit
-          </Button>
-        </Col>
-      </Row>
+      <Form onSubmit={handleSearch}>
+        <Row>
+          <Col xs="9" sm={{ span: 8, offset: 3 }}>
+            <Form.Control
+              // className="rounded-pill"
+              type="text"
+              name="search"
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+          </Col>
+          <Col xs="2" sm="1">
+            <Button
+              // variant="primary rounded-pill"
+              className=" px-2 "
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 

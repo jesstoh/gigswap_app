@@ -6,6 +6,7 @@ const initialState = {
   status: 'idle',
   error: null,
   errorCode: null,
+  pageCount: 1, //Capture how many pages from api
   activeGig: {
     gig: null,
     status: 'idle',
