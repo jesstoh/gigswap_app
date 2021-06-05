@@ -102,7 +102,7 @@ function SingleGig() {
             <span>Type</span>
             <br />
             <span className="text-muted">
-              {gig.is_fixed ? 'Project based' : 'Fixed term'}
+              {gig.is_fixed ? 'Fixed term' : 'Project based'}
             </span>
           </Col>
         </Row>

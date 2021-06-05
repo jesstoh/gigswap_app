@@ -76,7 +76,8 @@ function Gigs() {
     }&is_remote=${filterValue.is_remote}&subcategories=${JSON.stringify(
       filterValue.subcategories
     )}&hour_rate=${filterValue.hour_rate}`;
-    setUrlQuery(filterUrl);
+    setUrlQuery(filterUrl); //Set current url query
+    dispatch(fetchGigs(filterUrl)); //Fetching gigs with filter params
     setActivePage(1); //reset page count
   }
 
