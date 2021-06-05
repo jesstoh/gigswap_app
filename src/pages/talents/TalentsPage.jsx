@@ -45,6 +45,11 @@ function TalentsPage() {
   //Clearing filter
   function clearFilter(e) {
     e.preventDefault();
+    setFilterValue({
+      skills: [],
+      rating: 0,
+      gigs_completed: 0,
+    });
   }
 
   // handling submit search
@@ -111,24 +116,23 @@ function TalentsPage() {
           </Form.Control>
         </Form.Group>
 
+        <Form.Group className="mb-3">
+          <Form.Label>Overall Rating</Form.Label>
+          <div>
+            {[1, 2, 3, 4, 5].map((ele) => {
+              return ele <= filterValue.rating ? (
+                <span key={ele} id={ele} onClick={handleRatingChange}>
+                  <FaStar className="text-warning link-like" />
+                </span>
+              ) : (
+                <span key={ele} id={ele} onClick={handleRatingChange}>
+                  <FaRegStar className="text-warning link-like" />
+                </span>
+              );
+            })}
+          </div>
+        </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Overall Rating</Form.Label>
-            <div>
-              {[1, 2, 3, 4, 5].map((ele) => {
-                return ele <= filterValue.rating ? (
-                  <span key={ele} id={ele} onClick={handleRatingChange}>
-                    <FaStar className="text-warning link-like" />
-                  </span>
-                ) : (
-                  <span key={ele} id={ele} onClick={handleRatingChange}>
-                    <FaRegStar className="text-warning link-like" />
-                  </span>
-                );
-              })}
-            </div>
-          </Form.Group>
-   
         <Form.Group className="mb-3">
           <Form.Label>Min Gigs Completed</Form.Label>
           <Form.Control
