@@ -3,6 +3,7 @@ import Axios from '../utilz/Axios';
 
 const initialState = {
   talents: [],
+  pageCount: 1, //Capture how many pages from api
   status: 'idle',
   error: null,
   activeTalent: { talent: null, status: 'idle', error: null },
@@ -46,7 +47,8 @@ const talentsSlice = createSlice({
   extraReducers: (builder) => {
     // Update talent lists when fetch at login hirer landing page
     builder.addCase(fetchTalents.fulfilled, (state, action) => {
-      state.talents = action.payload;
+      state.talents = action.payload.talents;
+      state.pageCount = action.payload.pageCount;
       state.status = 'succeeded';
     });
     // Change status to loading when fetching
