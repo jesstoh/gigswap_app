@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Pagination } from 'react-bootstrap';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { fetchTalents } from '../../slices/talentsSlice';
 import TalentsList from '../../components/talents/TalentsList';
@@ -18,8 +18,12 @@ function TalentsPage() {
   const [filterValue, setFilterValue] = useState({
     skills: [],
     rating: 0,
-    gigs_completed: 0,
+    gigs_won: 0,
   });
+
+  //current active page
+  const [activePage, setActivePage] = useState(1);
+  const pageCount = useSelector((state) => state.gigs.pageCount); // To change to the one from api
 
   const [urlQuery, setUrlQuery] = useState('?');
 
@@ -50,7 +54,7 @@ function TalentsPage() {
     setFilterValue({
       skills: [],
       rating: 0,
-      gigs_completed: 0,
+      gigs_won: 0,
     });
   }
 
@@ -69,7 +73,7 @@ function TalentsPage() {
     setFilterValue({
       skills: [],
       rating: 0,
-      gigs_completed: 0,
+      gigs_won: 0,
     }); // clear filter
   }
 
@@ -77,14 +81,22 @@ function TalentsPage() {
   function handleFilter(e) {
     e.preventDefault();
     console.log(filterValue);
-    const filterUrl = `?filter=true&gigs_completed=${
-      filterValue.gigs_completed
+    const filterUrl = `?filter=true&gigs_won=${
+      filterValue.gigs_won
     }&rating=${filterValue.rating}&skills=${JSON.stringify(
       filterValue.skills
     )}`;
     setUrlQuery(filterUrl); //Set current url query
     dispatch(fetchTalents(filterUrl)); //Fetching gigs with filter params
     setSearchValue(''); // reset search value
+  }
+
+  //Fetch talents when clicking on page button
+  function handlePageChange(e) {
+    setActivePage(Number(e.target.id));
+    const pageUrl = urlQuery + '&page=' + e.target.id;
+    dispatch(fetchTalents(pageUrl));
+    // console.log(urlQuery + '&page=' + e.target.id);
   }
 
   // Handle change by clicking on star of rating
@@ -155,21 +167,26 @@ function TalentsPage() {
                 </span>
               );
             })}{' '}
-            <span onClick={handleClearRating} className='text-muted text-smaller link-like ml-2'>Any review</span>
+            <span
+              onClick={handleClearRating}
+              className="text-muted text-smaller link-like ml-2"
+            >
+              Any review
+            </span>
           </div>
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Min Gigs Completed</Form.Label>
+          <Form.Label>Min Gigs Won</Form.Label>
           <Form.Control
             type="range"
             min="0"
             max="50"
-            name="gigs_completed"
-            value={filterValue.gigs_completed}
+            name="gigs_won"
+            value={filterValue.gigs_won}
             onChange={handleRangeChange}
           />
-          <Form.Text> {filterValue.gigs_completed}</Form.Text>
+          <Form.Text> {filterValue.gigs_won}</Form.Text>
         </Form.Group>
 
         <div className="text-center ">
@@ -201,6 +218,22 @@ function TalentsPage() {
         </Col>
         <Col md={9} className="pl-4">
           <TalentsList />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 9, offset: 3 }} className="pl-5">
+          <Pagination>
+            {new Array(pageCount).fill(0).map((el, index) => (
+              <Pagination.Item
+                key={index + 1}
+                active={index + 1 === activePage}
+                id={index + 1}
+                onClick={handlePageChange}
+              >
+                {index + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
         </Col>
       </Row>
     </Container>
