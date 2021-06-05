@@ -10,10 +10,10 @@ const initialState = {
 
 export const fetchTalents = createAsyncThunk(
   'talents/fetchTalents',
-  async (_, { rejectWithValue }) => {
+  async (urlQuery, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
-        `${process.env.REACT_APP_API_URL}/api/talents/`
+        `${process.env.REACT_APP_API_URL}/api/talents/${urlQuery ? urlQuery:''}`
       );
       return response.data;
     } catch (err) {
