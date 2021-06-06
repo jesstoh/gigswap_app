@@ -130,3 +130,26 @@ footer {
 /* .graph-container {
   background-color: rgb(231, 225, 225);
 } */
+
+.message-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.message-box {
+  width: fit-content;
+  
+}
+
+.box-right{
+
+  background-color:rgba(135, 206, 250, 0.8)
+  /* float: right; */
+
+}
+
+.box-left{
+  background-color: rgba(149, 255, 215, 0.8)
+
+
+}

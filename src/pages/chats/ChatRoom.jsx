@@ -11,14 +11,14 @@ function ChatRoom() {
       <Row>
         <Col
           xs="3"
-          className="border rounded overflow-auto"
+          className="border rounded  overflow-auto"
           style={{ height: '80vh' }}
         >
           <ChatsList />
         </Col>
         <Col
           xs="9"
-          className="border rounded overflow-auto"
+          className="border rounded"
           style={{ height: '80vh', position: 'relative' }}
         >
           <ChatMessagesSpace />
