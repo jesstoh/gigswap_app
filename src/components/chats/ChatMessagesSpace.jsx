@@ -11,9 +11,15 @@ function ChatMessagesSpace() {
     setNewMessage(e.target.value);
   }
 
+  function handleEnterKey(e) {
+    if (e.keyCode === 13) {
+      handleSubmit()
+    }
+  }
+
   // sending message
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit() {
+    // e.preventDefault();
     //If not empty string, push data to firestore
     if (newMessage) {
       // TESTING
@@ -28,7 +34,7 @@ function ChatMessagesSpace() {
         })
         .then(() => {
           console.log('saved successfully');
-          setNewMessage('') // Clear message box
+          setNewMessage(''); // Clear message box
         })
         .catch((error) => {
           console.log('Error:', error);
@@ -37,15 +43,18 @@ function ChatMessagesSpace() {
   }
 
   useEffect(() => {
+    // Fetch existing messages
+
+    // Fetch new messages
     db.collection('chats')
       .doc('jesstoh23-kenning')
       .collection('messages')
+      .orderBy('createdAt', 'desc')
       .onSnapshot(
         (querySnapshot) => {
           const allMessages = [];
-
           querySnapshot.docs.forEach((doc) => {
-            allMessages.unshift(doc.data());
+            allMessages.unshift({ id: doc.id, data: doc.data() });
           });
 
           setMessages(allMessages);
@@ -68,32 +77,36 @@ function ChatMessagesSpace() {
       <div>
         Message Space
         {messages.map((message) => (
-          <div>{message.message}</div>
+          <div>{message.data.message}</div>
         ))}
       </div>
       <div
         style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
         className="pl-3"
       >
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={e => {
+            e.preventDefault();
+            handleSubmit();
+        }}>
           <Row>
             <Col xs="8" sm="10">
-              <Form.Group className="text-left">
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  style={{ resize: 'none' }}
-                  name="message"
-                  value={newMessage}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
+          <Form.Group className="text-left">
+            <Form.Control
+              as="textarea"
+              rows={1}
+              style={{ resize: 'none' }}
+              name="message"
+              value={newMessage}
+              onChange={handleChange}
+              onKeyDown={handleEnterKey}
+            />
+          </Form.Group>
+          </Col>
             <Col xs="4" sm="2">
-              <Button variant="primary" type="submit">
-                Send
-              </Button>
-            </Col>
+          <Button variant="primary" type="submit">
+            Send
+          </Button>
+          </Col>
           </Row>
         </Form>
       </div>
