@@ -40,7 +40,7 @@ function TalentHeader({ location }) {
               {unreadNotification}
             </Badge>
           </Nav.Link>
-          <Nav.Link href="#chat" className="mr-4 text-white">
+          <Nav.Link href="/chats" className="mr-4 text-white">
             <FaComment size={23} />
           </Nav.Link>
           <NavDropdown

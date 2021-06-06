@@ -28,7 +28,8 @@ import TalentReview from './pages/reviews/TalentReview';
 import TalentDetails from './pages/talents/TalentDetails';
 import TalentFavPage from './pages/talents/TalentFavPage';
 import TalentsPage from './pages/talents/TalentsPage';
-import CreateProfilePage from './pages/profiles/CreateProfilePage.jsx';
+import CreateProfilePage from './pages/profiles/CreateProfilePage';
+import ChatRoom from './pages/chats/ChatRoom';
 import HeaderContainer from './components/headers/HeaderContainer';
 import Footer from './components/others/Footer';
 
@@ -145,6 +146,7 @@ function App() {
             path="/talent-review/:reviewId"
             component={TalentReview}
           />
+          <SharedRoute exact path="/chats" component={ChatRoom} />
         </Switch>
       </div>
       <Footer />
