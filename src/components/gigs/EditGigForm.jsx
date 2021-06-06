@@ -143,7 +143,7 @@ function EditGigForm() {
               type="checkbox"
               label="Yes"
               name="is_remote"
-              value={formValue.is_remote}
+              checked={formValue.is_remote}
               onChange={checkBoxChange}
             />
           </Form.Group>
@@ -153,7 +153,7 @@ function EditGigForm() {
               type="checkbox"
               label="Fixed Term"
               name="is_fixed"
-              value={formValue.is_fixed}
+              checked={formValue.is_fixed}
               onChange={checkBoxChange}
             />
           </Form.Group>

@@ -62,7 +62,7 @@ function Gigs() {
 
   function handleSearch(e) {
     e.preventDefault();
-    console.log(searchValue);
+    // console.log(searchValue);
     //Set it into current url query
     const searchUrl = `?search=${searchValue}`;
     setUrlQuery(searchUrl); //Set current url query
@@ -78,7 +78,7 @@ function Gigs() {
 
   function handleFilter(e) {
     e.preventDefault();
-    console.log(filterValue);
+    // console.log(filterValue);
     const filterUrl = `?filter=true&is_fixed=${
       filterValue.is_fixed
     }&is_remote=${filterValue.is_remote}&subcategories=${JSON.stringify(
@@ -164,7 +164,7 @@ function Gigs() {
             type="checkbox"
             label="Remote Only"
             name="is_remote"
-            value={filterValue.is_remote}
+            checked={filterValue.is_remote}
             onChange={checkBoxChange}
           />
         </Form.Group>
@@ -174,7 +174,7 @@ function Gigs() {
             type="checkbox"
             label="Fixed Term"
             name="is_fixed"
-            value={filterValue.is_fixed}
+            checked={filterValue.is_fixed}
             onChange={checkBoxChange}
           />
         </Form.Group>

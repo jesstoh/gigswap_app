@@ -166,6 +166,7 @@ function Register() {
               <Form.Check
                 type="checkbox"
                 name="is_hirer"
+                checked={formik.values.is_hirer}
                 onChange={formik.handleChange}
                 label="Hirer"
               />

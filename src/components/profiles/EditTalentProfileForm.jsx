@@ -139,7 +139,7 @@ function EditTalentProfileForm() {
               type="checkbox"
               label="Yes"
               name="remote"
-              value={formValue.remote}
+              checked={formValue.remote}
               onChange={checkBoxChange}
             />
           </Form.Group>
@@ -149,7 +149,7 @@ function EditTalentProfileForm() {
               type="checkbox"
               label="Yes"
               name="fixed_term"
-              value={formValue.fixed_term}
+              checked={formValue.fixed_term}
               onChange={checkBoxChange}
             />
           </Form.Group>
