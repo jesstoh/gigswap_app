@@ -4,17 +4,18 @@ import { db } from '../../services/firebase';
 import firebase from 'firebase/app';
 
 function ChatMessagesSpace() {
-  const [message, setMessage] = useState('');
-  
+  const [newMessage, setNewMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
   function handleChange(e) {
-    setMessage(e.target.value);
+    setNewMessage(e.target.value);
   }
 
   // sending message
   function handleSubmit(e) {
     e.preventDefault();
     //If not empty string, push data to firestore
-    if (message) {
+    if (newMessage) {
       // TESTING
       db.collection('chats')
         .doc('jesstoh23-kenning')
@@ -22,10 +23,13 @@ function ChatMessagesSpace() {
         .doc()
         .set({
           fromHirer: true, // Set this message is sent from talent or hirer
-          message: message,
+          message: newMessage,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .then(() => console.log('saved successfully'))
+        .then(() => {
+          console.log('saved successfully');
+          setNewMessage('') // Clear message box
+        })
         .catch((error) => {
           console.log('Error:', error);
         });
@@ -38,15 +42,20 @@ function ChatMessagesSpace() {
       .collection('messages')
       .onSnapshot(
         (querySnapshot) => {
-            // querySnapshot.docs.forEach(doc => console.log(doc.data()))
-            // console.log('end')
-        //   console.log(querySnapshot.docs);
+          const allMessages = [];
 
-        querySnapshot.docChanges().forEach(change => {
-            if (change.type === 'added') {
-                console.log('new message', change.doc.data())
-            }
-        })
+          querySnapshot.docs.forEach((doc) => {
+            allMessages.unshift(doc.data());
+          });
+
+          setMessages(allMessages);
+
+          // querySnapshot.docChanges().forEach(change => {
+          //     if (change.type === 'added') {
+          //         setMessages([...messages, change.doc.data()])
+          //         console.log(change.doc.data())
+          //     }
+          // })
         },
         (err) => {
           console.log('error occurred', err);
@@ -56,11 +65,15 @@ function ChatMessagesSpace() {
 
   return (
     <>
-      <div>Message Space</div>
+      <div>
+        Message Space
+        {messages.map((message) => (
+          <div>{message.message}</div>
+        ))}
+      </div>
       <div
         style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
         className="pl-3"
-        // className="border p-2"
       >
         <Form onSubmit={handleSubmit}>
           <Row>
@@ -71,7 +84,7 @@ function ChatMessagesSpace() {
                   rows={1}
                   style={{ resize: 'none' }}
                   name="message"
-                  value={message}
+                  value={newMessage}
                   onChange={handleChange}
                 />
               </Form.Group>
