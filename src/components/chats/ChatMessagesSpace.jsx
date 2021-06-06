@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 
 function ChatMessagesSpace() {
   const [message, setMessage] = useState('');
-
+  
   function handleChange(e) {
     setMessage(e.target.value);
   }
@@ -21,7 +21,7 @@ function ChatMessagesSpace() {
         .collection('messages')
         .doc()
         .set({
-          from: 'jesstoh23',
+          fromHirer: true, // Set this message is sent from talent or hirer
           message: message,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         })
@@ -31,6 +31,28 @@ function ChatMessagesSpace() {
         });
     }
   }
+
+  useEffect(() => {
+    db.collection('chats')
+      .doc('jesstoh23-kenning')
+      .collection('messages')
+      .onSnapshot(
+        (querySnapshot) => {
+            // querySnapshot.docs.forEach(doc => console.log(doc.data()))
+            // console.log('end')
+        //   console.log(querySnapshot.docs);
+
+        querySnapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+                console.log('new message', change.doc.data())
+            }
+        })
+        },
+        (err) => {
+          console.log('error occurred', err);
+        }
+      );
+  }, []);
 
   return (
     <>
