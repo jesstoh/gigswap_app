@@ -135,7 +135,7 @@ function ChatMessagesSpace() {
 
   return (
     <>
-      <div className="px-4 message-container" style={{ height: '90%' }}>
+      <div className="px-4 message-container py-2" style={{ height: '90%' }}>
         {messages.map((message) => (
           <div
             key={message.id}
@@ -157,8 +157,8 @@ function ChatMessagesSpace() {
         ))}
       </div>
       <div
-        style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
-        className="pl-3"
+        // style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
+        className="pl-3 pt-2"
       >
         <Form
           onSubmit={(e) => {
@@ -166,7 +166,7 @@ function ChatMessagesSpace() {
             handleSubmit();
           }}
         >
-          <Row>
+          <Row noGutters>
             <Col xs="8" sm="10">
               <Form.Group className="text-left">
                 <Form.Control

@@ -137,6 +137,7 @@ footer {
   word-wrap: break-word;
   -ms-overflow-style: none; 
   scrollbar-width: none;
+  background-color: aliceblue;
 }
 
 .message-container::-webkit-scrollbar {
@@ -150,6 +151,10 @@ footer {
 
 .chat-list::-webkit-scrollbar {
   display: none;
+}
+
+.chat-container {
+  /* background-color: rgb(223, 243, 243); */
 }
 
 .message-box {
