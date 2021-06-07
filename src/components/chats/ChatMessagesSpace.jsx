@@ -98,7 +98,7 @@ function ChatMessagesSpace() {
         .doc(chatId)
         .set({ [unreadField]: 0 }, { merge: true })
         .then(() => {
-          console.log('read all');
+        //   console.log('read all');
         })
         .catch((err) => console.log('read error', err));
 

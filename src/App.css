@@ -135,6 +135,21 @@ footer {
   overflow-y: scroll;
   overflow-x: hidden;
   word-wrap: break-word;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.message-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-list {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.chat-list::-webkit-scrollbar {
+  display: none;
 }
 
 .message-box {

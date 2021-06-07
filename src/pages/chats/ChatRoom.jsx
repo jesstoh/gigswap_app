@@ -11,7 +11,7 @@ function ChatRoom() {
       <Row noGutters>
         <Col
           xs="3"
-          className="border overflow-auto"
+          className="border overflow-auto chat-list"
           style={{ height: '80vh' }}
         >
           <ChatsList />
