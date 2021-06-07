@@ -56,9 +56,11 @@ function ChatsList() {
             <span className="text-smaller">
               ({chat.data[isHirer ? 'talent' : 'hirer']})
             </span>
-            <Badge variant="warning" pill className='float-right'>
-              {chat.data[isHirer ? 'unreadHirer' : 'unreadTalent']}
-            </Badge>
+            {chat.data[isHirer ? 'unreadHirer' : 'unreadTalent'] ? (
+              <Badge variant="warning" pill className="float-right">
+                {chat.data[isHirer ? 'unreadHirer' : 'unreadTalent']}
+              </Badge>
+            ) : null}
           </ListGroup.Item>
         ))}
       </ListGroup>

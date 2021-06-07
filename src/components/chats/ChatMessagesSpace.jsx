@@ -89,9 +89,20 @@ function ChatMessagesSpace() {
     //   .catch((error) => console.log('error', error));
   }
 
+  const unreadField = isHirer ? 'unreadHirer' : 'unreadTalent';
   useEffect(() => {
     // If chat room is selected
     if (chatId) {
+      // mark all message as read when first open chat
+      db.collection('chats')
+        .doc(chatId)
+        .set({ [unreadField]: 0 }, { merge: true })
+        .then(() => {
+          console.log('read all');
+        })
+        .catch((err) => console.log('read error', err));
+
+      //Listening to incoming messages
       db.collection('chats')
         .doc(chatId)
         .collection('messages')
@@ -102,11 +113,15 @@ function ChatMessagesSpace() {
             querySnapshot.docs.forEach((doc) => {
               // if (!doc.metadata.hasPendingwWrites) {
               allMessages.push({ id: doc.id, data: doc.data() });
+
               // console.log(format(doc.data().createdAt.toDate(), 'yyyy'));
               // console.log(doc.data());
               // console.log(
               //   formatDistanceToNowStrict(doc.data().createdAt.toDate())
               // );
+              db.collection('chats')
+                .doc(chatId)
+                .set({ [unreadField]: 0 }, { merge: true });
             });
             //   console.log(allMessages);
             setMessages(allMessages);
