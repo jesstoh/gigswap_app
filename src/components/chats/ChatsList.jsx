@@ -8,15 +8,18 @@ function ChatsList() {
   const dispatch = useDispatch();
   const isHirer = useSelector((state) => state.authentication.isHirer); //Get current login user role
   const username = useSelector((state) => state.authentication.user.username); //Get current login user username
-  const chatId = useSelector((state) => state.chats.chatId);
+  const activeChat = useSelector((state) => state.chats);
 
-  //Keep
+  //Keep list of chat rooms
   const [chatsList, setChatsList] = useState([]);
+
+  const roleField = isHirer ? 'hirer' : 'talent';
 
   //Fetch all chat rooms upon first rendering
   useEffect(() => {
     db.collection('chats')
-      .orderBy('updatedAt')
+      .where(roleField, '==', username)
+      .orderBy('updatedAt', 'desc')
       .onSnapshot(
         (querySnapshot) => {
           const allChatRooms = [];
@@ -41,7 +44,7 @@ function ChatsList() {
             id={chat.chatId}
             as="li"
             action
-            active={chat.chatId === chatId}
+            active={chat.chatId === activeChat.chatId}
             onClick={() => {
               dispatch(
                 setChatRoom(chat.chatId, chat.data.hirer, chat.data.talent)

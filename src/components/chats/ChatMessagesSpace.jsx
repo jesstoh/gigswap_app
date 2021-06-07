@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { db } from '../../services/firebase';
 import firebase from 'firebase/app';
@@ -7,6 +7,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 
 function ChatMessagesSpace() {
   const { isHirer } = useSelector((state) => state.authentication); // Check role of login user
+  const { chatId, hirer, talent } = useSelector((state) => state.chats);
 
   const [newMessage, setNewMessage] = useState(''); // Store state of new message
   const [messages, setMessages] = useState([]); // Store messages fetched
@@ -50,7 +51,7 @@ function ChatMessagesSpace() {
     if (newMessage) {
       // TESTING
       db.collection('chats')
-        .doc('jesstoh23-jamestan')
+        .doc(chatId)
         .collection('messages')
         .doc()
         .set({
@@ -62,7 +63,7 @@ function ChatMessagesSpace() {
         .then(() => {
           // Set updated timestamp on parent doc
           db.collection('chats')
-            .doc('jesstoh23-jamestan')
+            .doc(chatId)
             .set(
               {
                 updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -89,38 +90,40 @@ function ChatMessagesSpace() {
   }
 
   useEffect(() => {
-    db.collection('chats')
-      .doc('jesstoh23-jamestan')
-      .collection('messages')
-      .orderBy('createdAt')
-      .onSnapshot(
-        (querySnapshot) => {
-          const allMessages = [];
-          querySnapshot.docs.forEach((doc) => {
-            // if (!doc.metadata.hasPendingwWrites) {
-            allMessages.push({ id: doc.id, data: doc.data() });
-            // console.log(format(doc.data().createdAt.toDate(), 'yyyy'));
-            // console.log(doc.data());
-            // console.log(
-            //   formatDistanceToNowStrict(doc.data().createdAt.toDate())
-            // );
-          });
-          //   console.log(allMessages);
-          setMessages(allMessages);
-
-
-        },
-        (err) => {
-          console.log('error occurred', err);
-        }
-      );
-  }, []);
+    // If chat room is selected
+    if (chatId) {
+      db.collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .orderBy('createdAt')
+        .onSnapshot(
+          (querySnapshot) => {
+            const allMessages = [];
+            querySnapshot.docs.forEach((doc) => {
+              // if (!doc.metadata.hasPendingwWrites) {
+              allMessages.push({ id: doc.id, data: doc.data() });
+              // console.log(format(doc.data().createdAt.toDate(), 'yyyy'));
+              // console.log(doc.data());
+              // console.log(
+              //   formatDistanceToNowStrict(doc.data().createdAt.toDate())
+              // );
+            });
+            //   console.log(allMessages);
+            setMessages(allMessages);
+          },
+          (err) => {
+            console.log('error occurred', err);
+          }
+        );
+    }
+  }, [chatId]);
 
   return (
     <>
       <div className="px-4 message-container" style={{ height: '90%' }}>
         {messages.map((message) => (
-          <div key={message.id}
+          <div
+            key={message.id}
             className={`d-flex ${
               message.data.fromHirer === isHirer ? 'justify-content-end' : ''
             }`}
