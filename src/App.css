@@ -60,12 +60,12 @@ footer {
   font-size: smaller;
 }
 
-.gig-card>a, .notification-card>a, .talent-card>a {
+.gig-card>a, .notification-card>a, .talent-card>a, .talent-excerpt {
   text-decoration-style: none;
   color: black
 }
 
-.gig-card a:hover, .notification-card a:hover, .talent-card a:hover{
+.gig-card a:hover, .notification-card a:hover, .talent-card a:hover, .talent-excerpt:hover{
   text-decoration: none;
   color: inherit;
 }

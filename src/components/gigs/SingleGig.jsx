@@ -16,6 +16,7 @@ import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
 import GigEditButtons from './GigEditButtons';
 import ReviewStar from '../others/ReviewStar';
 import GigFlagButtons from './GigFlagButtons';
+import TalentExcerptChat from '../talents/TalentExcerptChat';
 
 function SingleGig() {
  
@@ -155,7 +156,7 @@ function SingleGig() {
           <div id="applicants-container" className="mt-5">
             <h5 className="text-center">Applicants list</h5>
             {gig.applicants.map((talent) => (
-              <SmallTalentExcerpt talent={talent} key={talent.id} />
+              <TalentExcerptChat talent={talent} key={talent.id} />
             ))}
           </div>
         </Collapse>
