@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
 import { db } from '../../services/firebase';
+import { setChatRoom } from '../../slices/chatsSlice.js';
 
 function ChatsList() {
+  const dispatch = useDispatch();
   const isHirer = useSelector((state) => state.authentication.isHirer); //Get current login user role
   const username = useSelector((state) => state.authentication.user.username); //Get current login user username
-  const chatId = useSelector(state => state.chats.chatId)
+  const chatId = useSelector((state) => state.chats.chatId);
 
   //Keep
   const [chatsList, setChatsList] = useState([]);
@@ -34,8 +36,22 @@ function ChatsList() {
     <>
       <ListGroup as="ul">
         {chatsList.map((chat) => (
-          <ListGroup.Item key={chat.chatId} id={chat.chatId} as="li" action active={chat.chatId === chatId}>
-            {chat.data[isHirer ? 'talentName' : 'hirerName']} <span className='text-smaller'> ({chat.data[isHirer ? 'talent' : 'hirer']})</span>
+          <ListGroup.Item
+            key={chat.chatId}
+            id={chat.chatId}
+            as="li"
+            action
+            active={chat.chatId === chatId}
+            onClick={() => {
+              dispatch(
+                setChatRoom(chat.chatId, chat.data.hirer, chat.data.talent)
+              );
+            }}
+          >
+            {chat.data[isHirer ? 'talentName' : 'hirerName']}{' '}
+            <span className="text-smaller">
+              ({chat.data[isHirer ? 'talent' : 'hirer']})
+            </span>
           </ListGroup.Item>
         ))}
       </ListGroup>
