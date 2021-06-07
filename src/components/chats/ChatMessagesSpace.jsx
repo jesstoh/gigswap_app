@@ -44,6 +44,8 @@ function ChatMessagesSpace() {
   // sending message
   function handleSubmit() {
     // e.preventDefault();
+
+    const unreadField = isHirer ? 'unreadTalent' : 'unreadHirer';
     //If not empty string, push data to firestore
     if (newMessage) {
       // TESTING
@@ -52,12 +54,22 @@ function ChatMessagesSpace() {
         .collection('messages')
         .doc()
         .set({
-          fromHirer: true, // Set this message is sent from talent or hirer
+          fromHirer: isHirer, // Set this message is sent from talent or hirer
           message: newMessage,
           //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         })
         .then(() => {
+          // Set updated timestamp on parent doc
+          db.collection('chats')
+            .doc('jesstoh23-kenning')
+            .set(
+              {
+                updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+                [unreadField]: firebase.firestore.FieldValue.increment(1),
+              },
+              { merge: true }
+            );
           console.log('saved successfully');
           setNewMessage(''); // Clear message box
         })
@@ -66,7 +78,7 @@ function ChatMessagesSpace() {
         });
     }
 
-    // testing
+    ///////////TESTING/////
     // db.collection('chats')
     //   .doc('jesstoh23-kenning')
     //   .set({ read: 1, hirer: 'jesstoh23', talent: 'kenning' }, { merge: true })
@@ -96,12 +108,7 @@ function ChatMessagesSpace() {
           //   console.log(allMessages);
           setMessages(allMessages);
 
-          // querySnapshot.docChanges().forEach(change => {
-          //     if (change.type === 'added') {
-          //         setMessages([...messages, change.doc.data()])
-          //         console.log(change.doc.data())
-          //     }
-          // })
+
         },
         (err) => {
           console.log('error occurred', err);
@@ -167,4 +174,4 @@ function ChatMessagesSpace() {
   );
 }
 
-export default ChatMessagesSpace; 
+export default ChatMessagesSpace;
