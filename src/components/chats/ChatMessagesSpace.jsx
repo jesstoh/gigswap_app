@@ -98,7 +98,7 @@ function ChatMessagesSpace() {
         .doc(chatId)
         .set({ [unreadField]: 0 }, { merge: true })
         .then(() => {
-        //   console.log('read all');
+          //   console.log('read all');
         })
         .catch((err) => console.log('read error', err));
 
@@ -133,63 +133,81 @@ function ChatMessagesSpace() {
     }
   }, [chatId]);
 
-  return (
-    <>
-      <div className="px-4 message-container py-2" style={{ height: '90%' }}>
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`d-flex ${
-              message.data.fromHirer === isHirer ? 'justify-content-end' : ''
-            }`}
-          >
+  let content;
+
+  if (chatId) {
+    // if chat is selected
+    content = (
+      <>
+        <div className="px-4 message-container py-2" style={{ height: '90%' }}>
+          {messages.map((message) => (
             <div
-              className={`mb-3 p-2 message-box ${
-                message.data.fromHirer === isHirer ? 'box-right' : 'box-left'
+              key={message.id}
+              className={`d-flex ${
+                message.data.fromHirer === isHirer ? 'justify-content-end' : ''
               }`}
             >
-              {message.data.message}
-              <div className="text-muted text-smaller text-right">
-                {formatDistanceToNowStrict(message.data.createdAt.toDate())} ago
+              <div
+                className={`mb-3 p-2 message-box ${
+                  message.data.fromHirer === isHirer ? 'box-right' : 'box-left'
+                }`}
+              >
+                {message.data.message}
+                <div className="text-muted text-smaller text-right">
+                  {formatDistanceToNowStrict(message.data.createdAt.toDate())}{' '}
+                  ago
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div
-        // style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
-        className="pl-3 pt-2"
-      >
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
+          ))}
+        </div>
+        <div
+          // style={{ position: 'absolute', bottom: '0', left: '0', width: '95%' }}
+          className="pl-3 pt-2"
         >
-          <Row noGutters>
-            <Col xs="8" sm="10">
-              <Form.Group className="text-left">
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  style={{ resize: 'none' }}
-                  name="message"
-                  value={newMessage}
-                  onChange={handleChange}
-                  onKeyDown={handleEnterKey}
-                />
-              </Form.Group>
-            </Col>
-            <Col xs="4" sm="2">
-              <Button variant="primary" type="submit">
-                Send
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <Row noGutters>
+              <Col xs="8" sm="10">
+                <Form.Group className="text-left">
+                  <Form.Control
+                    as="textarea"
+                    rows={1}
+                    style={{ resize: 'none' }}
+                    name="message"
+                    value={newMessage}
+                    onChange={handleChange}
+                    onKeyDown={handleEnterKey}
+                  />
+                </Form.Group>
+              </Col>
+              <Col xs="4" sm="2">
+                <Button variant="primary" type="submit">
+                  Send
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </>
+    );
+  } else {
+    content = (
+      <div
+        className="px-4 message-container py-2 text-center"
+        style={{ height: '100%' }}
+      >
+          <span className='align-center'>Start a chat now</span>
+
       </div>
-    </>
-  );
+    );
+  }
+
+  return <>{content}</>;
 }
 
 export default ChatMessagesSpace;
