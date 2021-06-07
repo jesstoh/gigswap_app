@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { db } from '../../services/firebase';
 import firebase from 'firebase/app';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 function ChatMessagesSpace() {
   const { isHirer } = useSelector((state) => state.authentication); // Check role of login user
@@ -53,7 +54,8 @@ function ChatMessagesSpace() {
         .set({
           fromHirer: true, // Set this message is sent from talent or hirer
           message: newMessage,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
         })
         .then(() => {
           console.log('saved successfully');
@@ -63,20 +65,35 @@ function ChatMessagesSpace() {
           console.log('Error:', error);
         });
     }
+
+    // testing
+    // db.collection('chats')
+    //   .doc('jesstoh23-kenning')
+    //   .set({ read: 1, hirer: 'jesstoh23', talent: 'kenning' }, { merge: true })
+    //   .then(() => {
+    //     console.log('success');
+    //   })
+    //   .catch((error) => console.log('error', error));
   }
 
   useEffect(() => {
     db.collection('chats')
       .doc('jesstoh23-kenning')
       .collection('messages')
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt')
       .onSnapshot(
         (querySnapshot) => {
           const allMessages = [];
           querySnapshot.docs.forEach((doc) => {
-            allMessages.unshift({ id: doc.id, data: doc.data() });
+            // if (!doc.metadata.hasPendingwWrites) {
+            allMessages.push({ id: doc.id, data: doc.data() });
+            // console.log(format(doc.data().createdAt.toDate(), 'yyyy'));
+            console.log(doc.data());
+            console.log(
+              formatDistanceToNowStrict(doc.data().createdAt.toDate())
+            );
           });
-          console.log(allMessages);
+          //   console.log(allMessages);
           setMessages(allMessages);
 
           // querySnapshot.docChanges().forEach(change => {
@@ -96,24 +113,22 @@ function ChatMessagesSpace() {
     <>
       <div className="px-4 message-container" style={{ height: '90%' }}>
         {messages.map((message) => (
-          <Row key={message.id}>
-            <Col
-              xs={{
-                span: 8,
-                offset: message.data.fromHirer === isHirer ? 4 : 0,
-              }}
-              className={`mb-3 p-2 rounded ${
-                message.data.fromHirer === isHirer ? 'box-right text-right' : 'box-left'
+          <div
+            className={`d-flex ${
+              message.data.fromHirer === isHirer ? 'justify-content-end' : ''
+            }`}
+          >
+            <div
+              className={`mb-3 p-2 message-box ${
+                message.data.fromHirer === isHirer ? 'box-right' : 'box-left'
               }`}
             >
-       
-                {message.data.message}
-                <div className="text-muted text-smaller text-right">
-                  {/* {message.data.createdAt.toDate().toString()} */}
-                </div>
-              
-            </Col>
-          </Row>
+              {message.data.message}
+              <div className="text-muted text-smaller text-right">
+                {formatDistanceToNowStrict(message.data.createdAt.toDate())} ago
+              </div>
+            </div>
+          </div>
         ))}
       </div>
       <div
@@ -152,4 +167,4 @@ function ChatMessagesSpace() {
   );
 }
 
-export default ChatMessagesSpace;
+export default ChatMessagesSpace; 

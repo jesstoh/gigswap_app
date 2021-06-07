@@ -134,22 +134,20 @@ footer {
 .message-container {
   overflow-y: scroll;
   overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 .message-box {
-  width: fit-content;
+  border-radius: 1rem;
+  max-width: 80%;
   
 }
 
 .box-right{
-
   background-color:rgba(135, 206, 250, 0.8)
-  /* float: right; */
-
 }
 
 .box-left{
-  background-color: rgba(149, 255, 215, 0.8)
-
-
+  background-color: rgba(213, 223, 219, 0.8)
 }
+
