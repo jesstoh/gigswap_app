@@ -50,7 +50,7 @@ function ChatMessagesSpace() {
     if (newMessage) {
       // TESTING
       db.collection('chats')
-        .doc('jesstoh23-kenning')
+        .doc('jesstoh23-jamestan')
         .collection('messages')
         .doc()
         .set({
@@ -62,7 +62,7 @@ function ChatMessagesSpace() {
         .then(() => {
           // Set updated timestamp on parent doc
           db.collection('chats')
-            .doc('jesstoh23-kenning')
+            .doc('jesstoh23-jamestan')
             .set(
               {
                 updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
@@ -90,7 +90,7 @@ function ChatMessagesSpace() {
 
   useEffect(() => {
     db.collection('chats')
-      .doc('jesstoh23-kenning')
+      .doc('jesstoh23-jamestan')
       .collection('messages')
       .orderBy('createdAt')
       .onSnapshot(
@@ -100,10 +100,10 @@ function ChatMessagesSpace() {
             // if (!doc.metadata.hasPendingwWrites) {
             allMessages.push({ id: doc.id, data: doc.data() });
             // console.log(format(doc.data().createdAt.toDate(), 'yyyy'));
-            console.log(doc.data());
-            console.log(
-              formatDistanceToNowStrict(doc.data().createdAt.toDate())
-            );
+            // console.log(doc.data());
+            // console.log(
+            //   formatDistanceToNowStrict(doc.data().createdAt.toDate())
+            // );
           });
           //   console.log(allMessages);
           setMessages(allMessages);
@@ -120,7 +120,7 @@ function ChatMessagesSpace() {
     <>
       <div className="px-4 message-container" style={{ height: '90%' }}>
         {messages.map((message) => (
-          <div
+          <div key={message.id}
             className={`d-flex ${
               message.data.fromHirer === isHirer ? 'justify-content-end' : ''
             }`}

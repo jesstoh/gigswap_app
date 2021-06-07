@@ -6,19 +6,19 @@ import { db } from '../../services/firebase';
 
 function ChatRoom() {
   return (
-    <Container className="mt-3">
+    <Container className="mt-3 chat-container">
       <Row>Placeholder search User</Row>
-      <Row>
+      <Row noGutters>
         <Col
           xs="3"
-          className="border rounded  overflow-auto"
+          className="border overflow-auto"
           style={{ height: '80vh' }}
         >
           <ChatsList />
         </Col>
         <Col
           xs="9"
-          className="border rounded"
+          className="border"
           style={{ height: '80vh', position: 'relative' }}
         >
           <ChatMessagesSpace />

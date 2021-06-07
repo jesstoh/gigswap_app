@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  chatId: '',
+  chatId: 'jesstoh23-kenning',
   hirer: '',
   talent: '',
 };
