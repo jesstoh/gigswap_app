@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Badge } from 'react-bootstrap';
 import { db } from '../../services/firebase';
 import { setChatRoom } from '../../slices/chatsSlice.js';
 
@@ -18,8 +18,9 @@ function ChatsList() {
   //Fetch all chat rooms upon first rendering
   useEffect(() => {
     db.collection('chats')
-      .where(roleField, '==', username)
       .orderBy('updatedAt', 'desc')
+      .where(roleField, '==', username)
+
       .onSnapshot(
         (querySnapshot) => {
           const allChatRooms = [];
@@ -55,6 +56,9 @@ function ChatsList() {
             <span className="text-smaller">
               ({chat.data[isHirer ? 'talent' : 'hirer']})
             </span>
+            <Badge variant="warning" pill className='float-right'>
+              {chat.data[isHirer ? 'unreadHirer' : 'unreadTalent']}
+            </Badge>
           </ListGroup.Item>
         ))}
       </ListGroup>
