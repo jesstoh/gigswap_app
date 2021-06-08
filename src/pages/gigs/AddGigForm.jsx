@@ -28,7 +28,7 @@ function AddGigForm() {
     title: '',
     description: '',
     subcategories: [],
-    is_remote: false,
+    is_remote: true,
     is_fixed: false,
     hour_rate: 35,
     fixed_amount: 1,
@@ -38,10 +38,11 @@ function AddGigForm() {
     address: '',
     postal_code: '',
     country: '',
-    contact: '',
   });
   const min_date = format(new Date(), 'yyyy-MM-dd');
   const duration_unit_options = ['hour', 'day', 'week', 'month'];
+  //Equivalent of hours for the unit
+  const duration_unit_hours = { hour: 1, day: 8, week: 40, month: 160 };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -51,7 +52,24 @@ function AddGigForm() {
       delete data.postal_code;
     }
     data.expired_at = new Date(data.expired_at);
-    console.log(data);
+
+    // Processing of budget to estimated hourly rate
+    if (!data.is_fixed) {
+      data.hour_rate = Math.floor(
+        data.fixed_amount /
+          (data.duration * duration_unit_hours[data.duration_unit])
+      );
+    } else {
+      delete data.fixed_amount;
+    }
+
+    if (data.is_remote) {
+      delete data.postal_code;
+      delete data.country;
+      delete data.address;
+    }
+
+    // console.log(data);
     try {
       const result = await dispatch(addGig(data));
       unwrapResult(result);
@@ -83,7 +101,7 @@ function AddGigForm() {
 
   useEffect(() => {
     if (status === 'succeeded' && createdGig) {
-      console.log(createdGig);
+      // console.log(createdGig);
       history.push(`/gigs/${createdGig.id}`);
     }
     if (!isProfileComplete) {
@@ -177,10 +195,10 @@ function AddGigForm() {
               />
             </Form.Group>
             <Form.Group as={Col}>
-              <Form.Label>Project or Fixed Term </Form.Label>
+              <Form.Label>Project or Term Based </Form.Label>
               <Form.Check
                 type="checkbox"
-                label="Fixed Term"
+                label="Term Based"
                 name="is_fixed"
                 checked={formValue.is_fixed}
                 onChange={checkBoxChange}
@@ -188,9 +206,13 @@ function AddGigForm() {
             </Form.Group>
           </Form.Row>
           <Form.Row>
-            <Form.Group as={Col}>
+            <Form.Group
+              as={Col}
+              className={formValue.is_fixed ? '' : 'no-display'}
+            >
               <Form.Label>Hourly Rate, $ </Form.Label>
               <Form.Control
+                required={formValue.is_fixed ? true : false}
                 type="number"
                 min="0"
                 name="hour_rate"
@@ -198,9 +220,13 @@ function AddGigForm() {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group as={Col}>
-              <Form.Label>Budget </Form.Label>
+            <Form.Group
+              as={Col}
+              className={formValue.is_fixed ? 'no-display' : ''}
+            >
+              <Form.Label>Total Budget, $ </Form.Label>
               <Form.Control
+                required={formValue.is_fixed ? false : true}
                 type="number"
                 min="1"
                 name="fixed_amount"
@@ -208,10 +234,10 @@ function AddGigForm() {
                 onChange={handleChange}
               />
             </Form.Group>
-          </Form.Row>
-          <Form.Row>
             <Form.Group as={Col}>
-              <Form.Label>Duration </Form.Label>
+              <Form.Label>
+                {formValue.is_fixed ? '' : 'Estimated'} Duration{' '}
+              </Form.Label>
               <Form.Control
                 type="number"
                 required
@@ -238,41 +264,48 @@ function AddGigForm() {
               </Form.Control>
             </Form.Group>
           </Form.Row>
-
-          <h6 className="mt-5">Gig Location</h6>
-          <Form.Group>
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              name="address"
-              value={formValue.address}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Row>
-            <Form.Group as={Col}>
-              <Form.Label>Postal Code</Form.Label>
-              <Form.Control
-                type="number"
-                name="postal_code"
-                value={formValue.postal_code}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group as={Col}>
-              <Form.Label>Country</Form.Label>
+          {/* <Form.Row></Form.Row> */}
+          <div className={formValue.is_remote ? 'no-display' : ''}>
+            <h6 className="mt-5">Gig Location</h6>
+            <Form.Group>
+              <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
-                name="country"
-                value={formValue.country}
+                name="address"
+                value={formValue.address}
                 onChange={handleChange}
               />
             </Form.Group>
-          </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label>Postal Code</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="postal_code"
+                  value={formValue.is_remote ? 0 : formValue.postal_code}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group as={Col}>
+                <Form.Label>Country *</Form.Label>
+                <Form.Control
+                  required={formValue.is_remote ? false : true}
+                  type="text"
+                  name="country"
+                  value={formValue.country}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Form.Row>
+          </div>
           <Form.Text className="text-muted">* Required Field</Form.Text>
 
           <div className="text-center mt-3">
-            <Button variant="primary" className="px-4" type="submit">
+            <Button
+              variant="primary rounded-pill"
+              className="px-5"
+              type="submit"
+            >
               Submit
             </Button>
           </div>

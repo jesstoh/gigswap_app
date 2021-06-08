@@ -54,7 +54,7 @@ function App() {
   useEffect(() => {
     if (localStorage.access) {
       dispatch(checkAuth());
-      console.log('ok');
+      // console.log('ok');
     } else {
       dispatch(setFailedStatus());
     }

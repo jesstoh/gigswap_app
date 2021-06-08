@@ -171,3 +171,6 @@ footer {
   background-color: rgba(213, 223, 219, 0.8)
 }
 
+.no-display{
+  display: none;
+}
