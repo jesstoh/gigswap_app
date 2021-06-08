@@ -21,7 +21,7 @@ export const fetchGigs = createAsyncThunk(
   async (urlQuery, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
-        `${process.env.REACT_APP_API_URL}/api/gigs/${urlQuery ? urlQuery:''}`
+        `${process.env.REACT_APP_API_URL}/api/gigs/${urlQuery ? urlQuery : ''}`
       );
       return response.data;
     } catch (err) {
@@ -36,7 +36,9 @@ export const fetchRecommendedGigs = createAsyncThunk(
   async (urlQuery, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
-        `${process.env.REACT_APP_API_URL}/api/gigs/recommended/${urlQuery ? urlQuery:''}`
+        `${process.env.REACT_APP_API_URL}/api/gigs/recommended/${
+          urlQuery ? urlQuery : ''
+        }`
       );
       return response.data;
     } catch (err) {
@@ -272,6 +274,9 @@ const gigsSlice = createSlice({
     builder.addCase(fetchSingleGig.rejected, (state, action) => {
       state.activeGig.error = action.payload.data.detail;
       state.activeGig.status = 'failed';
+      if (action.payload.status === 404) {
+        state.activeGig.error = 'Gig not found';
+      }
     });
     // Update gigs state when fetchGigs success
     builder.addCase(fetchRecommendedGigs.fulfilled, (state, action) => {

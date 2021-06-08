@@ -53,7 +53,7 @@ function App() {
   useEffect(() => {
     if (localStorage.access) {
       dispatch(checkAuth());
-      console.log('ok');
+      // console.log('ok');
     } else {
       dispatch(setFailedStatus());
     }
@@ -141,6 +141,8 @@ function App() {
             component={TalentReview}
           />
           <SharedRoute exact path="/chats" component={ChatRoom} />
+          {/* Redirect to home pages  */}
+          <Redirect to="/" />
         </Switch>
       </div>
       <Footer />
