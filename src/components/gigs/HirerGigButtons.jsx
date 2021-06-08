@@ -92,7 +92,7 @@ function HirerGigButtons() {
     //Check if gig is closed
     if (gig.is_closed) {
       content = (
-        <span className="text-danger">Gig is closed/cancelled by you</span>
+        <span className="text-danger float-right">Gig is closed/cancelled by you</span>
       );
     } else {
       // check if gig is awarded
@@ -131,12 +131,13 @@ function HirerGigButtons() {
           if (gig.paid) {
             content = (
               <>
-                <span>You have paid talent</span> <br />
+                <span className='text-primary float-right'>PAID</span> <br />
                 {gig.is_talent_reviewed ? null : <ReviewTalentContainer />}
               </>
             );
           } else {
-            content = <Button className="mr-3 px-4 rounded-pill">Pay</Button>;
+            // content = <Button className="mr-3 px-4 rounded-pill">Pay</Button>;
+            content = <span className='text-danger'>Still pending payment to talent</span>
           }
         }
       }

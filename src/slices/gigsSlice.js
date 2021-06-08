@@ -165,7 +165,6 @@ export const acceptGigCompletion = createAsyncThunk(
   }
 );
 
-
 // Talent confirm payment
 export const confirmGigPayment = createAsyncThunk(
   'gigs/confirmGigPayment',

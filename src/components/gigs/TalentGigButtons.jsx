@@ -9,8 +9,9 @@ import {
   applyGig,
   withdrawGig,
 } from '../../slices/favouritesSlicer.js';
+import { confirmGigPayment } from '../../slices/gigsSlice.js';
 import Axios from '../../utilz/Axios.js';
-import ReviewHirerContainer from '../reviews/ReviewHirerContainer'
+import ReviewHirerContainer from '../reviews/ReviewHirerContainer';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -117,29 +118,36 @@ function TalentGigButtons() {
           if (gig.paid) {
             content = (
               <>
-                <span>Owner has made payment to you for this gig</span>
+                <span className='float-right text-primary'>PAID</span>
                 <br />
-                {gig.is_hirer_reviewed ? null : (
-                  <ReviewHirerContainer />
-                )}
+                {gig.is_hirer_reviewed ? null : <ReviewHirerContainer />}
               </>
             );
           } else {
             //else request for payment by talent
             content = (
-              <Button
-                className="mr-3 px-4 rounded-pill"
-                onClick={requestPayment}
-              >
-                Request for Payment
-              </Button>
+              <>
+                <Button
+                  variant="outline-primary"
+                  className="mr-3 px-4 rounded-pill"
+                  onClick={requestPayment}
+                >
+                  Request for Payment
+                </Button>
+                <Button
+                  variant="warning mr-3 px-4 rounded-pill"
+                  onClick={() => dispatch(confirmGigPayment(gig.id))}
+                >
+                  Confirm Payment Receipt
+                </Button>
+              </>
             );
           }
         }
       } else {
         // display message if gig is awarded to other talents
         content = (
-          <span className="text-danger">
+          <span className="text-danger float-right">
             Gig has been awarded to other talents.
           </span>
         );
