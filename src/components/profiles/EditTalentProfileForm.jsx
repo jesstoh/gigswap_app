@@ -10,13 +10,27 @@ function EditTalentProfileForm() {
   const subcategories = useSelector(
     (state) => state.categories.subcats.content
   );
-  const initialFormValue = useSelector((state) => state.profile.profile);
+  const profile = useSelector((state) => state.profile.profile);
   const skillOptions = [ ...subcategories ].map((subcat) => (
     <option key={subcat.id} value={subcat.id}>
       {subcat.name}
     </option>
   ));
+  
+  const skills = profile.skills.map(skill => skill.id);
 
+  const initialFormValue = {
+    bio: profile.bio,
+    image:profile.image,
+    skills: skills,
+    remote: profile.remote,
+    fixed_term: profile.fixed_term,
+    min_pay: profile.min_pay,
+    address: profile.address,
+    postal_code: profile.postal_code,
+    country: profile.country,
+    contact: profile.contact
+  }
   // const status = useSelector((state) => state.profile.editStatus);
   // const edit = useSelector((state) => state.profile.edit);
   const [errorMessage, setErrorMessage] = useState(null);
