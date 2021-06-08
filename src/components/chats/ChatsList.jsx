@@ -26,12 +26,12 @@ function ChatsList() {
           const allChatRooms = [];
           querySnapshot.docs.forEach((doc) => {
             allChatRooms.push({ chatId: doc.id, data: doc.data() });
-            console.log(doc.data());
+            // console.log(doc.data());
           });
           setChatsList(allChatRooms);
         },
         (err) => {
-          console.log('error occured', err);
+          console.log('error occurred', err);
         }
       );
   }, []);

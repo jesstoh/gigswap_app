@@ -11,8 +11,12 @@ function ChatMessagesSpace() {
 
   const [newMessage, setNewMessage] = useState(''); // Store state of new message
   const [messages, setMessages] = useState([]); // Store messages fetched
+  const [currentListeningChat, setCurrentListeningChat] = useState(null); //Store return function of firestore listener
 
   const [shiftKey, setShiftKey] = useState(false); //Store whether shift key is pressed
+
+  const unreadField = isHirer ? 'unreadTalent' : 'unreadHirer';
+  const readField = isHirer ? 'unreadHirer' : 'unreadTalent';
 
   function handleChange(e) {
     setNewMessage(e.target.value);
@@ -43,10 +47,9 @@ function ChatMessagesSpace() {
   //   }
 
   // sending message
-  function handleSubmit() {
+  function handleSubmit(e) {
     // e.preventDefault();
 
-    const unreadField = isHirer ? 'unreadTalent' : 'unreadHirer';
     //If not empty string, push data to firestore
     if (newMessage) {
       // TESTING
@@ -89,8 +92,15 @@ function ChatMessagesSpace() {
     //   .catch((error) => console.log('error', error));
   }
 
-  const unreadField = isHirer ? 'unreadHirer' : 'unreadTalent';
   useEffect(() => {
+    // console.log(chatId);
+
+    // Detaching previous chat room listener
+    if (currentListeningChat) {
+      currentListeningChat();
+      // console.log('detaching listening', chatId);
+    }
+
     // If chat room is selected
     if (chatId) {
       // mark all message as read when first open chat
@@ -98,12 +108,13 @@ function ChatMessagesSpace() {
         .doc(chatId)
         .set({ [unreadField]: 0 }, { merge: true })
         .then(() => {
-          //   console.log('read all');
+          console.log('read all', chatId);
         })
         .catch((err) => console.log('read error', err));
 
       //Listening to incoming messages
-      db.collection('chats')
+      const listeningChat = db
+        .collection('chats')
         .doc(chatId)
         .collection('messages')
         .orderBy('createdAt')
@@ -121,7 +132,7 @@ function ChatMessagesSpace() {
               // );
               db.collection('chats')
                 .doc(chatId)
-                .set({ [unreadField]: 0 }, { merge: true });
+                .set({ [readField]: 0 }, { merge: true });
             });
             //   console.log(allMessages);
             setMessages(allMessages);
@@ -130,6 +141,8 @@ function ChatMessagesSpace() {
             console.log('error occurred', err);
           }
         );
+      // Set current listener function in state
+      setCurrentListeningChat(() => listeningChat);
     }
   }, [chatId]);
 
@@ -201,8 +214,7 @@ function ChatMessagesSpace() {
         className="px-4 message-container py-2 text-center"
         style={{ height: '100%' }}
       >
-          <span className='align-center'>Start a chat now</span>
-
+        <span className="align-center">Start a chat now</span>
       </div>
     );
   }
