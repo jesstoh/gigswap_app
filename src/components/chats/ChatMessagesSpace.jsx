@@ -108,7 +108,7 @@ function ChatMessagesSpace() {
         .doc(chatId)
         .set({ [unreadField]: 0 }, { merge: true })
         .then(() => {
-          console.log('read all', chatId);
+        //   console.log('read all', chatId);
         })
         .catch((err) => console.log('read error', err));
 
@@ -214,7 +214,7 @@ function ChatMessagesSpace() {
         className="px-4 message-container py-2 text-center"
         style={{ height: '100%' }}
       >
-        <span className="align-center">Start a chat now</span>
+        <h5 className="align-center mt-5">Welcome to Chat Room</h5>
       </div>
     );
   }

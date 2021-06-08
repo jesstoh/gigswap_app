@@ -78,7 +78,7 @@ const authenticationSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(checkAuth.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       return { ...action.payload, status: 'succeeded', error: null };
     });
     builder.addCase(checkAuth.rejected, (state, action) => {

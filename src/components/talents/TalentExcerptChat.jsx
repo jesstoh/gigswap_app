@@ -16,7 +16,7 @@ function TalentExcerptChat({ talent }) {
     // console.log('chat');
     console.log();
     db.collection('chats')
-      .doc(`${hirer}-${talent.user.username}`)
+      .doc(`${hirer.username}-${talent.user.username}`)
       .set(
         {
           hirer: hirer.username,
