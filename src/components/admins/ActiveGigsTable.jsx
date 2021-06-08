@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import { parseISO, format } from 'date-fns';
 
 function GigsTable({ gigs }) {

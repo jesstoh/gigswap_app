@@ -5,10 +5,9 @@ import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
 import TimeAgo from '../others/TimeAgo';
-import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
+// import SmallTalentExcerpt from '../talents/SmallTalentExcerpt';
 import GigEditButtons from './GigEditButtons';
 import ReviewStar from '../others/ReviewStar';
-import GigFlagButtons from './GigFlagButtons';
 import TalentExcerptChat from '../talents/TalentExcerptChat';
 
 function SingleGig() {

@@ -27,7 +27,7 @@ function EditHirerProfileForm() {
       const result = await dispatch(editProfile(data));
       unwrapResult(result);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrorMessage(err.data.detail);
     }
   }

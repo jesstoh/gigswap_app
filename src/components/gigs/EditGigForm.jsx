@@ -55,12 +55,12 @@ function EditGigForm() {
       delete data.country;
       delete data.address;
     }
-    console.log(data);
+    // console.log(data);
     try {
       const result = await dispatch(editGig({ data, id: gig.id }));
       unwrapResult(result);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrorMessage(err);
     }
   }

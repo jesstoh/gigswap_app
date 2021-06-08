@@ -74,7 +74,7 @@ function AddGigForm() {
       const result = await dispatch(addGig(data));
       unwrapResult(result);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrorMessage(error);
     }
   }

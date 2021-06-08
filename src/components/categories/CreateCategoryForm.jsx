@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+// import { useFormik } from 'formik';
+// import * as yup from 'yup';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { addCategory } from '../../slices/categoriesSlice.js';
 import { capitalizeWord } from '../../utilz/format';
