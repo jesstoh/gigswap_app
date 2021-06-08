@@ -6,7 +6,7 @@ const initialState = {
   status: 'idle',
   error: null,
   errorCode: null,
-  pageCount: 1, //Capture how many pages from api
+  pageCount: 0, //Capture how many pages from api
   activeGig: {
     gig: null,
     status: 'idle',
@@ -33,10 +33,10 @@ export const fetchGigs = createAsyncThunk(
 
 export const fetchRecommendedGigs = createAsyncThunk(
   'gigs/fetchRecommendedGigs',
-  async (_, { rejectWithValue }) => {
+  async (urlQuery, { rejectWithValue }) => {
     try {
       const response = await Axios.get(
-        `${process.env.REACT_APP_API_URL}/api/gigs/recommended/`
+        `${process.env.REACT_APP_API_URL}/api/gigs/recommended/${urlQuery ? urlQuery:''}`
       );
       return response.data;
     } catch (err) {
@@ -275,7 +275,8 @@ const gigsSlice = createSlice({
     });
     // Update gigs state when fetchGigs success
     builder.addCase(fetchRecommendedGigs.fulfilled, (state, action) => {
-      state.gigs = action.payload;
+      state.gigs = action.payload.gigs;
+      state.pageCount = action.payload.pageCount;
       state.status = 'succeeded';
     });
     builder.addCase(fetchRecommendedGigs.pending, (state, action) => {
