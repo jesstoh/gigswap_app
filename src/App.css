@@ -60,12 +60,12 @@ footer {
   font-size: smaller;
 }
 
-.gig-card>a, .notification-card>a, .talent-card>a {
+.gig-card>a, .notification-card>a, .talent-card>a, .talent-excerpt {
   text-decoration-style: none;
   color: black
 }
 
-.gig-card a:hover, .notification-card a:hover, .talent-card a:hover{
+.gig-card a:hover, .notification-card a:hover, .talent-card a:hover, .talent-excerpt:hover{
   text-decoration: none;
   color: inherit;
 }
@@ -130,3 +130,44 @@ footer {
 /* .graph-container {
   background-color: rgb(231, 225, 225);
 } */
+
+.message-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+  background-color: aliceblue;
+}
+
+.message-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-list {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.chat-list::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-container {
+  /* background-color: rgb(223, 243, 243); */
+}
+
+.message-box {
+  border-radius: 1rem;
+  max-width: 80%;
+  
+}
+
+.box-right{
+  background-color:rgba(135, 206, 250, 0.8)
+}
+
+.box-left{
+  background-color: rgba(213, 223, 219, 0.8)
+}
+

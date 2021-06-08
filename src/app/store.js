@@ -9,6 +9,7 @@ import talentsReducer from '../slices/talentsSlice';
 import hirersReducer from '../slices/hirersSlice';
 import reviewsReducer from '../slices/reviewsSlice';
 import adminsReducer from '../slices/adminsSlice';
+import chatsReducer from '../slices/chatsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     hirers: hirersReducer,
     reviews: reviewsReducer,
     admins: adminsReducer,
+    chats: chatsReducer,
   },
 });
