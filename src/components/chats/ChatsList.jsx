@@ -36,8 +36,16 @@ function ChatsList() {
       );
   }, []);
 
-  return (
-    <>
+  let content;
+
+  if (chatsList.length === 0) {
+    content = isHirer ? (
+      <div className='p-2 text-primary'><a href='/hirer/mypage' className='line-less'><i>Go to your gig applicant list to connect with talent</i></a></div>
+    ) : (
+      <div className='p-2 text-primary'><i>No hirer is in contact yet</i></div>
+    );
+  } else {
+    content = (
       <ListGroup as="ul">
         {chatsList.map((chat) => (
           <ListGroup.Item
@@ -64,8 +72,10 @@ function ChatsList() {
           </ListGroup.Item>
         ))}
       </ListGroup>
-    </>
-  );
+    );
+  }
+
+  return <>{content}</>;
 }
 
 export default ChatsList;
