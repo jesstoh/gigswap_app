@@ -3,12 +3,28 @@ import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  ToggleButton,
+  ToggleButtonGroup,
+} from 'react-bootstrap';
 import { register } from '../../slices/authenticationSlice';
 
 function Register() {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
+  // Set toggle button value
+  const [isHirer, setIsHirer] = useState(false);
+  // For toggling between talents & hirers
+  function handleToggleChange(val){
+    setIsHirer(val)
+  }
 
   async function handleRegister(data) {
     try {
@@ -28,7 +44,7 @@ function Register() {
     last_name: yup.string().required(),
     password: yup.string().required(),
     confirmPassword: yup.string().required(),
-    is_hirer: yup.bool(),
+    // is_hirer: yup.bool(),
   });
 
   const formik = useFormik({
@@ -39,7 +55,7 @@ function Register() {
       last_name: '',
       password: '',
       confirmPassword: '',
-      is_hirer: false,
+      // is_hirer: false,
       // isSubmitted: false,
     },
     validationSchema: schema,
@@ -48,8 +64,10 @@ function Register() {
         setErrorMessage("Password doesn't match");
         // console.log(values);
       } else {
-        // console.log(values);
-        handleRegister(values);
+        const data = values;
+        data.is_hirer = isHirer
+        // console.log(data);
+        handleRegister(data);
       }
     },
   });
@@ -70,7 +88,22 @@ function Register() {
               {errorMessage}
             </Alert>
           )}
-          <h3 className="text-center">Sign Up</h3>
+          <h3 className="text-center mb-4">Sign Up</h3>
+          <div className='text-center mb-2'>
+          <ToggleButtonGroup
+            type="radio"
+            name="isHirer"
+            value={isHirer}
+            onChange={handleToggleChange}
+          >
+            <ToggleButton value={false} variant="outline-primary">
+              Talent
+            </ToggleButton>
+            <ToggleButton value={true} variant="outline-primary">
+              Hirer
+            </ToggleButton>
+          </ToggleButtonGroup>
+          </div>
           <Form
             onSubmit={(e) => {
               // console.log('submit');
@@ -162,7 +195,7 @@ function Register() {
               />
               {/* {formik.errors.confirmPassword && formik.errors.confirmPassword} */}
             </Form.Group>
-            <Form.Group>
+            {/* <Form.Group>
               <Form.Check
                 type="checkbox"
                 name="is_hirer"
@@ -170,7 +203,7 @@ function Register() {
                 onChange={formik.handleChange}
                 label="Hirer"
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Text className="text-muted">
               Already have an account? <a href="/login">Login here</a>
             </Form.Text>
