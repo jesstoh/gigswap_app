@@ -86,9 +86,9 @@ function Login() {
             <Form.Text className="text-muted">
               Not a member yet? <a href="/register">Sign Up now</a>
             </Form.Text>
-            <div className="text-center mt-3">
-              <Button variant="primary" type="submit">
-                Submit
+            <div className="text-center mt-4">
+              <Button variant="primary rounded-pill" type="submit" style={{'width': '100%'}}>
+                Log In
               </Button>
             </div>
           </Form>

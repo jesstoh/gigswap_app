@@ -207,9 +207,9 @@ function Register() {
             <Form.Text className="text-muted">
               Already have an account? <a href="/login">Login here</a>
             </Form.Text>
-            <div className="text-center mt-3">
-              <Button variant="primary" type="submit">
-                Submit
+            <div className="text-center mt-4">
+              <Button variant="primary rounded-pill" type="submit" style={{'width': '100%'}}>
+                Create My Account
               </Button>
             </div>
           </Form>
