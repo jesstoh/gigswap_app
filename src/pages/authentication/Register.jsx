@@ -96,10 +96,10 @@ function Register() {
             value={isHirer}
             onChange={handleToggleChange}
           >
-            <ToggleButton value={false} variant="outline-primary">
+            <ToggleButton value={false} variant="outline-primary" className='px-4'>
               Talent
             </ToggleButton>
-            <ToggleButton value={true} variant="outline-primary">
+            <ToggleButton value={true} variant="outline-primary" className='px-4'>
               Hirer
             </ToggleButton>
           </ToggleButtonGroup>

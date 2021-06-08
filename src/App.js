@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoriesPage from './pages/admin/CategoriesPage';
-import CategoryDetails from './pages/admin/CategoryDetails';
 import SubcategoryDetails from './pages/admin/SubcategoryDetails';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminGigsPage from './pages/admin/AdminGigsPage';
@@ -91,11 +90,6 @@ function App() {
             exact
             path="/admin/categories"
             component={CategoriesPage}
-          />
-          <AdminRoute
-            exact
-            path="/admin/categories/:id"
-            component={CategoryDetails}
           />
           <AdminRoute
             exact
