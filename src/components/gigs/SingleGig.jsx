@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector} from 'react-redux';
-import {
-  Container,
-  Row,
-  Col,
-  Badge,
-  Alert,
-  Collapse,
-} from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Container, Row, Col, Badge, Alert, Collapse } from 'react-bootstrap';
 import { parseISO, format } from 'date-fns';
 // import TalentGigButtons from './TalentGigButtons';
 import GigButtonContainer from './GigButtonContainer';
@@ -19,7 +12,6 @@ import GigFlagButtons from './GigFlagButtons';
 import TalentExcerptChat from '../talents/TalentExcerptChat';
 
 function SingleGig() {
- 
   const { gig, error, success } = useSelector((state) => state.gigs.activeGig);
   const [errorMessage, setErrorMessage] = useState(null);
   const userId = useSelector((state) => state.authentication.user.id);
@@ -72,8 +64,16 @@ function SingleGig() {
             </span>
           ) : (
             gig.applicants.length
-          )}<br/>
-          {!gig.winner ? null : (<span>Winner: <a href={`/talents/${gig.winner.id}`}>{gig.winner.first_name}, {gig.winner.last_name} </a></span>)}
+          )}
+          <br />
+          {!gig.winner ? null : (
+            <span>
+              Winner:{' '}
+              <a href={`/talents/${gig.winner.id}`}>
+                {gig.winner.first_name}, {gig.winner.last_name}{' '}
+              </a>
+            </span>
+          )}
           <br />
           <br />
           <TimeAgo timestamp={gig.created_at} text="Posted " />
@@ -116,10 +116,10 @@ function SingleGig() {
             </span>
           </Col>
           <Col>
-            <span>Estimated Budget</span>
+            <span>{gig.is_fixed ? 'Hourly Rate' : 'Budget'}</span>
             <br />
             <span className="text-muted">
-              $ {gig.is_fixed ? gig.fixed_amount : gig.hour_rate + ' /hr'}
+              $ {!gig.is_fixed ? gig.fixed_amount : gig.hour_rate + ' /hr'}
             </span>
           </Col>
         </Row>

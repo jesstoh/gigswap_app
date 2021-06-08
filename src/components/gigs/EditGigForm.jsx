@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Col, Alert, Container } from 'react-bootstrap';
@@ -11,11 +11,11 @@ function EditGigForm() {
   const subcategories = useSelector(
     (state) => state.categories.subcats.content
   );
-  const { status, error, gig } = useSelector((state) => state.gigs.activeGig);
+  const gig = useSelector((state) => state.gigs.activeGig.gig);
 
   const initialFormValue = { ...gig };
   initialFormValue.subcategories = initialFormValue.subcategories.map(
-    (subcat) => subcat.name
+    (subcat) => subcat.id
   );
   initialFormValue.expired_at = format(
     parseISO(initialFormValue.expired_at),
@@ -27,6 +27,8 @@ function EditGigForm() {
 
   const min_date = format(new Date(), 'yyyy-MM-dd');
   const duration_unit_options = ['hour', 'day', 'week', 'month'];
+  //Equivalent of hours for the unit
+  const duration_unit_hours = { hour: 1, day: 8, week: 40, month: 160 };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -37,6 +39,22 @@ function EditGigForm() {
     }
     data.expired_at = new Date(data.expired_at);
     data.is_updated = true; //Set edit as true to keep track in model
+
+    // Processing of budget to estimated hourly rate
+    if (!data.is_fixed) {
+      data.hour_rate = Math.floor(
+        data.fixed_amount /
+          (data.duration * duration_unit_hours[data.duration_unit])
+      );
+    } else {
+      delete data.fixed_amount;
+    }
+
+    if (data.is_remote) {
+      delete data.postal_code;
+      delete data.country;
+      delete data.address;
+    }
     console.log(data);
     try {
       const result = await dispatch(editGig({ data, id: gig.id }));
@@ -67,6 +85,11 @@ function EditGigForm() {
     // console.log(values)
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    dispatch(toggleGigEdit())
+  }
+
   return (
     <Container className="mt-4">
       {errorMessage && (
@@ -80,7 +103,7 @@ function EditGigForm() {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <h4 className="text-center mb-4">Create New Gig</h4>
+        <h4 className="text-center mb-4">Edit Gig</h4>
         <h6>Gig Info*</h6>
         <Form.Row>
           <Form.Group as={Col}>
@@ -148,10 +171,10 @@ function EditGigForm() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Project or Fixed Term </Form.Label>
+            <Form.Label>Project or Term Based</Form.Label>
             <Form.Check
               type="checkbox"
-              label="Fixed Term"
+              label="Term Based"
               name="is_fixed"
               checked={formValue.is_fixed}
               onChange={checkBoxChange}
@@ -159,9 +182,13 @@ function EditGigForm() {
           </Form.Group>
         </Form.Row>
         <Form.Row>
-          <Form.Group as={Col}>
+          <Form.Group
+            as={Col}
+            className={formValue.is_fixed ? '' : 'no-display'}
+          >
             <Form.Label>Hourly Rate, $ </Form.Label>
             <Form.Control
+              required={formValue.is_fixed ? true : false}
               type="number"
               min="1"
               name="hour_rate"
@@ -169,9 +196,13 @@ function EditGigForm() {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Budget </Form.Label>
+          <Form.Group
+            as={Col}
+            className={formValue.is_fixed ? 'no-display' : ''}
+          >
+            <Form.Label>Total Budget, $ </Form.Label>
             <Form.Control
+              required={formValue.is_fixed ? false : true}
               type="number"
               min="1"
               name="fixed_amount"
@@ -182,7 +213,9 @@ function EditGigForm() {
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
-            <Form.Label>Duration </Form.Label>
+            <Form.Label>
+              {formValue.is_fixed ? '' : 'Estimated'} Duration
+            </Form.Label>
             <Form.Control
               type="number"
               required
@@ -209,41 +242,51 @@ function EditGigForm() {
             </Form.Control>
           </Form.Group>
         </Form.Row>
-
-        <h6 className="mt-5">Gig Location</h6>
-        <Form.Group>
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            value={formValue.address}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Row>
-          <Form.Group as={Col}>
-            <Form.Label>Postal Code</Form.Label>
-            <Form.Control
-              type="number"
-              name="postal_code"
-              value={formValue.postal_code}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Country</Form.Label>
+        <div className={formValue.is_remote ? 'no-display' : ''}>
+          <h6 className="mt-5">Gig Location</h6>
+          <Form.Group>
+            <Form.Label>Address</Form.Label>
             <Form.Control
               type="text"
-              name="country"
-              value={formValue.country}
+              name="address"
+              value={formValue.address}
               onChange={handleChange}
             />
           </Form.Group>
-        </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col}>
+              <Form.Label>Postal Code</Form.Label>
+              <Form.Control
+                type="number"
+                name="postal_code"
+                value={formValue.is_remote ? 0 : formValue.postal_code}
+                // value={formValue.postal_code}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Country</Form.Label>
+              <Form.Control
+                type="text"
+                name="country"
+                required={formValue.is_remote ? false : true}
+                value={formValue.country}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form.Row>
+        </div>
         <Form.Text className="text-muted">* Required Field</Form.Text>
 
         <div className="text-center mt-3">
-          <Button variant="primary" className="px-4" type="submit">
+        <Button
+            variant="outline-primary rounded-pill"
+            className="mr-2 px-5"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button variant="primary rounded-pill" className="px-5" type="submit">
             Save
           </Button>
         </div>
