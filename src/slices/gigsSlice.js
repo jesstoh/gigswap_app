@@ -165,6 +165,23 @@ export const acceptGigCompletion = createAsyncThunk(
   }
 );
 
+
+// Talent confirm payment
+export const confirmGigPayment = createAsyncThunk(
+  'gigs/confirmGigPayment',
+  async (gigId, { rejectWithValue }) => {
+    try {
+      const response = await Axios.put(
+        `${process.env.REACT_APP_API_URL}/api/gigs/${gigId}/pay/`
+      );
+      return { data: response.data, gigId };
+    } catch (err) {
+      const { data, status } = err.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
 //Reviewing talent
 export const createTalentReview = createAsyncThunk(
   'gigs/createTalentReview',
@@ -338,6 +355,9 @@ const gigsSlice = createSlice({
     });
     builder.addCase(acceptGigCompletion.fulfilled, (state, action) => {
       state.activeGig.gig.is_completed = true;
+    });
+    builder.addCase(confirmGigPayment.fulfilled, (state, action) => {
+      state.activeGig.gig.paid = true;
     });
     builder.addCase(createTalentReview.fulfilled, (state, action) => {
       state.activeGig.gig.is_talent_reviewed = true;
