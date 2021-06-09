@@ -15,20 +15,24 @@ function EditHirerProfileForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const data = { ...formValue };
-    // Delete postal code if empty value
-    if (!data.postal_code) {
-      data.postal_code = null
-    } 
-    
-    delete data.user;
-    delete data.id;
-    try {
-      const result = await dispatch(editProfile(data));
-      unwrapResult(result);
-    } catch (err) {
-      // console.log(err);
-      setErrorMessage(err.data.detail);
+    if (!formValue.image) {
+      setErrorMessage('Please upload a profile image');
+    } else {
+      const data = { ...formValue };
+      // Delete postal code if empty value
+      if (!data.postal_code) {
+        data.postal_code = null;
+      }
+
+      delete data.user;
+      delete data.id;
+      try {
+        const result = await dispatch(editProfile(data));
+        unwrapResult(result);
+      } catch (err) {
+        // console.log(err);
+        setErrorMessage(err.data.detail);
+      }
     }
   }
 
@@ -39,6 +43,26 @@ function EditHirerProfileForm() {
 
   function handleChange(e) {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  }
+
+  // Cloudinary upload widget
+  let widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+      uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
+      cropping: true,
+    },
+    (error, response) => {
+      if (response.event === 'success') {
+        // console.log(response.info)
+        setFormValue({ ...formValue, image: response.info.secure_url });
+      }
+    }
+  );
+
+  //Open Cloudinary upload widget
+  function openWidget() {
+    widget.open();
   }
 
   return (
@@ -78,13 +102,19 @@ function EditHirerProfileForm() {
         </Form.Group>
         <Form.Group>
           <Form.Label>Profile Photo*</Form.Label>
-          <Form.Control
+          {/* <Form.Control
           required  
             type="url"
             name="image"
             value={formValue.image}
             onChange={handleChange}
-          />
+          /> */}
+          <Button onClick={openWidget} variant="secondary" className="ml-4">
+            Upload
+          </Button>
+          <div className="small-image-container d-inline-block ml-4 align-middle">
+            <img src={formValue.image} alt="" />
+          </div>
         </Form.Group>
 
         <Form.Group>
