@@ -11,6 +11,7 @@ function CreateHirerProfileForm() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [formValue, setFormValue] = useState({
     company: '',
+    bio: '',
     image: '',
     address: '',
     postal_code: '',
@@ -65,6 +66,18 @@ function CreateHirerProfileForm() {
             type="text"
             name="company"
             value={formValue.company}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Bio*</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            required
+            style={{ resize: 'none' }}
+            name="bio"
+            value={formValue.bio}
             onChange={handleChange}
           />
         </Form.Group>

@@ -50,6 +50,7 @@ function SingleHirer() {
               </span>
             )}
           </div>
+          <div className='text-muted mt-3'><i>{hirer.hirer_profile.bio}</i></div>
         </Col>
       </Row>
       {/* Review List*/}

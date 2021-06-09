@@ -41,6 +41,10 @@ const dispatch = useDispatch();
           <Col>{profile.company}</Col>
         </Row>
         <Row>
+          <Col sm="4">Company Details: </Col>
+          <Col>{profile.bio}</Col>
+        </Row>
+        <Row>
           <Col sm="4">Address: </Col>
           <Col>{profile.address}</Col>
         </Row>

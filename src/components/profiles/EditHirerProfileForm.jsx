@@ -65,6 +65,18 @@ function EditHirerProfileForm() {
           />
         </Form.Group>
         <Form.Group>
+          <Form.Label>Bio*</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            required
+            style={{ resize: 'none' }}
+            name="bio"
+            value={formValue.bio}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
           <Form.Label>Profile Photo*</Form.Label>
           <Form.Control
           required  
