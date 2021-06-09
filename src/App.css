@@ -182,3 +182,32 @@ footer {
   background-color: white;
   font-size: smaller;
 }
+
+
+
+.image-container {
+  width: 7rem;
+  height: 7rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;  
+}
+
+.image-container img {
+  max-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  
+}
+
+@media screen and (min-width: 800px) {
+
+  .image-container {
+    width: 8rem;
+    height: 8rem;
+  }
+
+}
+

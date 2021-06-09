@@ -33,12 +33,18 @@ function SingleGig() {
         <h3>{gig.title}</h3>
       </Row>
       <Row>
-        <Col xs="5" sm="3">
-          <img
+        <Col sm="3">
+          <div className="image-container mb-3 border">
+            <img
+              src={gig.poster_profile.image}
+              alt={gig.poster_profile.first_name}
+            />
+          </div>
+          {/* <img
             src={gig.poster_profile.image}
             className="img-fluid border rounded-circle"
             alt={gig.poster_profile.first_name}
-          />
+          /> */}
         </Col>
         <Col>
           Company:{' '}
@@ -74,22 +80,21 @@ function SingleGig() {
             </span>
           )}
           <br />
-          <br />
-          <TimeAgo timestamp={gig.created_at} text="Posted " />
-          <br />
-          <span
+          <div className="text-smaller">
+            <TimeAgo timestamp={gig.created_at} text="Posted " />
+          </div>
+          <div
             className={`${
               parseISO(gig.expired_at) < new Date()
                 ? 'text-danger'
                 : 'text-muted'
-            }`}
+            } text-smaller`}
           >
             <i>Expired on {format(parseISO(gig.expired_at), 'd MMM yyyy')} </i>
-          </span>
-          <br />
+          </div>
         </Col>
       </Row>
-      <div className="mt-3 mb-4">
+      <div className="mt-5 mb-4">
         <Row className="mb-3">
           <Col>
             <span>Location</span>
@@ -136,7 +141,7 @@ function SingleGig() {
         </Col>
       </Row>
 
-      <Row>
+      <Row className='mb-3'>
         <Col>
           <h4>Gig Description</h4>
           <p>{gig.description}</p>

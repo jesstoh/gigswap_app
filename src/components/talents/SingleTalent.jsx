@@ -188,14 +188,21 @@ function SingleTalent() {
         </h3>
       </Row>
       <Row>
-        <Col xs="5" sm="3">
-          <div className="sqr-image-container rounded-circle">
-            <img
+        <Col sm="3">
+        <div className="image-container mb-3 border">
+        <img
               src={talent.talent_profile.image}
               className="img-fluid"
               alt={talent.first_name}
             />
           </div>
+          {/* <div className="sqr-image-container rounded-circle">
+            <img
+              src={talent.talent_profile.image}
+              className="img-fluid"
+              alt={talent.first_name}
+            />
+          </div> */}
         </Col>
         <Col className="">
           No. of Gigs Won:{' '}
@@ -215,7 +222,7 @@ function SingleTalent() {
             Rating:{' '}<ReviewStar rating={talent.avg_review_rating} /> {' '}
             {isHirer || userId === talent.id ? (
               <span
-                className="link-like text-primary text-smaller"
+                className="link-like text-primary text-smaller d-inline-block"
                 aria-controls="reviews-container"
                 onClick={toggleReview}
               >

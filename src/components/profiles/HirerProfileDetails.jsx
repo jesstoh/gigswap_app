@@ -1,20 +1,23 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row, Col, Button} from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { toggleProfileEdit } from '../../slices/profileSlice';
 
 function HirerProfileDetails() {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
   const isEdit = useSelector((state) => state.profile.edit);
 
   return (
-    <Container className='mt-5'>
-      <Row className='mb-4'>
+    <Container className="mt-5">
+      <div className="image-container mb-5 border">
+        <img src={profile.image} alt={profile.company} />
+      </div>
+      {/* <Row className='mb-4'>
         <Col xs="4">
           <img src={profile.image} className="img-fluid img-thumbnail " />
         </Col>
-      </Row>
+      </Row> */}
       <div className="particular mb-4">
         <h6>Particulars</h6>
         <Row>
@@ -62,7 +65,9 @@ const dispatch = useDispatch();
         </Row>
       </div>
       <div className="text-center">
-        <Button onClick={() => dispatch(toggleProfileEdit())} className='px-4'>Edit</Button>
+        <Button onClick={() => dispatch(toggleProfileEdit())} className="px-4">
+          Edit
+        </Button>
       </div>
     </Container>
   );

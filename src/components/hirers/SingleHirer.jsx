@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Collapse } from 'react-bootstrap';
 import GigExcerpt from '../gigs/GigExcerpt';
@@ -19,8 +19,8 @@ function SingleHirer() {
         <h3>{hirer.hirer_profile.company}</h3>
       </Row>
       <Row>
-        <Col xs="5" sm="3" className="pl-3">
-          <div className="sqr-image-container rounded-circle border">
+        <Col sm="3">
+          <div className="image-container mb-5 border">
             <img
               src={hirer.hirer_profile.image}
               className="img-fluid"
@@ -28,10 +28,10 @@ function SingleHirer() {
             />
           </div>
         </Col>
-        <Col className="">
+        <Col>
           <div>No. of Gigs Awarded: {hirer.gigs_award_count} </div>
           <div>
-            Rating:{' '}<ReviewStar rating={hirer.avg_review_rating} /> {' '}
+            Rating: <ReviewStar rating={hirer.avg_review_rating} />{' '}
             {isHirer && userId !== hirer.id ? (
               hirer.avg_review_rating ? (
                 hirer.avg_review_rating + ` from ${hirer.review_count} review) `
@@ -45,12 +45,15 @@ function SingleHirer() {
                 onClick={() => setShowReview(!showReview)}
               >
                 {hirer.avg_review_rating
-                  ? hirer.avg_review_rating + ` from ${hirer.review_count} review`
+                  ? hirer.avg_review_rating +
+                    ` from ${hirer.review_count} review`
                   : 'No review'}
               </span>
             )}
           </div>
-          <div className='text-muted mt-3'><i>{hirer.hirer_profile.bio}</i></div>
+          <div className="text-muted mt-3">
+            <i>{hirer.hirer_profile.bio}</i>
+          </div>
         </Col>
       </Row>
       {/* Review List*/}
