@@ -120,6 +120,7 @@ const categoriesSlice = createSlice({
       state.cats.status = 'failed';
       state.cats.error = action.payload.data.detail;
     });
+    // To delete these later, as it may be more efficient to just fetchCategories as data set is not huge
     builder.addCase(fetchSubcats.fulfilled, (state, action) => {
       state.subcats.content = action.payload;
       state.subcats.status = 'succeeded';
@@ -134,6 +135,7 @@ const categoriesSlice = createSlice({
     builder.addCase(addCategory.fulfilled, (state, action) => {
       state.cats.content.push(action.payload);
     });
+    // To delete these later, as it may be more efficient to just fetchSubCategories as data set is not huge
     builder.addCase(addSubcategory.fulfilled, (state, action) => {
       state.subcats.content.push(action.payload);
     });

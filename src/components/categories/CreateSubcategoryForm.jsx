@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { capitalizeWord } from '../../utilz/format';
-import { addSubcategory } from '../../slices/categoriesSlice.js';
+import { addSubcategory, fetchSubcats } from '../../slices/categoriesSlice.js';
 
 function CreateSubcategoryForm() {
   const categories = useSelector(
@@ -26,7 +26,9 @@ function CreateSubcategoryForm() {
     console.log(data);
     try {
       const result = await dispatch(addSubcategory(data));
-      unwrapResult(result);
+      const response = await unwrapResult(result);
+      dispatch(fetchSubcats())
+
     } catch (err) {
       console.log(err);
       setErrorMessage(err.data.detail);
