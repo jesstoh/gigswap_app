@@ -11,17 +11,17 @@ function EditTalentProfileForm() {
     (state) => state.categories.subcats.content
   );
   const profile = useSelector((state) => state.profile.profile);
-  const skillOptions = [ ...subcategories ].map((subcat) => (
+  const skillOptions = [...subcategories].map((subcat) => (
     <option key={subcat.id} value={subcat.id}>
       {subcat.name}
     </option>
   ));
-  
-  const skills = profile.skills.map(skill => skill.id);
+
+  const skills = profile.skills.map((skill) => skill.id);
 
   const initialFormValue = {
     bio: profile.bio,
-    image:profile.image,
+    image: profile.image,
     skills: skills,
     remote: profile.remote,
     fixed_term: profile.fixed_term,
@@ -29,8 +29,8 @@ function EditTalentProfileForm() {
     address: profile.address,
     postal_code: profile.postal_code,
     country: profile.country,
-    contact: profile.contact
-  }
+    contact: profile.contact,
+  };
   // const status = useSelector((state) => state.profile.editStatus);
   // const edit = useSelector((state) => state.profile.edit);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -38,19 +38,23 @@ function EditTalentProfileForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const data = { ...formValue };
-    // Set postal code as null if empty value
-    if (!data.postal_code) {
-      data.postal_code = null
-    } 
-    delete data.user;
-    delete data.id;
-    try {
-      const result = await dispatch(editProfile(data));
-      unwrapResult(result);
-    } catch (err) {
-      // console.log(err);
-      setErrorMessage(err.data.detail);
+    if (!formValue.image) {
+      setErrorMessage('Please upload a profile image');
+    } else {
+      const data = { ...formValue };
+      // Set postal code as null if empty value
+      if (!data.postal_code) {
+        data.postal_code = null;
+      }
+      delete data.user;
+      delete data.id;
+      try {
+        const result = await dispatch(editProfile(data));
+        unwrapResult(result);
+      } catch (err) {
+        // console.log(err);
+        setErrorMessage(err.data.detail);
+      }
     }
   }
 
@@ -76,13 +80,33 @@ function EditTalentProfileForm() {
 
   function handleCancel(e) {
     e.preventDefault();
-    dispatch(toggleProfileEdit())
+    dispatch(toggleProfileEdit());
   }
 
-//   //testing purpose
-//   useEffect(() => {
-//     console.log(formValue);
-//   }, [formValue]);
+  // Cloudinary upload widget
+  let widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+      uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
+      cropping: true,
+    },
+    (error, response) => {
+      if (response.event === 'success') {
+        // console.log(response.info)
+        setFormValue({ ...formValue, image: response.info.secure_url });
+      }
+    }
+  );
+
+  //Open Cloudinary upload widget
+  function openWidget() {
+    widget.open();
+  }
+
+  //   //testing purpose
+  //   useEffect(() => {
+  //     console.log(formValue);
+  //   }, [formValue]);
 
   return (
     <Container>
@@ -113,13 +137,19 @@ function EditTalentProfileForm() {
         </Form.Group>
         <Form.Group>
           <Form.Label>Profile Photo</Form.Label>
-          <Form.Control
+          {/* <Form.Control
             type="url"
             required
             name="image"
             value={formValue.image}
             onChange={handleChange}
-          />
+          /> */}
+          <Button onClick={openWidget} variant="secondary" className="ml-4">
+            Upload
+          </Button>
+          <div className="small-image-container d-inline-block ml-4 align-middle">
+            <img src={formValue.image} alt="" />
+          </div>
         </Form.Group>
         <h6 className="mt-5">Preference *</h6>
         <Form.Group>
@@ -211,7 +241,7 @@ function EditTalentProfileForm() {
         <Form.Text className="text-muted">* Required Field</Form.Text>
 
         <div className="text-center mt-3">
-        <Button
+          <Button
             variant="outline-primary"
             className="mr-2"
             onClick={handleCancel}
