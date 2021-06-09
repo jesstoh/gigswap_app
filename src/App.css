@@ -212,6 +212,17 @@ footer {
   
 }
 
+.slide-container {
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.slide-image {
+  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
 
 
 
