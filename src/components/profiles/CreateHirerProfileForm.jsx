@@ -33,7 +33,7 @@ function CreateHirerProfileForm() {
         const result = await dispatch(createProfile(data));
         unwrapResult(result);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         setErrorMessage(err.data.detail);
       }
     }
