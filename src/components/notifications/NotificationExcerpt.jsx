@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Dropdown } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaEllipsisV } from 'react-icons/fa';
 import Axios from '../../utilz/Axios';
-
 import TimeAgo from '../others/TimeAgo';
-import { fetchNotifications } from '../../slices/notificationsSlice';
+import {
+  fetchNotifications,
+  setActiveNotification,
+} from '../../slices/notificationsSlice';
 
 let NotificationExcerpt = ({ notification }) => {
   const dispatch = useDispatch();
   // Function to call backend api to mark notification as read
 
-  const [display, setDisplay] = useState(false);
+  const activeNotification = useSelector(
+    (state) => state.notifications.activeNotification
+  );
+
+  // const [display, setDisplay] = useState(false);
 
   async function readNotification() {
     try {
@@ -23,7 +28,7 @@ let NotificationExcerpt = ({ notification }) => {
       // if read successfully
       dispatch(fetchNotifications());
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -34,11 +39,11 @@ let NotificationExcerpt = ({ notification }) => {
         `${process.env.REACT_APP_API_URL}/api/notifications/?action=delete`,
         { notification_id: [notification.id] }
       );
-      console.log('delete');
+      // console.log('delete');
       // if read successfully
       dispatch(fetchNotifications());
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -50,7 +55,8 @@ let NotificationExcerpt = ({ notification }) => {
 
   function handleDropdown(e) {
     e.stopPropagation();
-    setDisplay(!display);
+    dispatch(setActiveNotification(notification.id));
+    // setDisplay(!display);
   }
 
   return (
@@ -66,14 +72,22 @@ let NotificationExcerpt = ({ notification }) => {
       >
         <FaEllipsisV />
       </span>
-      <span
+      {activeNotification === notification.id ? (
+        <span
+          className="dropdown-del border rounded px-2 py-1 link-like"
+          onClick={handleDelete}
+        >
+          Delete
+        </span>
+      ) : null}
+      {/* <span
         className={`dropdown-del border rounded px-2 py-1 link-like ${
           display ? '' : 'no-display'
         }`}
         onClick={handleDelete}
       >
         Delete
-      </span>
+      </span> */}
       <a href={notification.link}>
         <div>
           <h6 className="d-inline-block">{notification.title}</h6>
@@ -87,14 +101,6 @@ let NotificationExcerpt = ({ notification }) => {
         </div>
       </a>
     </div>
-    // <Card>
-    //   <a >
-    //     <Card.Body>
-    //       <Card.Title>{notification.title}</Card.Title>
-    //       <Card.Text>{notification.message}</Card.Text>
-    //     </Card.Body>
-    //   </a>
-    // </Card>
   );
 };
 

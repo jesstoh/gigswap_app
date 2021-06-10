@@ -6,6 +6,7 @@ const initialState = {
   unread: 0,
   status: 'idle',
   error: null,
+  activeNotification: null,
 };
 
 export const fetchNotifications = createAsyncThunk(
@@ -44,7 +45,11 @@ export const fetchNotifications = createAsyncThunk(
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveNotification(state, action) {
+      state.activeNotification = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchNotifications.fulfilled, (state, action) => {
       state.notifications = action.payload;
@@ -68,5 +73,7 @@ const notificationsSlice = createSlice({
     // });
   },
 });
+
+export const { setActiveNotification } = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;

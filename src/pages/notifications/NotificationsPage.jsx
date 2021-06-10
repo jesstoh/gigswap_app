@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Container, Row, Col, Button } from 'react-bootstrap';
 import NotificationExcerpt from '../../components/notifications/NotificationExcerpt';
 import Axios from '../../utilz/Axios';
-import { fetchNotifications } from '../../slices/notificationsSlice';
+import { fetchNotifications, setActiveNotification } from '../../slices/notificationsSlice';
 
 function NotificationsPage() {
   const { notifications, status, error } = useSelector(
@@ -49,7 +49,7 @@ function NotificationsPage() {
   }
 
   return (
-    <Container className="mt-5 p-2">
+    <Container className="mt-5 p-2" onClick={() => dispatch(setActiveNotification(null))}>
       <Row className="mb-3">
         <Col md={{ span: 8, offset: 2 }}>
           <Button
