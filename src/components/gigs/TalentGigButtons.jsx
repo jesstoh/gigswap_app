@@ -12,6 +12,7 @@ import {
 import { confirmGigPayment } from '../../slices/gigsSlice.js';
 import Axios from '../../utilz/Axios.js';
 import ReviewHirerContainer from '../reviews/ReviewHirerContainer';
+import notificationSound from '../../assets/notification_sent.mp3';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -73,6 +74,9 @@ function TalentGigButtons() {
         `${process.env.REACT_APP_API_URL}/api/notifications/`,
         { title: 'Request for pay', gig_id: gig.id }
       );
+      //Play success notification send sound
+      const sound = new Audio(notificationSound)
+      sound.play()
     } catch (err) {
       console.log(err.response);
     }
@@ -85,6 +89,9 @@ function TalentGigButtons() {
         `${process.env.REACT_APP_API_URL}/api/notifications/`,
         { title: 'Request for acceptance', gig_id: gig.id }
       );
+      //Play success notification send sound
+      const sound = new Audio(notificationSound)
+      sound.play()
     } catch (err) {
       console.log(err.response);
     }
@@ -118,7 +125,7 @@ function TalentGigButtons() {
           if (gig.paid) {
             content = (
               <>
-                <span className='float-right text-primary'>PAID</span>
+                <span className="float-right text-primary">PAID</span>
                 <br />
                 {gig.is_hirer_reviewed ? null : <ReviewHirerContainer />}
               </>
@@ -196,50 +203,15 @@ function TalentGigButtons() {
             </>
           );
         }
-        // content = (
-        //   <>
-        //     {/* Render save and unsave button */}
-        //     {savedGigs.includes(gig.id) ? (
-        //       <Button
-        //         className="mr-3 px-4 rounded-pill"
-        //         onClick={() => dispatch(unsaveGig(gig.id))}
-        //       >
-        //         Unsave
-        //       </Button>
-        //     ) : (
-        //       <Button
-        //         className="mr-3 px-4 rounded-pill"
-        //         onClick={() => dispatch(saveGig(gig.id))}
-        //       >
-        //         Save
-        //       </Button>
-        //     )}
-        //     {/* Render apply and withdraw button */}
-        //     {appliedGigs.includes(gig.id) ? (
-        //       <Button
-        //         variant="outline-primary px-4 rounded-pill"
-        //         onClick={() => dispatch(withdrawGig(gig.id))}
-        //       >
-        //         Withdraw
-        //       </Button>
-        //     ) : (
-        //       <>
-        //         {modalContent}
-        //         <Button
-        //           variant="outline-primary px-4 rounded-pill"
-        //           onClick={handleApplyGig}
-        //         >
-        //           Apply
-        //         </Button>
-        //       </>
-        //     )}
-        //   </>
-        // );
       }
     }
   }
 
-  return <Col className="text-center">{content}</Col>;
+  return (
+    <Col className="text-center">
+      {content}
+    </Col>
+  );
 }
 
 export default TalentGigButtons;

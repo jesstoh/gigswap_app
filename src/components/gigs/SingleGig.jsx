@@ -15,6 +15,8 @@ function SingleGig() {
   const [errorMessage, setErrorMessage] = useState(null);
   const userId = useSelector((state) => state.authentication.user.id);
 
+  const [successMessage, setSuccessMessage] = useState(null);
+
   //Open or close applicant list
   const [showApplicants, setShowApplicants] = useState(false);
 
@@ -27,6 +29,15 @@ function SingleGig() {
           onClose={() => setErrorMessage(null)}
         >
           {errorMessage}
+        </Alert>
+      )}
+      {successMessage && (
+        <Alert
+          variant="success"
+          dismissible
+          onClose={() => setSuccessMessage(null)}
+        >
+          {successMessage}
         </Alert>
       )}
       <Row className="mb-3">
@@ -141,7 +152,7 @@ function SingleGig() {
         </Col>
       </Row>
 
-      <Row className='mb-3'>
+      <Row className="mb-3">
         <Col>
           <h4>Gig Description</h4>
           <p>{gig.description}</p>
