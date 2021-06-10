@@ -47,7 +47,7 @@ function AdminDashboard() {
             <div className="bg-white rounded full-size p-3">
               <h6>PROFILE COMPLETE</h6>
               <span className="text-larger">
-                {summary.profileCompleteRate}
+                {summary.profileCompleteRate} %
               </span>
             </div>
           </Col>
