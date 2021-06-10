@@ -51,9 +51,9 @@ function EditGigForm() {
     }
 
     if (data.is_remote) {
-      delete data.postal_code;
-      delete data.country;
-      delete data.address;
+      data.postal_code = null;
+      data.country = '';
+      data.address = '';
     }
     // console.log(data);
     try {
@@ -249,7 +249,7 @@ function EditGigForm() {
             <Form.Control
               type="text"
               name="address"
-              value={formValue.address}
+              value={formValue.address || ''}
               onChange={handleChange}
             />
           </Form.Group>
@@ -259,7 +259,7 @@ function EditGigForm() {
               <Form.Control
                 type="number"
                 name="postal_code"
-                value={formValue.is_remote ? 0 : formValue.postal_code}
+                value={formValue.postal_code || ''}
                 // value={formValue.postal_code}
                 onChange={handleChange}
               />
@@ -270,7 +270,7 @@ function EditGigForm() {
                 type="text"
                 name="country"
                 required={formValue.is_remote ? false : true}
-                value={formValue.country}
+                value={formValue.country || ''}
                 onChange={handleChange}
               />
             </Form.Group>

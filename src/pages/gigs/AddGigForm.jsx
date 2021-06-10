@@ -64,9 +64,9 @@ function AddGigForm() {
     }
 
     if (data.is_remote) {
-      delete data.postal_code;
-      delete data.country;
-      delete data.address;
+      data.postal_code = null;
+      data.country = '';
+      data.address = '';
     }
 
     // console.log(data);

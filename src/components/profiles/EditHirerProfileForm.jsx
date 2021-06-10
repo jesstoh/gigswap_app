@@ -132,7 +132,7 @@ function EditHirerProfileForm() {
             <Form.Control
               type="number"
               name="postal_code"
-              value={formValue.postal_code}
+              value={formValue.postal_code || ''}
               onChange={handleChange}
             />
           </Form.Group>
