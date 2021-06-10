@@ -13,6 +13,7 @@ import { confirmGigPayment } from '../../slices/gigsSlice.js';
 import Axios from '../../utilz/Axios.js';
 import ReviewHirerContainer from '../reviews/ReviewHirerContainer';
 import notificationSound from '../../assets/notification_sent.mp3';
+import errorSound from '../../assets/error_sound.mp3';
 
 function TalentGigButtons() {
   const dispatch = useDispatch();
@@ -75,10 +76,14 @@ function TalentGigButtons() {
         { title: 'Request for pay', gig_id: gig.id }
       );
       //Play success notification send sound
-      const sound = new Audio(notificationSound)
-      sound.play()
+
+      const successSound = new Audio(notificationSound);
+      successSound.play();
     } catch (err) {
-      console.log(err.response);
+      // Play error sound
+
+      const sound = new Audio(errorSound);
+      sound.play();
     }
   }
 
@@ -90,10 +95,13 @@ function TalentGigButtons() {
         { title: 'Request for acceptance', gig_id: gig.id }
       );
       //Play success notification send sound
-      const sound = new Audio(notificationSound)
-      sound.play()
+
+      const successSound = new Audio(notificationSound);
+      successSound.play();
     } catch (err) {
-      console.log(err.response);
+      // Play error sound
+      const sound = new Audio(errorSound);
+      sound.play();
     }
   }
 
@@ -207,11 +215,7 @@ function TalentGigButtons() {
     }
   }
 
-  return (
-    <Col className="text-center">
-      {content}
-    </Col>
-  );
+  return <Col className="text-center">{content}</Col>;
 }
 
 export default TalentGigButtons;
