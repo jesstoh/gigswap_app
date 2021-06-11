@@ -143,7 +143,7 @@ DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/NAME
 This is web application, please go to current live site [Gigswap](https://gigswap-app.herokuapp.com/) or front end app url set up above. Register account as talent or hirer, and navigate like any web application. <br/><br/>
 Note that admin user pages are protected, not accessible to login normal users. Only superuser or user with role is_staff can access the page. 
 
-Refer here for some pictures of the [**UI**](documentation/Gigswap_ERM.png).
+Refer here for some pictures of the [**UI**](documentation/Gigswap_UI.png).
 
 ## Future Features 
 
